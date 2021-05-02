@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const TopicsContainer = styled.main`
+export const TopicsContainer = styled.main<{ navActive: boolean }>`
   position: fixed;
   top: 10.5rem;
   left: 0;
@@ -15,15 +15,17 @@ export const TopicsContainer = styled.main`
 
   transition: 2s ease-in-out;
 
-  &.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-    opacity: 1;
-    visibility: visible;
-  }
+  ${(props) =>
+    props.navActive &&
+    css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      opacity: 1;
+      visibility: visible;
+    `}
 `;
 
 export const ButtonTopic = styled.button<{ active: boolean }>`

@@ -14,7 +14,7 @@ export function Topics() {
   }, [pathname]);
 
   return (
-    <TopicsContainer className={isNavActive ? 'active' : ''}>
+    <TopicsContainer navActive={isNavActive}>
       <Link href="/">
         <ButtonTopic active={pathname == '/'}>Todos</ButtonTopic>
       </Link>
