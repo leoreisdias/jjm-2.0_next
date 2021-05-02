@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+
   background: url('./bgJJM.png');
   background-size: cover;
   height: 10.5rem;
@@ -21,6 +26,7 @@ export const HeaderContainer = styled.header`
   span {
     margin-left: auto;
     text-transform: capitalize;
+    padding-right: 1rem;
   }
 
   img {
@@ -29,7 +35,7 @@ export const HeaderContainer = styled.header`
 
   @media (max-width: 720px) {
     flex-direction: column;
-    height: 100%;
+    padding: 2rem 2rem;
 
     p {
       margin-left: 0rem;
@@ -40,6 +46,10 @@ export const HeaderContainer = styled.header`
 
     span {
       padding-top: 1rem;
+    }
+
+    img {
+      max-width: 4rem;
     }
   }
 `;

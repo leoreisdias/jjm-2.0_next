@@ -1,14 +1,29 @@
 import styled from 'styled-components';
 
 export const TopicsContainer = styled.main`
-  margin-top: 2rem;
-  padding-top: 1rem;
+  position: fixed;
+  top: 10.5rem;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+
+  background: ${(props) => props.theme.colors.gray50};
+
+  transition: 2s ease-in-out;
+
+  &.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    opacity: 1;
+    visibility: visible;
+  }
 `;
 
 export const ButtonTopic = styled.button<{ active: boolean }>`
