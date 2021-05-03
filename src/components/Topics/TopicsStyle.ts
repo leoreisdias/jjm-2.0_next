@@ -1,34 +1,25 @@
-import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
-export const TopicsContainer = styled.main<{ navActive: boolean }>`
+export const TopicsContainer = styled(motion.main)<{ navActive: boolean }>`
   position: fixed;
   top: 10.5rem;
   left: 0;
   width: 100%;
   padding: 1rem 0;
 
-  display: none;
-  opacity: 0;
-  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
 
   background: ${(props) => props.theme.colors.gray50};
 
   transition: 2s ease-in-out;
-
-  ${(props) =>
-    props.navActive &&
-    css`
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 2rem;
-      opacity: 1;
-      visibility: visible;
-    `}
 `;
 
-export const ButtonTopic = styled.button<{ active: boolean }>`
+export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
   padding: 10px 12px;
   border-width: 0;
   border-radius: 30px;
