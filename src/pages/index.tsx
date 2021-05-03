@@ -1,9 +1,27 @@
-import { Wrapper } from '../styles/pages/Home';
+import { CardNews } from '../components/CardNews';
+import { Wrapper, Container, Main } from '../styles/pages/Home';
 
 export default function Home() {
   return (
     <Wrapper>
-      <h1>Hello New JJM</h1>
+      <Container>
+        <Main>
+          <CardNews />
+          <CardNews />
+          <CardNews />
+          <CardNews />
+          <CardNews />
+        </Main>
+        <aside>
+          <legend>Ultimas Noticias</legend>
+          <ul>
+            <li>Noticia</li>
+            <li>Noticia</li>
+            <li>Noticia</li>
+            <li>Noticia</li>
+          </ul>
+        </aside>
+      </Container>
     </Wrapper>
   );
 }
