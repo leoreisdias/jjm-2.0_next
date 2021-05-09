@@ -19,7 +19,7 @@ export function CardNews() {
         Faustão que fez parte do Sistema Globo de Rádio, não vai se aposentar
       </p>
       <hr />
-      <p>Tag 1, Tag 2</p>
+      <span>Tag 1, Tag 2</span>
     </Card>
   );
 }

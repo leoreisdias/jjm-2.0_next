@@ -10,7 +10,7 @@ export const Card = styled.div`
   font-family: Montserrat;
   color: ${(props) => props.theme.colors.background};
 
-  width: 25.685rem;
+  max-width: 23.785rem;
 
   background: ${(props) => props.theme.colors.white};
 
@@ -29,7 +29,8 @@ export const Card = styled.div`
   }
 
   h3 {
-    font-size: 1.475rem;
+    font-size: 1.275rem;
+    padding: 0.2rem 2rem;
     text-align: center;
     margin: 2rem 0 1rem 0;
   }
@@ -44,8 +45,8 @@ export const Card = styled.div`
     width: 50%;
   }
 
-  hr + p {
+  hr + span {
+    display: block;
     padding: 1rem 2rem;
-    align-self: flex-start;
   }
 `;

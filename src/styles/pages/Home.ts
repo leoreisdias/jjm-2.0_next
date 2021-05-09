@@ -5,16 +5,22 @@ export const Wrapper = styled.section`
 `;
 
 export const Container = styled.article`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  border: 1px solid black;
+  grid-template-columns: 1fr 1fr 1fr;
+  color: black;
+  word-break: break-all;
 
-  max-width: 1080px;
+  justify-items: center;
+  grid-auto-flow: column;
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const Main = styled.main`
-  align-self: flex-start;
+  grid-column: 1 / span 2;
 
   display: grid;
   grid-template-columns: 1fr 1fr;

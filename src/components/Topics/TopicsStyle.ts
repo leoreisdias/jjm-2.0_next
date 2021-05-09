@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const TopicsContainer = styled(motion.main)<{ navActive: boolean }>`
+export const TopicsContainer = styled(motion.main)`
   position: fixed;
   top: 10.5rem;
   left: 0;
   width: 100%;
   padding: 1rem 0;
+  z-index: 1;
 
   display: flex;
   justify-content: center;
@@ -15,8 +16,6 @@ export const TopicsContainer = styled(motion.main)<{ navActive: boolean }>`
   gap: 2rem;
 
   background: ${(props) => props.theme.colors.gray50};
-
-  transition: 2s ease-in-out;
 `;
 
 export const ButtonTopic = styled(motion.button)<{ active: boolean }>`

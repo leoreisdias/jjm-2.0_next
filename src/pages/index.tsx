@@ -1,3 +1,4 @@
+import { Aside } from '../components/Aside';
 import { CardNews } from '../components/CardNews';
 import { Wrapper, Container, Main } from '../styles/pages/Home';
 
@@ -12,15 +13,7 @@ export default function Home() {
           <CardNews />
           <CardNews />
         </Main>
-        <aside>
-          <legend>Ultimas Noticias</legend>
-          <ul>
-            <li>Noticia</li>
-            <li>Noticia</li>
-            <li>Noticia</li>
-            <li>Noticia</li>
-          </ul>
-        </aside>
+        <Aside />
       </Container>
     </Wrapper>
   );
