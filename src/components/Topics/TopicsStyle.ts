@@ -8,6 +8,7 @@ export const TopicsContainer = styled(motion.main)`
   width: 100%;
   padding: 1rem 0;
   z-index: 1;
+  height: 120px;
 
   display: flex;
   justify-content: center;

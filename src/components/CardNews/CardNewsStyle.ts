@@ -10,9 +10,13 @@ export const Card = styled.div`
   font-family: Montserrat;
   color: ${(props) => props.theme.colors.background};
 
-  max-width: 23.785rem;
+  max-width: 24.785rem;
 
   background: ${(props) => props.theme.colors.white};
+
+  -webkit-box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
+  -moz-box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
+  box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
 
   img {
     width: 100%;
@@ -48,5 +52,9 @@ export const Card = styled.div`
   hr + span {
     display: block;
     padding: 1rem 2rem;
+  }
+
+  @media (max-width: 700px) {
+    max-width: 20.785rem;
   }
 `;

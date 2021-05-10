@@ -6,15 +6,14 @@ export const Wrapper = styled.section`
 
 export const Container = styled.article`
   display: grid;
-  border: 1px solid black;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 300px;
+  gap: 3rem;
   color: black;
   word-break: break-all;
 
   justify-items: center;
-  grid-auto-flow: column;
 
-  @media (max-width: 800px) {
+  @media (max-width: 1000px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -24,9 +23,26 @@ export const Main = styled.main`
 
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 2rem;
+  grid-gap: 1.8rem;
 
   @media (max-width: 720px) {
+    grid-column: 1;
     grid-template-columns: 1fr;
+  }
+`;
+
+export const Aside = styled.aside`
+  display: flex;
+  flex-direction: column;
+
+  legend {
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: ${(props) => props.theme.colors.gray900};
+    font-size: 1.25rem;
+
+    padding: 0rem 0rem;
+
+    margin-bottom: 1rem;
   }
 `;

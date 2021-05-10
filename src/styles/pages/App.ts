@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const Main = styled.main`
-  margin: 21rem auto;
-  min-height: 1000px;
+  margin: 18rem auto;
 
   display: flex;
   justify-content: center;

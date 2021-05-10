@@ -9,6 +9,7 @@ const theme = {
     gray200: '#afb2b1',
     gray500: '#808080',
     gray800: '#494d4b',
+    gray900: '#3f3f3f',
 
     green500: '#04d361',
 
