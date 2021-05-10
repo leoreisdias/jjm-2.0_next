@@ -1,22 +1,27 @@
 import styled from 'styled-components';
 
 export const Card = styled.div`
-  display: table;
+  display: flex;
   flex-direction: column;
 
-  justify-content: space-between;
   align-items: center;
 
-  font-family: Montserrat;
   color: ${(props) => props.theme.colors.background};
 
   max-width: 24.785rem;
+  margin-bottom: 2rem;
+
+  word-break: keep-all;
 
   background: ${(props) => props.theme.colors.white};
 
   -webkit-box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
   -moz-box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
   box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
+
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
 
   img {
     width: 100%;
@@ -25,33 +30,36 @@ export const Card = styled.div`
   }
 
   small {
-    margin-top: 0.5rem;
-    padding: 0.2rem 2rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
     align-self: flex-start;
-
-    font-size: 0.8rem;
   }
 
   h3 {
-    font-size: 1.275rem;
+    font-size: 1.475rem;
     padding: 0.2rem 2rem;
     text-align: center;
-    margin: 2rem 0 1rem 0;
+
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 
   h3 + p {
-    padding: 0.2rem 2rem;
+    padding: 1rem 2rem;
   }
 
   hr {
-    margin-top: 2rem;
+    margin-top: 1rem;
     align-self: flex-start;
     width: 50%;
   }
 
   hr + span {
-    display: block;
     padding: 1rem 2rem;
+    align-self: flex-start;
   }
 
   @media (max-width: 700px) {

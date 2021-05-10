@@ -12,7 +12,6 @@ export const Container = styled.article`
   word-break: break-all;
 
   justify-items: center;
-
   @media (max-width: 1000px) {
     grid-template-columns: 1fr;
   }
@@ -21,9 +20,7 @@ export const Container = styled.article`
 export const Main = styled.main`
   grid-column: 1 / span 2;
 
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 1.8rem;
+  column-count: 2;
 
   @media (max-width: 720px) {
     grid-column: 1;
