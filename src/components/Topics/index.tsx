@@ -66,7 +66,7 @@ export function Topics() {
   return (
     <>
       <AnimatePresence exitBeforeEnter>
-        {isNavActive ? (
+        {isNavActive && (
           <TopicsContainer
             initial="begin"
             animate="animate"
@@ -114,8 +114,6 @@ export function Topics() {
               Notas de Falecimento
             </ButtonTopic>
           </TopicsContainer>
-        ) : (
-          ''
         )}
       </AnimatePresence>
     </>
