@@ -40,7 +40,7 @@ export const Aside = styled.aside`
   transition: 1s ease-in-out;
 
   @media (max-width: 768px) {
-    grid-row-start: 1;
+    order: -1;
     max-width: 100vw;
   }
 `;

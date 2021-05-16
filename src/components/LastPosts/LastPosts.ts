@@ -9,7 +9,6 @@ export const LastPostsWrapper = styled.section`
 
     margin-bottom: 1rem;
   }
-  max-width: 500px;
   margin-bottom: 1rem;
 
   @media (max-width: 768px) {
@@ -37,7 +36,9 @@ export const LastPostsContainer = styled.li`
 
   img {
     border-radius: 50%;
-
+    min-width: 48px;
+    width: 48px;
+    max-width: 48px;
     transition: 0.25s;
 
     &:hover {
@@ -46,6 +47,7 @@ export const LastPostsContainer = styled.li`
   }
 
   p {
+    max-width: 75%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

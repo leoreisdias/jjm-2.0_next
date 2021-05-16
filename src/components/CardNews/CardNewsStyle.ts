@@ -58,6 +58,7 @@ export const Card = styled.div`
   }
 
   hr + span {
+    text-transform: uppercase;
     padding: 1rem 2rem;
     align-self: flex-start;
   }
