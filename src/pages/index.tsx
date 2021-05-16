@@ -62,10 +62,10 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
     });
   }
 
-  async function loadDataFromNewPage(currentPage: number) {
+  async function loadDataFromNewPage(nextPage: number) {
     const {
       data: { docs },
-    } = await api.get(`/news?page=${currentPage}`);
+    } = await api.get(`/news?page=${nextPage}`);
 
     const loadedNews = docs.map((newsItem: serverNewsProps) => {
       return {
@@ -81,8 +81,17 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
         summary: newsItem.summary,
       };
     });
+    setCurrentPage(nextPage);
 
     return loadedNews;
+  }
+
+  async function handleSlideDown() {
+    if (isMobile && window.scrollY >= document.body.scrollHeight * 0.85) {
+      const nextPage = currentPage + 1 <= totalPages ? currentPage + 1 : totalPages;
+      const loadedNews = await loadDataFromNewPage(nextPage);
+      setCurrentNewsList([...currentNewsList, ...loadedNews]);
+    }
   }
 
   useEffect(() => {
@@ -91,23 +100,13 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
     setIsMobile(matches);
   }, []);
 
-  useEffect(() => {
-    window.addEventListener('scroll', async () => {
-      if (isMobile && window.scrollY >= document.body.scrollHeight * 0.85) {
-        setCurrentPage(currentPage + 1);
-        const loadedNews = await loadDataFromNewPage(currentPage + 1);
-        setCurrentNewsList([...currentNewsList, ...loadedNews]);
-      }
-    });
-  }, []);
-
   return (
     <Wrapper>
       <Head>
         <title>Jornal JM</title>
       </Head>
       <Container>
-        <Main>
+        <Main onTouchMove={handleSlideDown}>
           {currentNewsList ? (
             currentNewsList.map((newsItem) => {
               return <CardNews key={newsItem.id} news={newsItem} />;

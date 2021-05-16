@@ -23,6 +23,8 @@ export const Card = styled.div`
   page-break-inside: avoid;
   break-inside: avoid;
 
+  transition: 1s;
+
   img {
     width: 100%;
     height: 100%;
@@ -61,6 +63,9 @@ export const Card = styled.div`
     text-transform: uppercase;
     padding: 1rem 2rem;
     align-self: flex-start;
+  }
+
+  &:hover {
   }
 
   @media (max-width: 700px) {
