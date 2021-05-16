@@ -15,9 +15,9 @@ export const Card = styled.div`
 
   background: ${(props) => props.theme.colors.white};
 
-  -webkit-box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
-  -moz-box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
-  box-shadow: 0px 15px 45px -9px rgb(0 0 0 / 20%);
+  -webkit-box-shadow: 0px 2px 45px -9px rgb(0 0 0 / 20%);
+  -moz-box-shadow: 0px 2px 45px -9px rgb(0 0 0 / 20%);
+  box-shadow: 0px 2px 45px -9px rgb(0 0 0 / 20%);
 
   -webkit-column-break-inside: avoid;
   page-break-inside: avoid;
@@ -30,7 +30,7 @@ export const Card = styled.div`
   }
 
   small {
-    padding: 1rem 2rem;
+    padding: 0.675rem 1rem 2rem 1rem;
     font-size: 1rem;
     align-self: flex-start;
   }

@@ -25,6 +25,8 @@ module.exports = {
         'plugin:react-hooks/recommended', // React hooks rules
         'plugin:jsx-a11y/recommended', // Accessibility rules
         'plugin:prettier/recommended', // Prettier plugin
+        'plugin:import/recommended',
+        'plugin:import/typescript'
       ],
       rules: {
         // We will use TypeScript's types for component props instead
@@ -52,26 +54,27 @@ module.exports = {
             allowConciseArrowFunctionExpressionsStartingWithVoid: true,
           },
         ],
+        "import/order": [
+          "error",
+          {
+            "groups": ["builtin", "external", "internal"],
+            "pathGroups": [
+              {
+                "pattern": "react",
+                "group": "external",
+                "position": "before"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": ["react"],
+            "newlines-between": "always",
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            }
+          }
+        ],
       },
     },
   ],
-  "import/order": [
-    "error",
-    {
-      "groups": ["builtin", "external", "internal"],
-      "pathGroups": [
-        {
-          "pattern": "react",
-          "group": "external",
-          "position": "before"
-        }
-      ],
-      "pathGroupsExcludedImportTypes": ["react"],
-      "newlines-between": "always",
-      "alphabetize": {
-        "order": "asc",
-        "caseInsensitive": true
-      }
-    }
-  ],
+  
 }

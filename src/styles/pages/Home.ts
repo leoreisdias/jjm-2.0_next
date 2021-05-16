@@ -12,7 +12,7 @@ export const Container = styled.article`
   word-break: break-all;
 
   justify-items: center;
-  @media (max-width: 1000px) {
+  @media (max-width: 1024px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -22,24 +22,25 @@ export const Main = styled.main`
 
   column-count: 2;
 
+  transition: 1s ease-in-out;
+
   @media (max-width: 720px) {
     grid-column: 1;
     grid-template-columns: 1fr;
+    column-count: 1;
   }
 `;
 
 export const Aside = styled.aside`
+  max-width: 100%;
+
   display: flex;
   flex-direction: column;
 
-  legend {
-    font-family: 'Montserrat';
-    font-weight: 700;
-    color: ${(props) => props.theme.colors.gray900};
-    font-size: 1.25rem;
+  transition: 1s ease-in-out;
 
-    padding: 0rem 0rem;
-
-    margin-bottom: 1rem;
+  @media (max-width: 768px) {
+    grid-row-start: 1;
+    max-width: 100vw;
   }
 `;

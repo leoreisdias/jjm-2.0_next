@@ -1,5 +1,22 @@
 import styled from 'styled-components';
 
+export const LastPostsWrapper = styled.section`
+  legend {
+    font-family: 'Montserrat';
+    font-weight: 700;
+    color: ${(props) => props.theme.colors.gray900};
+    font-size: 1.25rem;
+
+    margin-bottom: 1rem;
+  }
+  max-width: 500px;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem 2rem;
+  }
+`;
+
 export const LastPostsContainer = styled.li`
   display: flex;
   flex-direction: row;
@@ -7,19 +24,28 @@ export const LastPostsContainer = styled.li`
   justify-content: flex-start;
   align-items: center;
 
-  padding: 1rem 0rem;
-
-  padding-bottom: 1rem;
+  padding: 1rem 0;
   border-bottom: 1px solid ${(props) => props.theme.colors.gray200};
 
   list-style: none;
 
+  cursor: pointer;
+
+  &:hover {
+    filter: grayscale(60%);
+  }
+
   img {
     border-radius: 50%;
+
+    transition: 0.25s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
   }
 
   p {
-    max-width: 500px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -33,6 +59,12 @@ export const LastPostsContainer = styled.li`
   }
 
   p strong {
-    font-size: 1.005rem;
+    font-size: 0.875rem;
+
+    transition: 0.25s;
+
+    &:hover {
+      color: ${(props) => props.theme.colors.blue};
+    }
   }
 `;

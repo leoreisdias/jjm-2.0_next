@@ -17,6 +17,8 @@ const theme = {
     purple400: '#9164fa',
     purple500: '#8257e5',
     purple800: '#6f48c9',
+
+    blue: '#47C9E5',
   },
 };
 

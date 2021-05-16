@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
 
-import { TopicsContainer, ButtonTopic } from './TopicsStyle';
-import { useLayout } from '../../context/LayoutContext';
 import { AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import { useLayout } from '../../context/LayoutContext';
+import { TopicsContainer, ButtonTopic } from './TopicsStyle';
 
 const TopicsVariant = {
   begin: {

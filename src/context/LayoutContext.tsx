@@ -14,21 +14,20 @@ export const LayoutContext = createContext({} as LayoutContextProps);
 export function LayoutProvider({ children }: LayoutProviderProps) {
   const [isNavActive, setIsNavActive] = useState(true);
 
-  function handleWindowScroll() {
-    if (window.scrollY > 0) {
-      setIsNavActive(false);
-    } else {
-      setIsNavActive(true);
-    }
-  }
-
   function handleNavActivation() {
     setIsNavActive(!isNavActive);
   }
 
   useEffect(() => {
-    window.addEventListener('scroll', async () => {
-      handleWindowScroll();
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 0) {
+        setIsNavActive(false);
+        if (window.scrollY >= document.body.scrollHeight * 0.9) {
+          console.log('Desceu tudo');
+        }
+      } else {
+        setIsNavActive(true);
+      }
     });
   }, []);
 

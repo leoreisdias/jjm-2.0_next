@@ -1,23 +1,54 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
-import { LastPostsContainer } from './LastPosts';
+import { LastPostsWrapper, LastPostsContainer } from './LastPosts';
 
-export function LastPosts() {
+interface NewsProps {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  imageURL: string;
+  author: string;
+  source: string;
+  summary: string;
+}
+
+interface LastPostsProps {
+  lastestNews: NewsProps[];
+}
+
+export function LastPosts({ lastestNews }: LastPostsProps) {
+  console.log(lastestNews);
+
   return (
-    <>
-      <LastPostsContainer>
-        <Image
-          width={100}
-          height={100}
-          objectFit="cover"
-          src="https://jjm-upload.s3.amazonaws.com/91584b97751525e38f64e683071cf570-csm_16122019LF1645_09ddd58135.jpg"
-          alt=""
-        />
-        <p>
-          <span>Tag 1, Tag 2</span>
-          <strong>Trip that you’ll never ever forget</strong>
-        </p>
-      </LastPostsContainer>
-    </>
+    <LastPostsWrapper>
+      <legend>Últimas postagens</legend>
+      <ul>
+        {lastestNews ? (
+          lastestNews.map((newsItem) => {
+            return (
+              <Link href={'#'} key={newsItem.id}>
+                <LastPostsContainer>
+                  <Image
+                    width={100}
+                    height={100}
+                    objectFit="cover"
+                    src={newsItem.imageURL}
+                    alt=""
+                  />
+                  <p>
+                    <span>{newsItem.source}</span>
+                    <strong>{newsItem.title}</strong>
+                  </p>
+                </LastPostsContainer>
+              </Link>
+            );
+          })
+        ) : (
+          <li>...</li>
+        )}
+      </ul>
+    </LastPostsWrapper>
   );
 }
