@@ -12,6 +12,9 @@ export const Container = styled.article`
   word-break: break-all;
 
   justify-items: center;
+
+  margin-bottom: 2rem;
+
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
   }
@@ -43,4 +46,10 @@ export const Aside = styled.aside`
     order: -1;
     max-width: 100vw;
   }
+`;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

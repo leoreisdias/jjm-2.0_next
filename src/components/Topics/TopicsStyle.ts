@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const TopicsContainer = styled(motion.main)`
-  position: fixed;
+  position: absolute;
   top: 10.5rem;
   left: 0;
   width: 100%;

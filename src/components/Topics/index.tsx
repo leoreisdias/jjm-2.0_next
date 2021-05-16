@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
-
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useLayout } from '../../context/LayoutContext';
 import { TopicsContainer, ButtonTopic } from './TopicsStyle';
 
 const TopicsVariant = {
@@ -57,65 +54,58 @@ const TopicsContainerVariant = {
 };
 
 export function Topics() {
-  const { isNavActive } = useLayout();
   const { pathname } = useRouter();
-
-  useEffect(() => {
-    console.log(pathname);
-  }, [pathname]);
 
   return (
     <>
       <AnimatePresence exitBeforeEnter>
-        {isNavActive && (
-          <TopicsContainer
+        <TopicsContainer
+          initial="begin"
+          animate="animate"
+          exit="exit"
+          variants={TopicsContainerVariant}
+        >
+          <Link href="/">
+            <ButtonTopic
+              active={pathname == '/'}
+              initial="begin"
+              animate="animate"
+              exit="exit"
+              variants={TopicsVariant}
+            >
+              Todos
+            </ButtonTopic>
+          </Link>
+          <Link href="/daily-news">
+            <ButtonTopic
+              active={pathname == '/daily-news'}
+              initial="begin"
+              animate="animate"
+              exit="exit"
+              variants={TopicsVariant}
+            >
+              Dia-Dia
+            </ButtonTopic>
+          </Link>
+          <ButtonTopic
+            active={pathname == '/pop-news'}
             initial="begin"
             animate="animate"
             exit="exit"
-            variants={TopicsContainerVariant}
+            variants={TopicsVariant}
           >
-            <Link href="/">
-              <ButtonTopic
-                active={pathname == '/'}
-                initial="begin"
-                animate="animate"
-                exit="exit"
-                variants={TopicsVariant}
-              >
-                Todos
-              </ButtonTopic>
-            </Link>
-            <Link href="/daily-news">
-              <ButtonTopic
-                active={pathname == '/daily-news'}
-                initial="begin"
-                animate="animate"
-                exit="exit"
-                variants={TopicsVariant}
-              >
-                Dia-Dia
-              </ButtonTopic>
-            </Link>
-            <ButtonTopic
-              active={pathname == '/pop-news'}
-              initial="begin"
-              animate="animate"
-              exit="exit"
-              variants={TopicsVariant}
-            >
-              Mundo Pop
-            </ButtonTopic>
-            <ButtonTopic
-              active={pathname == '/notes'}
-              initial="begin"
-              animate="animate"
-              exit="exit"
-              variants={TopicsVariant}
-            >
-              Notas de Falecimento
-            </ButtonTopic>
-          </TopicsContainer>
-        )}
+            Mundo Pop
+          </ButtonTopic>
+          <ButtonTopic
+            active={pathname == '/notes'}
+            initial="begin"
+            animate="animate"
+            exit="exit"
+            variants={TopicsVariant}
+          >
+            Notas de Falecimento
+          </ButtonTopic>
+        </TopicsContainer>
       </AnimatePresence>
     </>
   );

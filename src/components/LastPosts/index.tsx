@@ -19,8 +19,6 @@ interface LastPostsProps {
 }
 
 export function LastPosts({ lastestNews }: LastPostsProps) {
-  console.log(lastestNews);
-
   return (
     <LastPostsWrapper>
       <legend>Últimas postagens</legend>
