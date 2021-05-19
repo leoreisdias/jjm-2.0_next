@@ -1,6 +1,8 @@
+import IconButton from '@material-ui/core/IconButton';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const Card = styled.div`
+export const Card = styled(motion.div)`
   display: flex;
   flex-direction: column;
 
@@ -32,14 +34,15 @@ export const Card = styled.div`
   }
 
   small {
-    padding: 0.675rem 1rem 2rem 1rem;
+    padding: 0rem 0rem 0rem 1rem;
     font-size: 1rem;
     align-self: flex-start;
   }
 
   h3 {
-    font-size: 1.475rem;
+    font-size: 1.375rem;
     padding: 0.2rem 2rem;
+    margin-top: 1rem;
     text-align: center;
 
     text-transform: lowercase;
@@ -60,8 +63,13 @@ export const Card = styled.div`
   }
 
   hr + span {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     text-transform: uppercase;
-    padding: 1rem 2rem;
+    padding: 0 0 0 1rem;
     align-self: flex-start;
   }
 
@@ -71,4 +79,12 @@ export const Card = styled.div`
   @media (max-width: 700px) {
     max-width: 20.785rem;
   }
+`;
+
+export const IconButtonExpand = styled(IconButton)`
+  max-width: 345px;
+
+  transform: rotate(0deg);
+  margin-left: auto;
+  transition: 0.5s;
 `;

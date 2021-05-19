@@ -19,5 +19,7 @@ export const AdvertisementContainer = styled.section`
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
     list-style: none;
+
+    padding-top: 2rem;
   }
 `;

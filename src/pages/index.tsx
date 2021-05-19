@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
 import { format, parseISO } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
@@ -49,7 +51,8 @@ interface newsProps {
 export default function Home({ newsList, topFourRecentNews, totalPages }: newsProps) {
   const [currentNewsList, setCurrentNewsList] = useState(newsList);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isMobile, setIsMobile] = useState(false);
+
+  const matches = useMediaQuery('(max-width:720px)');
 
   async function handleChangePage(event: React.ChangeEvent<unknown>, value: number) {
     setCurrentPage(value);
@@ -82,23 +85,16 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
       };
     });
     setCurrentPage(nextPage);
-
     return loadedNews;
   }
 
   async function handleSlideDown() {
-    if (isMobile && window.scrollY >= document.body.scrollHeight * 0.85) {
+    if (matches && window.scrollY >= document.body.scrollHeight * 0.85) {
       const nextPage = currentPage + 1 <= totalPages ? currentPage + 1 : totalPages;
       const loadedNews = await loadDataFromNewPage(nextPage);
       setCurrentNewsList([...currentNewsList, ...loadedNews]);
     }
   }
-
-  useEffect(() => {
-    const { matches } = window.matchMedia('(max-width: 720px)');
-
-    setIsMobile(matches);
-  }, []);
 
   return (
     <Wrapper>
@@ -112,7 +108,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
               return <CardNews key={newsItem.id} news={newsItem} />;
             })
           ) : (
-            <h1>Carregando</h1>
+            <CircularProgress />
           )}
         </Main>
         <Aside>
@@ -120,7 +116,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
           <Advertisement />
         </Aside>
       </Container>
-      {!isMobile && (
+      {!matches && (
         <PaginationContainer>
           <Pagination
             count={totalPages}

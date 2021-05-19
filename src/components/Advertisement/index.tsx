@@ -1,11 +1,12 @@
 import Image from 'next/image';
 
+import BigAd from '../BigAd';
 import { AdvertisementContainer } from './AdvertisementStyle';
 
 export function Advertisement() {
   return (
     <AdvertisementContainer>
-      <img src="./ad.png" alt="Advertise" />
+      <BigAd />
       <ul>
         <li>
           <Image
