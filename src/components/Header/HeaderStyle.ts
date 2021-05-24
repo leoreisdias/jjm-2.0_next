@@ -17,11 +17,16 @@ export const HeaderContainer = styled.header`
 
   display: flex;
   align-items: center;
+  justify-content: flex-start;
 
   p {
     margin-left: 2rem;
     padding: 0.25rem 0 0.25rem 2rem;
     border-left: 1px solid ${(props) => props.theme.colors.gray50};
+  }
+
+  div {
+    margin-left: auto;
   }
 
   span {
@@ -46,7 +51,7 @@ export const HeaderContainer = styled.header`
     }
 
     span {
-      padding-top: 1rem;
+      font-size: 1rem;
     }
 
     img {

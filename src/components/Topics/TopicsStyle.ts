@@ -16,7 +16,7 @@ export const TopicsContainer = styled(motion.main)`
   flex-wrap: wrap;
   gap: 2rem;
 
-  background: ${(props) => props.theme.colors.gray50};
+  background: ${(props) => props.theme.colors.background};
 `;
 
 export const ButtonTopic = styled(motion.button)<{ active: boolean }>`

@@ -1,8 +1,10 @@
-const theme = {
+export default {
+  title: 'light',
+
   colors: {
-    background: '#121214',
+    background: '#FAF5FF',
     text: '#e1e1e6',
-    primary: '#8257e6',
+    primary: '#D8C0FC',
     white: '#FFF',
     gray50: '#f7f8fa',
     gray100: '#e6e8eb',
@@ -19,7 +21,7 @@ const theme = {
     purple800: '#6f48c9',
 
     blue: '#47C9E5',
+
+    jjm: '#1D75A5',
   },
 };
-
-export default theme;

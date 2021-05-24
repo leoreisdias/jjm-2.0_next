@@ -42,7 +42,7 @@ module.exports = {
         'jsx-a11y/no-noninteractive-element-interactions': 'off',
 
         // Why would you want unused vars?
-        '@typescript-eslint/no-unused-vars': ['error'],
+        '@typescript-eslint/no-unused-vars': ['warn'],
 
         // I suggest this setting for requiring return types on functions only where useful
         "@typescript-eslint/explicit-module-boundary-types": "off",

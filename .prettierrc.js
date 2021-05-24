@@ -6,5 +6,6 @@ module.exports = {
   singleQuote: true,
   tabWidth: 2,
   useTabs: false,
-  printWidth: 90
+  printWidth: 90,
+  endOfLine: 'auto'
 }
