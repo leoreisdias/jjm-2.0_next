@@ -8,10 +8,10 @@ export const Card = styled(motion.div)`
 
   align-items: center;
 
-  color: ${(props) => props.theme.colors.green500};
+  color: ${(props) => props.theme.colors.gray500};
 
   max-width: 24.785rem;
-  margin-bottom: 2rem;
+  margin-top: 10px;
 
   word-break: keep-all;
 

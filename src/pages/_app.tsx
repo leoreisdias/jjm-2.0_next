@@ -1,9 +1,11 @@
 import { useState } from 'react';
 
+import { useMediaQuery } from '@material-ui/core';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { ThemeProvider } from 'styled-components';
 
+import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Topics } from '../components/Topics';
 import GlobalStyle from '../styles/global';
@@ -14,10 +16,10 @@ import light from '../styles/themes/light';
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
   const [theme, setTheme] = useState(light);
+  const matches = useMediaQuery('(max-width:720px)');
 
   const toggleTheme = () => {
     setTheme(theme.title === 'light' ? dark : light);
-    console.log(theme);
   };
 
   return (
@@ -31,6 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Main login={pathname === '/login'}>
         <Component {...pageProps} />
       </Main>
+      {pathname !== '/login' && !matches && <Footer />}
       <GlobalStyle />
     </ThemeProvider>
   );

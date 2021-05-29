@@ -1,9 +1,9 @@
-import {} from './FooterStyle';
+import { FooterContainer } from './FooterStyle';
 
 export function Footer() {
   return (
-    <div>
+    <FooterContainer>
       <h1>Teste</h1>
-    </div>
+    </FooterContainer>
   );
 }
