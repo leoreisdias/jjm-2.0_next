@@ -47,7 +47,7 @@ export const ParternsTags = styled.div`
     font-size: 0.75rem;
 
     padding: 0.25rem 0.45rem;
-    border-radius: 5px;
+    border-radius: 2.5px;
 
     list-style: none;
     background: ${(props) => props.theme.colors.gray900};

@@ -8,13 +8,13 @@ export const TopicsContainer = styled(motion.main)`
   width: 100%;
   padding: 1rem 0;
   z-index: 1;
-  height: 120px;
+  height: 7rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1rem;
 
   background: ${(props) => props.theme.colors.background};
 `;
@@ -40,4 +40,20 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
     color: ${(props) => props.theme.colors.white};
     background: ${(props) => props.theme.colors.primary};
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+  }
+`;
+
+export const ModalContent = styled.div`
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400;
+  background-color: white;
+  border: '2px solid #000';
+  box-shadow: 1px 1px 1px black;
+  padding: 2px;
 `;

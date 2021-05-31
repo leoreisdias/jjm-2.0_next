@@ -14,6 +14,9 @@ export const LastPostsWrapper = styled.section`
   @media (max-width: 768px) {
     padding: 1rem 2rem;
   }
+  @media (max-width: 320px) {
+    margin-top: 2rem;
+  }
 `;
 
 export const LastPostsContainer = styled.li`

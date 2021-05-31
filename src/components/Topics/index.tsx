@@ -1,8 +1,12 @@
+import { useState } from 'react';
+
+import Modal from '@material-ui/core/Modal';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { TopicsContainer, ButtonTopic } from './TopicsStyle';
+import { WeatherForecast } from '../WeatherForecast';
+import { TopicsContainer, ButtonTopic, ModalContent } from './TopicsStyle';
 
 const TopicsVariant = {
   begin: {
@@ -55,6 +59,11 @@ const TopicsContainerVariant = {
 
 export function Topics() {
   const { pathname } = useRouter();
+  const [open, setOpen] = useState(false);
+
+  function handleModal() {
+    setOpen(!open);
+  }
 
   return (
     <>
@@ -105,6 +114,26 @@ export function Topics() {
           >
             Notas de Falecimento
           </ButtonTopic>
+          <ButtonTopic
+            active={false}
+            initial="begin"
+            animate="animate"
+            exit="exit"
+            variants={TopicsVariant}
+            onClick={handleModal}
+          >
+            Previsão do Tempo
+          </ButtonTopic>
+          <Modal
+            open={open}
+            onClose={handleModal}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <ModalContent>
+              <WeatherForecast />
+            </ModalContent>
+          </Modal>
         </TopicsContainer>
       </AnimatePresence>
     </>

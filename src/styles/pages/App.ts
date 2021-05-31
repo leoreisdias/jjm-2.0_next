@@ -5,5 +5,7 @@ export const Main = styled.main<{ login: boolean }>`
   display: flex;
   justify-content: center;
 
+  min-height: 100vh;
+
   transition: 1s;
 `;

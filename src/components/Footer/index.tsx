@@ -1,5 +1,6 @@
 import { FaFacebook } from 'react-icons/fa';
 
+import { Copyright } from '../Copyright';
 import { FooterContainer, AboutJJM, ParternsTags } from './FooterStyle';
 
 export function Footer() {
@@ -14,7 +15,14 @@ export function Footer() {
           busca de se tornar uma referência de notícias e com alguns entretenimentos aos
           cidadãos de Muzambinho e região!
         </p>
-        <FaFacebook size={20} color="white" />
+        <a
+          href="https://www.facebook.com/jornaljotamaria"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <FaFacebook size={20} color="white" />
+        </a>
+        <Copyright />
       </AboutJJM>
 
       <ParternsTags>
