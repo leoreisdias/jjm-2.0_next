@@ -7,7 +7,7 @@ export const HeaderContainer = styled.header`
   width: 100%;
   z-index: 1;
 
-  background: url('./bgJJM.png');
+  background: url('/bgJJM.png');
   background-size: cover;
   height: 10.5rem;
 

@@ -85,26 +85,6 @@ export function Topics() {
               Todos
             </ButtonTopic>
           </Link>
-          <Link href="/daily-news">
-            <ButtonTopic
-              active={pathname == '/daily-news'}
-              initial="begin"
-              animate="animate"
-              exit="exit"
-              variants={TopicsVariant}
-            >
-              Dia-Dia
-            </ButtonTopic>
-          </Link>
-          <ButtonTopic
-            active={pathname == '/pop-news'}
-            initial="begin"
-            animate="animate"
-            exit="exit"
-            variants={TopicsVariant}
-          >
-            Mundo Pop
-          </ButtonTopic>
           <ButtonTopic
             active={pathname == '/notes'}
             initial="begin"

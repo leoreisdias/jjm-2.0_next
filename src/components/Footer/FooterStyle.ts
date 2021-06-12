@@ -46,11 +46,11 @@ export const ParternsTags = styled.div`
     color: ${(props) => props.theme.colors.white};
     font-size: 0.75rem;
 
-    padding: 0.25rem 0.45rem;
+    padding: 0.5rem 0.45rem;
     border-radius: 2.5px;
 
     list-style: none;
     background: ${(props) => props.theme.colors.gray900};
-    box-shadow: 0 0 0 1px white;
+    /* box-shadow: 0 0 0 1px white; */
   }
 `;

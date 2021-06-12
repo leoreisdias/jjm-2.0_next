@@ -7,6 +7,7 @@ import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Image from 'next/image';
+import Link from 'next/link';
 import { MdExpandMore, MdShare } from 'react-icons/md';
 
 import { Card, IconButtonExpand } from './CardNewsStyle';
@@ -33,19 +34,21 @@ export function CardNews({ news }: CardNewsProps) {
     setExpanded(!expanded);
   };
   return (
-    <Card whileTap={{ scale: 0.9, transition: { duration: 0.02 } }}>
-      <CardActionArea>
-        <Image
-          width={720}
-          height={600}
-          objectFit="cover"
-          src={news.imageURL}
-          alt="Imagem da Noticia"
-        />
-        <small>
-          Por: {news.author} - {news.date}
-        </small>
-      </CardActionArea>
+    <Card whileTap={{ scale: 0.95, transition: { duration: 0.01 } }}>
+      <Link href={`/complete-news/${news.id}`}>
+        <CardActionArea>
+          <Image
+            width={720}
+            height={600}
+            objectFit="cover"
+            src={news.imageURL}
+            alt="Imagem da Noticia"
+          />
+          <small>
+            Por: {news.author} - {news.date}
+          </small>
+        </CardActionArea>
+      </Link>
 
       <h3>{news.title}</h3>
       <p>{news.summary}</p>
