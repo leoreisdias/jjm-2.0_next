@@ -1,11 +1,23 @@
+import { motion } from 'framer-motion';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FaShareAlt } from 'react-icons/fa';
 
 import { Advertisement } from '../../components/Advertisement';
 import { LastPosts } from '../../components/LastPosts';
 import { api } from '../../services/api';
-import { Wrapper, Container, Main, Aside } from '../../styles/pages/CompleteNews';
+import {
+  Wrapper,
+  Container,
+  Main,
+  Aside,
+  NewsTitle,
+  SmallDetails,
+  NewsContent,
+  RelatedNewsSection,
+} from '../../styles/pages/CompleteNews';
 
 interface NewsProps {
   subjects: string[];
@@ -22,7 +34,7 @@ interface NewsProps {
 }
 
 interface NewsPropsFromServer {
-  subjects: string;
+  subjects: string[];
   id: string;
   title: string;
   description: string;
@@ -33,13 +45,25 @@ interface NewsPropsFromServer {
   summary: string;
 }
 
-interface CompleteNewsProps {
-  news: NewsPropsFromServer;
+interface RelatedNewsProps {
+  id: string;
+  title: string;
+  mainImage: string;
+  source: string;
+  url: string;
 }
 
-export default function CompleteNews({ news }: CompleteNewsProps) {
-  console.log(news);
+interface CompleteNewsProps {
+  news: NewsPropsFromServer;
+  formatedRelatedNews: RelatedNewsProps[];
+  currentUrl: string;
+}
 
+export default function CompleteNews({
+  news,
+  currentUrl,
+  formatedRelatedNews,
+}: CompleteNewsProps) {
   return (
     <Wrapper>
       <Head>
@@ -47,9 +71,9 @@ export default function CompleteNews({ news }: CompleteNewsProps) {
       </Head>
       <Container>
         <Main>
-          <Image width={900} height={400} src={news.mainImage} />
-          <h1>{news.title}</h1>
-          <div>
+          <Image width={900} height={500} src={news.mainImage} />
+          <NewsTitle>{news.title}</NewsTitle>
+          <SmallDetails>
             <p>
               <span>Por {news.author}</span>
               <span>{news.date}</span>
@@ -57,46 +81,54 @@ export default function CompleteNews({ news }: CompleteNewsProps) {
             <p>
               <span>{news.source}</span>
             </p>
-          </div>
-          <main>
+          </SmallDetails>
+          <NewsContent>
             <p>{news.description}</p>
 
             <div>
               <h4>Assuntos</h4>
               <ul>
-                <li>{news.subjects}</li>
+                {news.subjects &&
+                  news.subjects.map((subject) => {
+                    return <li key={subject}>{subject}</li>;
+                  })}
               </ul>
             </div>
-            <div>SHARE</div>
-          </main>
-          <section>
+            <div>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>
+                  <FaShareAlt size={25} color={'gray'} />
+                  Compartilhar
+                </span>
+              </a>
+            </div>
+          </NewsContent>
+          <RelatedNewsSection>
             <h4>Notícias Relacionadas</h4>
             <div>
               <ul>
-                <li>
-                  <img src="" alt="" />
-                  <p>
-                    <strong>Titulo</strong>
-                  </p>
-                  <span>Fonte</span>
-                </li>
-                <li>
-                  <img src="" alt="" />
-                  <p>
-                    <strong>Titulo</strong>
-                  </p>
-                  <span>Fonte</span>
-                </li>
-                <li>
-                  <img src="" alt="" />
-                  <p>
-                    <strong>Titulo</strong>
-                  </p>
-                  <span>Fonte</span>
-                </li>
+                {formatedRelatedNews &&
+                  formatedRelatedNews.map((news) => {
+                    return (
+                      <Link href={`/complete-news/${news.id}`} key={news.id}>
+                        <motion.li
+                          whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
+                        >
+                          <Image width={250} height={150} src={news.mainImage} />
+
+                          <strong>{news.title}</strong>
+                          <span>{news.source}</span>
+                        </motion.li>
+                      </Link>
+                    );
+                  })}
               </ul>
             </div>
-          </section>
+          </RelatedNewsSection>
         </Main>
         <Aside>
           <Advertisement />
@@ -107,8 +139,20 @@ export default function CompleteNews({ news }: CompleteNewsProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const {
+    data: { docs },
+  } = await api.get('/news?page=1');
+
+  const paths = docs.map((news: NewsProps) => {
+    return {
+      params: {
+        hash: news._id,
+      },
+    };
+  });
+
   return {
-    paths: [],
+    paths,
     fallback: 'blocking',
   };
 };
@@ -128,25 +172,43 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     },
   });
 
-  const formatData = {
-    subjects: news.subjects.join(', '),
+  const formatNews = {
+    subjects: news.subjects,
     id: news._id,
     title: news.title,
-    description: news.description,
+    description: news.description.split('##').join('\n'),
     date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
       locale: ptBR,
     }),
     mainImage: news.imageURL,
     author: news.author.toLowerCase(),
-    source: news.source,
+    source: news.source.toLowerCase(),
     summary: news.summary,
   };
 
-  console.log(news);
+  const relatedNews = await api.get('/search', {
+    params: {
+      subjects: formatNews.subjects.join(', '),
+    },
+  });
+  const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
+
+  const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
+    return {
+      id: news._id,
+      title: news.title,
+      mainImage: news.imageURL,
+      source: news.source.toLowerCase(),
+      url: `www.jornaljotamaria.com.br/complete-news/${news._id}`,
+    };
+  });
 
   return {
     props: {
-      news: formatData,
+      news: formatNews,
+      formatedRelatedNews,
+      currentUrl: `www.jornaljotamaria.com.br/complete-news/${hash}`,
     },
+    revalidate: 60 * 60 * 24, // 24 hours
   };
 };

@@ -8,12 +8,14 @@ export const FooterContainer = styled.footer`
 
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
-  justify-items: center;
+  align-items: flex-start;
+  justify-items: flex-start;
 `;
 
 export const AboutJJM = styled.div`
-  width: 50%;
+  width: 70%;
+  justify-self: flex-end;
+  padding-right: 4rem;
 
   h2 {
     margin-bottom: 1rem;
@@ -29,7 +31,8 @@ export const AboutJJM = styled.div`
 `;
 
 export const ParternsTags = styled.div`
-  width: 50%;
+  width: 80%;
+  padding-left: 4rem;
 
   h3 {
     margin-bottom: 1rem;
