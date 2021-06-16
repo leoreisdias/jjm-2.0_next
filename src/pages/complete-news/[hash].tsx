@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -157,12 +157,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: GetStaticPropsContext) => {
   const format = (await import('date-fns/format')).default;
   const parseISO = (await import('date-fns/parseISO')).default;
   const ptBR = (await import('date-fns/locale/pt-BR')).default;
 
-  const { hash } = ctx.params;
+  const { hash } = params;
 
   const {
     data: { news },

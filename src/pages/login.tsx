@@ -7,7 +7,6 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import { Copyright } from '../components/Copyright';
@@ -84,10 +83,3 @@ export default function Login() {
     </>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  return {
-    props: {},
-    revalidate: 60 * 60 * 365, // 1 year
-  };
-};

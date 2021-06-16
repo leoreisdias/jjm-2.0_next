@@ -1,7 +1,4 @@
 module.exports = {
-  future: {
-    webpack5: true,
-  },
   images: {
     domains: ['jjm-upload.s3.amazonaws.com']
   },
