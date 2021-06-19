@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Topics } from '../components/Topics';
+import { AuthProvider } from '../context/AuthContext';
 import GlobalStyle from '../styles/global';
 import { Main } from '../styles/pages/App';
 import dark from '../styles/themes/dark';
@@ -30,9 +31,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Topics />
         </>
       )}
-      <Main login={pathname === '/login'}>
-        <Component {...pageProps} />
-      </Main>
+      <AuthProvider>
+        <Main login={pathname === '/login'}>
+          <Component {...pageProps} />
+        </Main>
+      </AuthProvider>
       {pathname !== '/login' && !matches && <Footer />}
       <GlobalStyle />
     </ThemeProvider>

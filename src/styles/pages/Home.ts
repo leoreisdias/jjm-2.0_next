@@ -42,6 +42,20 @@ export const Aside = styled.aside`
 
   transition: 1s ease-in-out;
 
+  input {
+    height: 38px;
+    border: 2pt solid ${(props) => props.theme.colors.jjmGreen};
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+
+    font-family: 'Nunito';
+
+    &:hover {
+      box-shadow: 0 0 0 1pt ${(props) => props.theme.colors.jjmBlue};
+    }
+  }
+
   @media (max-width: 768px) {
     order: -1;
     max-width: 100vw;

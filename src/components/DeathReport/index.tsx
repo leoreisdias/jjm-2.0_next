@@ -37,7 +37,7 @@ export default function DeathReportCard() {
 
   return (
     <CardAd>
-      <Link href={`report-detail/${data.docs[0]._id}`}>
+      <Link href={`/report-detail/${data.docs[0]._id}`}>
         <CardActionArea>
           <AdImage>
             <Image

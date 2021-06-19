@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
 import { format, parseISO } from 'date-fns';
@@ -20,6 +21,7 @@ import {
   Aside,
   PaginationContainer,
 } from '../styles/pages/Home';
+import { formatNews } from '../utils/formatNews';
 
 interface serverNewsProps {
   _id: string;
@@ -52,6 +54,10 @@ interface newsProps {
 export default function Home({ newsList, topFourRecentNews, totalPages }: newsProps) {
   const [currentNewsList, setCurrentNewsList] = useState(newsList);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [searchText, setSearchText] = useState('');
+
+  const [isSearching, setIsSearching] = useState(false);
 
   const matches = useMediaQuery('(max-width:720px)');
 
@@ -97,6 +103,31 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
     }
   }
 
+  async function handleEnter(event: KeyboardEventInit) {
+    const key = event.key;
+
+    if (key == 'Enter') {
+      if (searchText !== '') {
+        setIsSearching(true);
+        const response = await api.get('/search', {
+          params: {
+            subjects: searchText,
+            title: searchText,
+          },
+        });
+        console.log(response.data.news);
+
+        if (response?.data?.news.length) {
+          const formatedNews = formatNews(response.data.news);
+          setCurrentNewsList(formatedNews.reverse());
+        }
+        setIsSearching(false);
+      } else {
+        setCurrentNewsList(newsList);
+      }
+    }
+  }
+
   return (
     <Wrapper>
       <Head>
@@ -125,6 +156,14 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
           )}
         </Main>
         <Aside>
+          <input
+            type="text"
+            placeholder="Pesquise algo específico"
+            value={isSearching ? 'Pesquisando...' : searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleEnter}
+          />
+
           <LastPosts lastestNews={topFourRecentNews} />
           <DeathReportCard />
           <Advertisement />

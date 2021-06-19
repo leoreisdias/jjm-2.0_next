@@ -1,3 +1,5 @@
+import { FormEvent, useState } from 'react';
+
 import Box from '@material-ui/core/Box';
 import Checkbox from '@material-ui/core/Checkbox';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Head from 'next/head';
 
 import { Copyright } from '../components/Copyright';
+import { useAuth } from '../hooks/useAuth';
 import {
   AvatarUI,
   ButtonSubmitUI,
@@ -20,6 +23,16 @@ import {
 } from '../styles/pages/Login';
 
 export default function Login() {
+  const { handleLogin, username } = useAuth();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  function handleLoginButton(e: FormEvent) {
+    e.preventDefault();
+    handleLogin(email, password);
+  }
+
   return (
     <>
       <Head>
@@ -35,7 +48,7 @@ export default function Login() {
                 <img src="./logo.png" alt="JJM" />
               </AvatarUI>
               <Typography component="h1" variant="h5">
-                Bem Vindo
+                Bem vindo Redator
               </Typography>
               <FormUI noValidate>
                 <TextField
@@ -44,8 +57,10 @@ export default function Login() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Email"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                 />
                 <TextField
@@ -54,25 +69,26 @@ export default function Login() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Senha"
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   autoComplete="current-password"
                 />
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
+
                 <ButtonSubmitUI
                   type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"
+                  onClick={handleLoginButton}
                 >
                   Entrar
                 </ButtonSubmitUI>
 
                 <Box mt={5}>
+                  {username && <p>Olá {username}</p>}
                   <Copyright />
                 </Box>
               </FormUI>
