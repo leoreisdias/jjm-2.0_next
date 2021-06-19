@@ -9,7 +9,9 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 
 import { Copyright } from '../components/Copyright';
 import { useAuth } from '../hooks/useAuth';
@@ -99,3 +101,22 @@ export default function Login() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (
+  ctx: GetServerSidePropsContext
+) => {
+  const { token: userToken } = parseCookies(ctx);
+
+  if (userToken) {
+    return {
+      redirect: {
+        destination: '/writer-area',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};

@@ -4,7 +4,9 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Switch from '@material-ui/core/Switch';
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
+import { GiExitDoor } from 'react-icons/gi';
 
+import { useAuth } from '../../hooks/useAuth';
 import { HeaderContainer } from './HeaderStyle';
 
 interface HeaderProps {
@@ -12,6 +14,8 @@ interface HeaderProps {
 }
 
 export function Header({ toggleTheme }: HeaderProps) {
+  const { isAuthenticated, handleLogout } = useAuth();
+
   const [switchState, setSwitchState] = useState(true);
   const currentDate = format(new Date(), 'EEEEEE, d MMM', {
     locale: ptBR,
@@ -37,6 +41,11 @@ export function Header({ toggleTheme }: HeaderProps) {
             inputProps={{ 'aria-label': 'secondary checkbox' }}
           />
         </NoSsr>
+        {isAuthenticated && (
+          <span>
+            <GiExitDoor size={30} color={'white'} onClick={handleLogout} />
+          </span>
+        )}
       </div>
     </HeaderContainer>
   );

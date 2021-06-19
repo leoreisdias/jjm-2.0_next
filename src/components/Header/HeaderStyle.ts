@@ -27,6 +27,18 @@ export const HeaderContainer = styled.header`
 
   div {
     margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    & span:last-child {
+      cursor: pointer;
+
+      &:hover {
+        filter: brightness(0.9);
+      }
+    }
   }
 
   span {

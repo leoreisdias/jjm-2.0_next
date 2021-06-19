@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
-import TextField from '@material-ui/core/TextField';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
 import { format, parseISO } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { FaSearch } from 'react-icons/fa';
 
 import { Advertisement } from '../components/Advertisement';
 import { CardNews } from '../components/CardNews';
@@ -156,13 +156,16 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
           )}
         </Main>
         <Aside>
-          <input
-            type="text"
-            placeholder="Pesquise algo específico"
-            value={isSearching ? 'Pesquisando...' : searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={handleEnter}
-          />
+          <label htmlFor="search">
+            <FaSearch />
+            <input
+              type="text"
+              placeholder="Pesquise algo específico"
+              value={isSearching ? 'Pesquisando...' : searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              onKeyDown={handleEnter}
+            />
+          </label>
 
           <LastPosts lastestNews={topFourRecentNews} />
           <DeathReportCard />

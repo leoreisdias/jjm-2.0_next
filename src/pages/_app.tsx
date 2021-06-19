@@ -25,18 +25,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider theme={theme}>
-      {pathname !== '/login' && (
-        <>
-          <Header toggleTheme={toggleTheme} />
-          <Topics />
-        </>
-      )}
       <AuthProvider>
+        {pathname !== '/login' && (
+          <>
+            <Header toggleTheme={toggleTheme} />
+            <Topics />
+          </>
+        )}
         <Main login={pathname === '/login'}>
           <Component {...pageProps} />
         </Main>
+        {pathname !== '/login' && !matches && <Footer />}
       </AuthProvider>
-      {pathname !== '/login' && !matches && <Footer />}
       <GlobalStyle />
     </ThemeProvider>
   );

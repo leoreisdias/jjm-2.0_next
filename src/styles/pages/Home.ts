@@ -17,6 +17,7 @@ export const Container = styled.article`
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
+    gap: 0rem;
   }
 `;
 
@@ -42,17 +43,32 @@ export const Aside = styled.aside`
 
   transition: 1s ease-in-out;
 
-  input {
-    height: 38px;
-    border: 2pt solid ${(props) => props.theme.colors.jjmGreen};
-    border-radius: 10px;
-    margin-bottom: 1rem;
-    padding-left: 1rem;
+  label {
+    width: 90%;
+    margin: 1rem auto;
 
-    font-family: 'Nunito';
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background: #ffffff;
+    border-radius: 10px;
+
+    padding: 0 0.5rem;
 
     &:hover {
-      box-shadow: 0 0 0 1pt ${(props) => props.theme.colors.jjmBlue};
+      border: none;
+      box-shadow: 0 0 0 2pt ${(props) => props.theme.colors.jjmBlue};
+    }
+    input {
+      width: 100%;
+      height: 38px;
+      border: none;
+      border-radius: 10px;
+      padding-left: 1rem;
+      margin-left: 0.25rem;
+
+      font-family: 'Nunito';
     }
   }
 

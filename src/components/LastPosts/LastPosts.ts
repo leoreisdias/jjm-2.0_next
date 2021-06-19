@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const LastPostsWrapper = styled.section`
+  margin-bottom: 1rem;
+
   legend {
     font-family: 'Montserrat';
     font-weight: 700;
@@ -9,7 +11,6 @@ export const LastPostsWrapper = styled.section`
 
     margin-bottom: 1rem;
   }
-  margin-bottom: 1rem;
 
   @media (max-width: 768px) {
     padding: 1rem 2rem;

@@ -20,7 +20,7 @@ export default createGlobalStyle`
 
 body {
   background: ${(props) => props.theme.colors.background};
-  color: ${(props) => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.gray900};
 }
 
 body, input, textarea, button{

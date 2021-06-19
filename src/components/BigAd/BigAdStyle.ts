@@ -14,4 +14,8 @@ export const AdImage = styled.div`
 
 export const CardAd = styled(Card)`
   max-width: 345px;
+
+  @media (max-width: 400px) {
+    display: none;
+  }
 `;

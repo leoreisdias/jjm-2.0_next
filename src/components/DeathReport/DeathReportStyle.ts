@@ -7,6 +7,7 @@ export const AdImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   img {
     width: 200px;
   }
@@ -14,8 +15,7 @@ export const AdImage = styled.div`
 
 export const CardAd = styled(Card)`
   max-width: 345px;
-  margin-bottom: 30px;
-
+  margin: 30px auto;
   h3 {
     font-family: 'Nunito';
     margin-bottom: 1rem;

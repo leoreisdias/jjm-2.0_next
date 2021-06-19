@@ -14,4 +14,24 @@ export const AdvertisementContainer = styled.section`
 
     padding-top: 1rem;
   }
+
+  @media (max-width: 720px) {
+    & ul {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 400px) {
+    & ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+
+      li {
+        width: 25%;
+      }
+    }
+  }
 `;
