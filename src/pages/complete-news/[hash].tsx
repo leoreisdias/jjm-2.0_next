@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaShareAlt } from 'react-icons/fa';
 
 import { Advertisement } from '../../components/Advertisement';
+import DeathReportCard from '../../components/DeathReport';
 import { LastPosts } from '../../components/LastPosts';
 import { api } from '../../services/api';
 import {
@@ -67,7 +68,17 @@ export default function CompleteNews({
   return (
     <Wrapper>
       <Head>
-        <title>Jornal JM</title>
+        <title>Jornal JM - {news.title}</title>
+        <meta
+          property="og:url"
+          content={`www.jornaljotamaria.com.br/complete-news/${news.id}`}
+        />
+        <meta property="og:title" content={news.title} />
+        <meta property="og:description" content={news.summary} />
+        <meta property="og:image" content={`${news.mainImage}?fit=1280%2C720&ssl=1`} />
+        <meta property="og:image:alt" content="Matéria JM" />
+        <meta property="og:image:width" content="900" />
+        <meta property="og:image:height" content="800" />
       </Head>
       <Container>
         <Main>
@@ -131,6 +142,7 @@ export default function CompleteNews({
           </RelatedNewsSection>
         </Main>
         <Aside>
+          <DeathReportCard />
           <Advertisement />
         </Aside>
       </Container>

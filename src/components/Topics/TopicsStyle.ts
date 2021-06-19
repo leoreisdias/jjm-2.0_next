@@ -1,3 +1,4 @@
+import { DialogContent } from '@material-ui/core';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
@@ -51,9 +52,13 @@ export const ModalContent = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 400;
+  width: 50%;
+  height: 100%;
   background-color: white;
   border: '2px solid #000';
   box-shadow: 1px 1px 1px black;
-  padding: 2px;
+`;
+
+export const CustomDialogContent = styled(DialogContent)`
+  background: #f5fbff;
 `;

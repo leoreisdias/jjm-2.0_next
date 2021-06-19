@@ -16,7 +16,7 @@ module.exports = {
       env: {
         browser: true,
         node: true,
-        es6: true,
+        es2021: true,
       },
       extends: [
         'eslint:recommended',
@@ -31,18 +31,17 @@ module.exports = {
       rules: {
         // We will use TypeScript's types for component props instead
         'react/prop-types': 'off',
-        'prettier/prettier': ['error', {}, { usePrettierrc: true }], // Includes .prettierrc.js rules
-
-        // No need to import React when using Next.js
-        'react/react-in-jsx-scope': 'off',
+				"react/jsx-uses-react": "off",
+				"react/react-in-jsx-scope": "off", 
+				"react-hooks/rules-of-hooks": "error",
+				"react-hooks/exhaustive-deps": "warn",
+        'prettier/prettier': ['warn', {}, { usePrettierrc: true }], // Includes .prettierrc.js rules
+        '@typescript-eslint/no-unused-vars': ['warn'],
 
         // This rule is not compatible with Next.js's <Link /> components
         'jsx-a11y/anchor-is-valid': 'off',
         'jsx-a11y/click-events-have-key-events': 'off',
         'jsx-a11y/no-noninteractive-element-interactions': 'off',
-
-        // Why would you want unused vars?
-        '@typescript-eslint/no-unused-vars': ['warn'],
 
         // I suggest this setting for requiring return types on functions only where useful
         "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -55,7 +54,7 @@ module.exports = {
           },
         ],
         "import/order": [
-          "error",
+          "warn",
           {
             "groups": ["builtin", "external", "internal"],
             "pathGroups": [

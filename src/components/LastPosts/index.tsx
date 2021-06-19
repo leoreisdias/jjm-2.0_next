@@ -26,7 +26,11 @@ export function LastPosts({ lastestNews }: LastPostsProps) {
         {lastestNews ? (
           lastestNews.map((newsItem) => {
             return (
-              <Link href={'#'} key={newsItem.id}>
+              <Link
+                as="/news-detail"
+                href={`/complete-news/${newsItem.id}`}
+                key={newsItem.id}
+              >
                 <LastPostsContainer>
                   <Image
                     width={100}

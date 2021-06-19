@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ['jjm-upload.s3.amazonaws.com']
+    domains: ['jjm-upload.s3.amazonaws.com','assets.hgbrasil.com']
   },
   env: {
     backendApi: 'https://jjm-website.herokuapp.com',

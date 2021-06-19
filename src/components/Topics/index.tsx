@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import Modal from '@material-ui/core/Modal';
+import { Dialog, DialogContent } from '@material-ui/core';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { WeatherForecast } from '../WeatherForecast';
-import { TopicsContainer, ButtonTopic, ModalContent } from './TopicsStyle';
+import { TopicsContainer, ButtonTopic, CustomDialogContent } from './TopicsStyle';
 
 const TopicsVariant = {
   begin: {
@@ -82,7 +82,7 @@ export function Topics() {
               exit="exit"
               variants={TopicsVariant}
             >
-              Todos
+              Notícias
             </ButtonTopic>
           </Link>
           <ButtonTopic
@@ -92,7 +92,7 @@ export function Topics() {
             exit="exit"
             variants={TopicsVariant}
           >
-            Notas de Falecimento
+            Cotação do Café
           </ButtonTopic>
           <ButtonTopic
             active={false}
@@ -104,16 +104,16 @@ export function Topics() {
           >
             Previsão do Tempo
           </ButtonTopic>
-          <Modal
+          <Dialog
             open={open}
             onClose={handleModal}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
           >
-            <ModalContent>
+            <CustomDialogContent>
               <WeatherForecast />
-            </ModalContent>
-          </Modal>
+            </CustomDialogContent>
+          </Dialog>
         </TopicsContainer>
       </AnimatePresence>
     </>

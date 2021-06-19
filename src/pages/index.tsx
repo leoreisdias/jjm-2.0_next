@@ -10,6 +10,7 @@ import Head from 'next/head';
 
 import { Advertisement } from '../components/Advertisement';
 import { CardNews } from '../components/CardNews';
+import DeathReportCard from '../components/DeathReport';
 import { LastPosts } from '../components/LastPosts';
 import { api } from '../services/api';
 import {
@@ -100,6 +101,18 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
     <Wrapper>
       <Head>
         <title>Jornal JM</title>
+        <meta name="description" content="Jornal JM - Fique informado!" />
+        <meta property="og:url" content="www.jornaljotamaria.com.br" />
+        <meta property="og:title" content="Jornal JM" />
+        <meta property="og:description" content="O seu lugar para ficar informado" />
+        <meta
+          property="og:image"
+          content="https://i.imgur.com/Wi5Czwx.png?fit=1280%2C720&ssl=1"
+        />
+        <meta property="og:image:alt" content="Jornal JM" />
+        <meta property="og:image:width" content="900" />
+        <meta property="og:image:height" content="800" />
+        <meta property="og:site_name" content="Jornal JM" />
       </Head>
       <Container>
         <Main onTouchMove={handleSlideDown}>
@@ -113,6 +126,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
         </Main>
         <Aside>
           <LastPosts lastestNews={topFourRecentNews} />
+          <DeathReportCard />
           <Advertisement />
         </Aside>
       </Container>

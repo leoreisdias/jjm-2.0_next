@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { FiWind } from 'react-icons/fi';
 import { GiWaterDrop } from 'react-icons/gi';
 
 import { useFetch } from '../../hooks/useFetch';
 import { weatherApi } from '../../services/weatherApi';
-import { WeatherForecastContainer, Today } from './WeatherForecastStyle';
+import {
+  WeatherForecastContainer,
+  Today,
+  NextDays,
+  CityMaxMin,
+  TodayWeatherDetail,
+  EachDay,
+} from './WeatherForecastStyle';
 
 interface WeatherForecast {
   condition: string;
@@ -45,23 +53,24 @@ export const WeatherForecast = () => {
 
   return (
     <WeatherForecastContainer>
-      <legend>Previsão do Tempo</legend>
       <Today>
-        <div>
+        <CityMaxMin>
           <strong>{data?.city_name}</strong>
           <p>
-            <FaArrowUp size={18} color="green" /> {data?.forecast[0].max}º
-            <br />
-            <FaArrowDown size={18} color="red" /> {data?.forecast[0].min}º
+            <span>
+              <FaArrowUp size={18} color="green" /> {data?.forecast[0].max}º
+            </span>
+            <span>
+              <FaArrowDown size={18} color="red" /> {data?.forecast[0].min}º
+            </span>
           </p>
-        </div>
+        </CityMaxMin>
 
-        <div>
+        <TodayWeatherDetail>
           <div>
             <p lang="pt-br">
               <strong>{data?.forecast[0].weekday}</strong>
-              <br />
-              {data?.date}
+              <strong>{data?.date}</strong>
             </p>
             <span>
               <FiWind />: {data?.wind_speedy}
@@ -76,44 +85,37 @@ export const WeatherForecast = () => {
               src={`https://assets.hgbrasil.com/weather/images/${data?.img_id}.png`}
               alt="Weather Icon"
             />
+            <strong>{data?.temp}º</strong>
             <strong>{data?.description}</strong>
           </div>
-
-          <div>
-            <strong>{data?.temp}º</strong>
-          </div>
-        </div>
+        </TodayWeatherDetail>
       </Today>
 
-      <div>
+      <NextDays>
         {data?.forecast.map((weather, index) => {
           return index !== 0 && index !== 9 ? (
-            <div key={index}>
+            <EachDay key={index}>
               <strong lang="pt-br">
                 {weather.weekday}
                 <br />
                 {weather.date}
               </strong>
-              <br />
-              <div>
+              <p>
                 <span>
-                  <p>
-                    <span>
-                      <FaArrowUp size={15} color="green" />
-                      {weather.max}º
-                    </span>
-                    <FaArrowDown size={15} color="red" />
-                    {weather.min}º
-                  </p>
+                  <FaArrowUp size={15} color="green" />
+                  {weather.max}º
                 </span>
-                <strong>{weather.description}</strong>
-              </div>
-            </div>
+                <span>
+                  <FaArrowDown size={15} color="red" />
+                  {weather.min}º
+                </span>
+              </p>
+            </EachDay>
           ) : (
             ''
           );
         })}
-      </div>
+      </NextDays>
     </WeatherForecastContainer>
   );
 };

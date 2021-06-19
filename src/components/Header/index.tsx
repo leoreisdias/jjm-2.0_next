@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import NoSsr from '@material-ui/core/NoSsr';
 import Switch from '@material-ui/core/Switch';
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
@@ -27,13 +28,15 @@ export function Header({ toggleTheme }: HeaderProps) {
       <p>Na Pura Verdade é Isso</p>
       <div>
         <span>{currentDate}</span>
-        <Switch
-          checked={switchState}
-          onChange={handleThemeSwitch}
-          name="checkedA"
-          color="primary"
-          inputProps={{ 'aria-label': 'secondary checkbox' }}
-        />
+        <NoSsr>
+          <Switch
+            checked={switchState}
+            onChange={handleThemeSwitch}
+            name="checkedA"
+            color="primary"
+            inputProps={{ 'aria-label': 'secondary checkbox' }}
+          />
+        </NoSsr>
       </div>
     </HeaderContainer>
   );
