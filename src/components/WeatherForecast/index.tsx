@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import Image from 'next/image';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { FiWind } from 'react-icons/fi';
 import { GiWaterDrop } from 'react-icons/gi';
 
 import { useFetch } from '../../hooks/useFetch';
-import { weatherApi } from '../../services/weatherApi';
+import { LoadingBird } from '../LoadingBird';
 import {
   WeatherForecastContainer,
   Today,
@@ -45,10 +44,10 @@ interface WeatherProps {
 }
 
 export const WeatherForecast = () => {
-  const { data, error } = useFetch<WeatherProps>('/');
+  const { data } = useFetch<WeatherProps>('/');
 
   if (!data) {
-    return <p>Carregando</p>;
+    return <LoadingBird />;
   }
 
   return (

@@ -1,17 +1,23 @@
 import { FormEvent, useState } from 'react';
 
 import Box from '@material-ui/core/Box';
-import Checkbox from '@material-ui/core/Checkbox';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
 import NoSsr from '@material-ui/core/NoSsr';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { parseCookies } from 'nookies';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
 import { Copyright } from '../components/Copyright';
 import { useAuth } from '../hooks/useAuth';
@@ -24,15 +30,21 @@ import {
   PaperDiv,
 } from '../styles/pages/Login';
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function Login() {
-  const { handleLogin, username } = useAuth();
+  const { handleLogin, username, hasLoginFailed, handleLoginFailed } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [showPassword, setShowPassword] = useState(false);
+
   function handleLoginButton(e: FormEvent) {
     e.preventDefault();
-    handleLogin(email, password);
+    if (email && password) handleLogin(email, password);
   }
 
   return (
@@ -65,19 +77,32 @@ export default function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="email"
                 />
-                <TextField
+                <FormControl
+                  style={{ width: '100%', marginBottom: '1rem' }}
                   variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Senha"
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                />
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() =>
+                            setShowPassword((oldShowPassword) => !oldShowPassword)
+                          }
+                          edge="end"
+                        >
+                          {showPassword ? <MdVisibility /> : <MdVisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    labelWidth={70}
+                  />
+                </FormControl>
 
                 <ButtonSubmitUI
                   type="submit"
@@ -97,6 +122,13 @@ export default function Login() {
             </PaperDiv>
           </Grid>
         </GridContainer>
+        <Snackbar
+          open={hasLoginFailed}
+          autoHideDuration={6000}
+          onClose={handleLoginFailed}
+        >
+          <Alert severity="error">Email ou senha incorretos!</Alert>
+        </Snackbar>
       </NoSsr>
     </>
   );

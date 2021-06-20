@@ -40,6 +40,8 @@ export function CardNews({ news }: CardNewsProps) {
           <Image
             width={720}
             height={600}
+            placeholder="blur"
+            blurDataURL={news.imageURL}
             objectFit="cover"
             src={news.imageURL}
             alt="Imagem da Noticia"

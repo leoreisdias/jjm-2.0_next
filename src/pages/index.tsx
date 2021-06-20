@@ -13,6 +13,7 @@ import { Advertisement } from '../components/Advertisement';
 import { CardNews } from '../components/CardNews';
 import DeathReportCard from '../components/DeathReport';
 import { LastPosts } from '../components/LastPosts';
+import { useTheme } from '../hooks/useTheme';
 import { api } from '../services/api';
 import {
   Wrapper,
@@ -52,6 +53,8 @@ interface newsProps {
 }
 
 export default function Home({ newsList, topFourRecentNews, totalPages }: newsProps) {
+  const { colors } = useTheme();
+
   const [currentNewsList, setCurrentNewsList] = useState(newsList);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -157,7 +160,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
         </Main>
         <Aside>
           <label htmlFor="search">
-            <FaSearch />
+            <FaSearch color={colors.jjmBlue} />
             <input
               type="text"
               placeholder="Pesquise algo específico"

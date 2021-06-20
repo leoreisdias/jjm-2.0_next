@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
 import BigAd from '../BigAd';
-import DeathReportCard from '../DeathReport';
 import { AdvertisementContainer } from './AdvertisementStyle';
 
 export function Advertisement() {
   return (
     <AdvertisementContainer>
+      <BigAd />
       <BigAd />
       <ul>
         <li>

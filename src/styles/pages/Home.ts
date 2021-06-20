@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.section`
   color: ${(props) => props.theme.colors.text};
+  margin-bottom: 2rem;
 `;
 
 export const Container = styled.article`
@@ -55,10 +56,11 @@ export const Aside = styled.aside`
     border-radius: 10px;
 
     padding: 0 0.5rem;
+    box-shadow: 0 0 0 2pt ${(props) => props.theme.colors.jjmBlue};
 
     &:hover {
       border: none;
-      box-shadow: 0 0 0 2pt ${(props) => props.theme.colors.jjmBlue};
+      box-shadow: 0 0 0 2pt ${(props) => props.theme.colors.jjmGreen};
     }
     input {
       width: 100%;

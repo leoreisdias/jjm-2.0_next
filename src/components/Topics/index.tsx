@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Dialog, DialogContent } from '@material-ui/core';
+import { Dialog } from '@material-ui/core';
 import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -59,10 +59,15 @@ const TopicsContainerVariant = {
 
 export function Topics() {
   const { pathname } = useRouter();
-  const [open, setOpen] = useState(false);
+  const [openWeatherModal, setOpenWeatherModal] = useState(false);
+  const [openCoffeeModal, setOpenCoffeeModal] = useState(false);
 
-  function handleModal() {
-    setOpen(!open);
+  function handleWeatherModal() {
+    setOpenWeatherModal(!openWeatherModal);
+  }
+
+  function handleCoffeeModal() {
+    setOpenCoffeeModal(!openCoffeeModal);
   }
 
   return (
@@ -91,6 +96,7 @@ export function Topics() {
             animate="animate"
             exit="exit"
             variants={TopicsVariant}
+            onClick={handleCoffeeModal}
           >
             Cotação do Café
           </ButtonTopic>
@@ -100,13 +106,23 @@ export function Topics() {
             animate="animate"
             exit="exit"
             variants={TopicsVariant}
-            onClick={handleModal}
+            onClick={handleWeatherModal}
           >
             Previsão do Tempo
           </ButtonTopic>
           <Dialog
-            open={open}
-            onClose={handleModal}
+            open={openWeatherModal}
+            onClose={handleWeatherModal}
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+          >
+            <CustomDialogContent>
+              <WeatherForecast />
+            </CustomDialogContent>
+          </Dialog>
+          <Dialog
+            open={openCoffeeModal}
+            onClose={handleCoffeeModal}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
           >

@@ -1,9 +1,11 @@
 import { useCallback, useState, ReactNode, createContext, useEffect } from 'react';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { useRouter } from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 import { api } from '../../services/api';
+import { CustomBackdrop } from '../ContextStyle';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -11,6 +13,7 @@ interface AuthContextProps {
   username: string;
   handleLogin: (email: string, passwd: string) => void;
   handleLogout: () => void;
+  handleLoginFailed: () => void;
 }
 
 interface AuthProviderProps {
@@ -25,11 +28,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false);
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
+
+  const handleLoginFailed = useCallback(() => {
+    setHasLoginFailed(false);
+  }, []);
 
   const handleLogin = useCallback(
     async (email: string, passwd: string) => {
       try {
+        setIsLoading(true);
         setHasLoginFailed(false);
         const response = await api.post('/authenticate', {
           email,
@@ -43,8 +52,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setCookie(null, 'name', response.data.user.name);
         setUsername(response.data.user.name);
         setIsAuthenticated(true);
+        setIsLoading(false);
         replace('/writer-area');
       } catch (err) {
+        setIsLoading(false);
         setHasLoginFailed(true);
       }
     },
@@ -73,8 +84,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, handleLogin, handleLogout, hasLoginFailed, username }}
+      value={{
+        isAuthenticated,
+        handleLogin,
+        handleLoginFailed,
+        handleLogout,
+        hasLoginFailed,
+        username,
+      }}
     >
+      <CustomBackdrop open={isLoading}>
+        <CircularProgress color="inherit" />
+      </CustomBackdrop>
       {children}
     </AuthContext.Provider>
   );

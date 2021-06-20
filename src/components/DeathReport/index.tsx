@@ -44,6 +44,8 @@ export default function DeathReportCard() {
               width={150}
               height={150}
               objectFit="contain"
+              blurDataURL={data.docs[0].imageURL}
+              placeholder="blur"
               src={data.docs[0].imageURL}
               alt="Advertise"
             />
