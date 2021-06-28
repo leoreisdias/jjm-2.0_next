@@ -15,7 +15,7 @@ export default function WriterArea() {
   const options = [
     { value: 'news', label: 'Cadastrar Notícia' },
     { value: 'deathReport', label: 'Cadastrar Nota de Falecimento' },
-    { value: 'partners', label: 'Cadastrar novo Patrocínip' },
+    { value: 'partners', label: 'Cadastrar Novo Patrocínio' },
     { value: 'partnersHighlight', label: 'Cadastrar Destaque de Patrocínio' },
   ];
 
@@ -23,6 +23,7 @@ export default function WriterArea() {
     <WriterSection>
       <Head>
         <title>Area do Redator | JJM</title>
+        <meta charSet="utf-8" />
       </Head>
       <h3>Bem vindo {username}</h3>
       <Select

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useMediaQuery } from '@material-ui/core';
+import { StylesProvider } from '@material-ui/core/styles';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { ThemeProvider } from 'styled-components';
@@ -24,21 +25,23 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        {pathname !== '/login' && (
-          <>
-            <Header toggleTheme={toggleTheme} />
-            <Topics />
-          </>
-        )}
-        <Main login={pathname === '/login'}>
-          <Component {...pageProps} />
-        </Main>
-        {pathname !== '/login' && !matches && <Footer />}
-      </AuthProvider>
-      <GlobalStyle />
-    </ThemeProvider>
+    <StylesProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          {pathname !== '/login' && (
+            <>
+              <Header toggleTheme={toggleTheme} />
+              <Topics />
+            </>
+          )}
+          <Main login={pathname === '/login'}>
+            <Component {...pageProps} />
+          </Main>
+          {pathname !== '/login' && !matches && <Footer />}
+        </AuthProvider>
+        <GlobalStyle />
+      </ThemeProvider>
+    </StylesProvider>
   );
 }
 
