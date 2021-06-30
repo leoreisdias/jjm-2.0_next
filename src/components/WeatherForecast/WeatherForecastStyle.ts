@@ -23,7 +23,7 @@ export const Today = styled.div`
 
   border-radius: 10px;
 
-  background: linear-gradient(#0196f0, #f2f2f2);
+  background: linear-gradient(#13bef3, #f5891d);
 
   @media (max-width: 400px) {
     display: flex;
@@ -164,7 +164,7 @@ export const EachDay = styled.div`
 
   border-radius: 10px;
 
-  background: linear-gradient(#b4dcec, #f2f2f2);
+  background: linear-gradient(#13bef3, #f5891d);
 
   strong {
     font-size: 1rem;

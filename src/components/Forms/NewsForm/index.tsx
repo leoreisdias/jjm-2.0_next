@@ -6,12 +6,14 @@ import TextField from '@material-ui/core/TextField';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import { useRouter } from 'next/router';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Select from 'react-select';
 import * as Yup from 'yup';
 
 import { useAuth } from '../../../hooks/useAuth';
+import { api } from '../../../services/api';
 import { Form, LabelEditor, LabelImageFile, SubmitButton } from './NewsFormStyle';
 
 const options = [
@@ -50,27 +52,38 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+interface SubjectsSelect {
+  value: string;
+  label: string;
+}
+
 export const NewsForm = () => {
-  const { username } = useAuth();
+  const { push } = useRouter();
+
+  const { username, token } = useAuth();
 
   const [title, setTitle] = useState<string>('');
   const [summary, setSummary] = useState<string>('');
   const [source, setSource] = useState<string>('');
   const [video, setVideo] = useState<string>('');
+  const [subjects, setSubjects] = useState<SubjectsSelect[]>();
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState('');
 
-  const [hasSubmitFailed, setHasSubmitFailed] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [isError, setIsError] = useState(false);
 
   function handleFailedSubmitAlert() {
-    setHasSubmitFailed(false);
+    setShowAlert(false);
   }
 
-  function onEditorStateChange(editorState: any) {
+  function onEditorStateChange(editorState: EditorState) {
     setEditorState(editorState);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: any) => {
     setImage(event.currentTarget.files[0]);
   };
@@ -81,46 +94,94 @@ export const NewsForm = () => {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log('ere');
 
-    // const data = {
-    //   title,
-    //   image,
-    //   // description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-    //   summary,
-    //   source,
-    //   video,
-    //   date: new Date(),
-    // };
+    const data = {
+      title,
+      image,
+      description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+      summary,
+      subjects: subjects ? subjects.map((item) => item.value) : [],
+      source,
+      video,
+    };
 
-    // try {
-    //   const schema = Yup.object().shape({
-    //     title: Yup.string().required(),
-    //     image: Yup.string().required(),
-    //     description: Yup.string().required(),
-    //     summary: Yup.string().required(),
-    //     source: Yup.string(),
-    //     video: Yup.string(),
-    //   });
-    //   await schema.validate(data, {
-    //     abortEarly: false,
-    //   });
+    try {
+      const schema = Yup.object().shape({
+        title: Yup.string().required('Faltando Título da Matéria'),
+        image: Yup.string().required('Faltando uma imagem!'),
+        description: Yup.string().required('Faltando a descrição da notícia!'),
+        subjects: Yup.array(Yup.string())
+          .required('Palavras Chaves da notícia são obrigatórios!')
+          .test(
+            'IsEmpty',
+            'Você não colocou nenhuma palavra chave para a notícia!',
+            (value) => {
+              return value.length != 0;
+            }
+          ),
+        summary: Yup.string().required('Um resumo da notícia é necessário!'),
+        source: Yup.string(),
+        video: Yup.string(),
+      });
+      await schema.validate(data, {
+        abortEarly: false,
+      });
 
-    //   alert('Passou');
-    // } catch (err) {
-    //   //..
-    //   setHasSubmitFailed(true);
-    // }
+      storeData();
+    } catch (err) {
+      //..
+      const validationErrors = {};
+      if (err instanceof Yup.ValidationError) {
+        err.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+          setAlertMessage(error.message);
+        });
+      }
+      setIsError(true);
+      setShowAlert(true);
+    }
     //..
+  }
+
+  async function storeData() {
+    const description = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    const subjectsString = subjects.map((item) => item.value).join(', ');
+
+    const data = new FormData();
+    data.append('image', image);
+    data.append('title', title);
+    data.append('description', description);
+    data.append('date', String(new Date()));
+    data.append('subjects', subjectsString);
+    data.append('author', username);
+    data.append('summary', summary);
+    data.append('video_url', video);
+    data.append('source', source ?? 'JJM');
+
+    try {
+      await api.post('/news', data, {
+        headers: {
+          authorization: 'Bearer ' + token,
+        },
+      });
+      setIsError(false);
+      setAlertMessage('Notícia Postada com Sucesso');
+      setShowAlert(true);
+      push('/');
+    } catch (err) {
+      setIsError(true);
+      setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
+      setShowAlert(true);
+    }
+  }
+
+  function handleSelectTopics(e: SubjectsSelect[]) {
+    setSubjects(e);
   }
 
   return (
     <NoSsr>
-      <Form
-        onSubmit={() => {
-          console.log('2');
-        }}
-      >
+      <Form onSubmit={handleSubmit}>
         <TextField
           error={false}
           variant="outlined"
@@ -136,9 +197,11 @@ export const NewsForm = () => {
           isMulti
           name="options"
           options={options}
+          defaultValue={subjects}
           className="basic-multi-select"
           classNamePrefix="select"
-          placeholder="Tópicos da Matéria"
+          placeholder="Palavras-Chaves da Matéria"
+          onChange={handleSelectTopics}
         />
         <TextField
           error={false}
@@ -152,7 +215,7 @@ export const NewsForm = () => {
           required
         />
 
-        {/* <LabelEditor htmlFor="Editor">
+        <LabelEditor htmlFor="Editor">
           <strong>Descrição da Matéria</strong>
           <Editor
             editorState={editorState}
@@ -161,12 +224,8 @@ export const NewsForm = () => {
             editorClassName="editorClassName"
             onEditorStateChange={onEditorStateChange}
           />
-        </LabelEditor> */}
-        {/* <p
-          dangerouslySetInnerHTML={{
-            __html: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-          }}
-        /> */}
+        </LabelEditor>
+
         <TextField
           error={false}
           variant="outlined"
@@ -188,7 +247,7 @@ export const NewsForm = () => {
           // className={image ? styles.hasImage : styles.noImage}
           hasImage={!!image}
         >
-          <input type="file" onChange={handleChange} required />
+          <input type="file" onChange={handleChange} />
           <img src="/camera.svg" alt="Select" />
         </LabelImageFile>
 
@@ -198,19 +257,23 @@ export const NewsForm = () => {
           id="Video"
           name="video"
           label="URL do Vídeo"
-          defaultValue="Hello World"
+          value={video}
+          onChange={(e) => setVideo(e.target.value)}
           helperText="Se houver (OPCIONAL)"
         />
 
-        <SubmitButton type="submit">Salvar Postagem</SubmitButton>
+        <SubmitButton type="submit" onSubmit={handleSubmit}>
+          Salvar Postagem
+        </SubmitButton>
       </Form>
       <Snackbar
-        open={hasSubmitFailed}
+        open={showAlert}
         autoHideDuration={6000}
         onClose={handleFailedSubmitAlert}
       >
-        <Alert severity="error">
-          Alguns dados estão faltando ou estão em formato errado!
+        <Alert severity={isError ? 'error' : 'success'}>
+          {alertMessage}
+          {/* Alguns dados estão faltando ou estão em formato errado! */}
         </Alert>
       </Snackbar>
     </NoSsr>

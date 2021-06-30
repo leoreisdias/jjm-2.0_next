@@ -205,7 +205,7 @@ export const getStaticProps: GetStaticProps = async () => {
       }),
       imageURL: newsItem.imageURL,
       author: newsItem.author,
-      source: newsItem.source,
+      source: newsItem.source ?? '',
       summary: newsItem.summary,
     };
   });

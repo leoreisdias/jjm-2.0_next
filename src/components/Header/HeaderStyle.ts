@@ -11,7 +11,7 @@ export const HeaderContainer = styled.header`
   background-size: cover;
   height: 10.5rem;
 
-  padding: 2rem 4rem;
+  padding: 2rem 3rem;
 
   border-bottom: 1px solid ${(props) => props.theme.colors.gray500};
 
@@ -64,16 +64,14 @@ export const HeaderContainer = styled.header`
 `;
 
 export const SpanExit = styled.span`
-  cursor: pointer;
-
-  &:hover {
-    filter: brightness(0.9);
+  & svg {
+    cursor: pointer;
   }
+
   border-radius: 5px;
-  padding: 0.1rem;
+  padding: 0.2rem;
   background: ${(props) => props.theme.colors.gray50};
 
   display: flex;
-
-  margin-right: 0.2rem;
+  gap: 1rem;
 `;

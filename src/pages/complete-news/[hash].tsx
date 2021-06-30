@@ -94,7 +94,7 @@ export default function CompleteNews({
             </p>
           </SmallDetails>
           <NewsContent>
-            <p>{news.description}</p>
+            <p dangerouslySetInnerHTML={{ __html: news.description }} />
 
             <div>
               <h4>Assuntos</h4>
@@ -196,7 +196,7 @@ export const getStaticProps: GetStaticProps = async ({
     }),
     mainImage: news.imageURL,
     author: news.author.toLowerCase(),
-    source: news.source.toLowerCase(),
+    source: news.source ? news.source.toLowerCase() : '',
     summary: news.summary,
   };
 
@@ -212,7 +212,7 @@ export const getStaticProps: GetStaticProps = async ({
       id: news._id,
       title: news.title,
       mainImage: news.imageURL,
-      source: news.source.toLowerCase(),
+      source: news.source ? news.source.toLowerCase() : '',
       url: `www.jornaljotamaria.com.br/complete-news/${news._id}`,
     };
   });

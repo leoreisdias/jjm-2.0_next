@@ -4,6 +4,7 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Switch from '@material-ui/core/Switch';
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { GiExitDoor } from 'react-icons/gi';
 import { GrDocumentConfig } from 'react-icons/gr';
@@ -55,14 +56,16 @@ export function Header({ toggleTheme }: HeaderProps) {
         {isAuthenticated && (
           <>
             <SpanExit>
-              <GrDocumentConfig
-                size={30}
-                color={colors.gray900}
-                onClick={goToManagement}
-              />
-            </SpanExit>
-            <SpanExit>
-              <GiExitDoor size={30} color={colors.gray900} onClick={handleLogout} />
+              <motion.span whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}>
+                <GrDocumentConfig
+                  size={30}
+                  color={colors.gray900}
+                  onClick={goToManagement}
+                />
+              </motion.span>
+              <motion.span whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}>
+                <GiExitDoor size={30} color={colors.gray900} onClick={handleLogout} />
+              </motion.span>
             </SpanExit>
           </>
         )}

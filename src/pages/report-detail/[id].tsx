@@ -119,9 +119,11 @@ export const getStaticProps: GetStaticProps = async ({
   const formatedReport = {
     id: reports._id,
     title: reports.title,
-    description: reports.description,
+    description: reports.description ?? '',
     name: reports.name,
-    mainImage: reports.imageURL,
+    mainImage:
+      reports.imageURL ??
+      'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png',
     data: format(parseISO(reports.createdAt), 'dd/MM/yyyy', {
       locale: ptBR,
     }),

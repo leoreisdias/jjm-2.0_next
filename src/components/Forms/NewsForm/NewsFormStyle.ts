@@ -36,6 +36,18 @@ export const LabelEditor = styled.label`
   cursor: context-menu;
 `;
 
+export const LabelTopics = styled.label`
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 0.5rem;
+
+  cursor: context-menu;
+`;
+
 export const LabelImageFile = styled.label<{ hasImage: boolean }>`
   margin-bottom: 20px;
   border: 1px dashed #ddd;

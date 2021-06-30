@@ -11,6 +11,7 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   hasLoginFailed: boolean;
   username: string;
+  token: string;
   handleLogin: (email: string, passwd: string) => void;
   handleLogout: () => void;
   handleLoginFailed: () => void;
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
+  const [token, setToken] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
@@ -46,11 +48,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         });
 
         setCookie(null, 'token', response.data.token, {
-          maxAge: 30 * 24 * 60 * 60,
+          maxAge: 30 * 24 * 60 * 60, // 30 Days
         });
         setCookie(null, 'userId', response.data.user._id);
         setCookie(null, 'name', response.data.user.name);
         setUsername(response.data.user.name);
+        setToken(response.data.token);
         setIsAuthenticated(true);
         setIsLoading(false);
         replace('/writer-area');
@@ -77,6 +80,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (userToken) {
       const { name: username } = parseCookies();
+      setToken(userToken);
       setUsername(username);
       setIsAuthenticated(true);
     }
@@ -91,6 +95,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         handleLogout,
         hasLoginFailed,
         username,
+        token,
       }}
     >
       <CustomBackdrop open={isLoading}>

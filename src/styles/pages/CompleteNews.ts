@@ -4,6 +4,8 @@ export const Wrapper = styled.section`
   color: ${(props) => props.theme.colors.text};
   width: 90%;
 
+  margin-bottom: 1rem;
+
   @media (min-width: 1900px) {
     width: 80%;
   }
@@ -121,6 +123,7 @@ export const NewsContent = styled.main`
     ul {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       gap: 0.5rem;
 
       li {
@@ -181,7 +184,7 @@ export const RelatedNewsSection = styled.section`
     li {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
 
       list-style: none;
