@@ -6,8 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Select from 'react-select';
 import * as Yup from 'yup';
@@ -15,6 +15,19 @@ import * as Yup from 'yup';
 import { useAuth } from '../../../hooks/useAuth';
 import { api } from '../../../services/api';
 import { Form, LabelEditor, LabelImageFile, SubmitButton } from './NewsFormStyle';
+
+const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
+  ssr: false,
+}) as any;
+
+interface SubjectsSelect {
+  value: string;
+  label: string;
+}
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const options = [
   { value: 'covid', label: 'covid' },
@@ -48,16 +61,13 @@ const options = [
   { value: 'estrada', label: 'estrada' },
 ];
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
+interface NewsFormProps {
+  id?: string;
 }
 
-interface SubjectsSelect {
-  value: string;
-  label: string;
-}
+export const NewsForm = ({ id }: NewsFormProps) => {
+  const isUpdating = id && id.length;
 
-export const NewsForm = () => {
   const { push } = useRouter();
 
   const { username, token } = useAuth();
@@ -236,21 +246,21 @@ export const NewsForm = () => {
           onChange={(e) => setSource(e.target.value)}
           helperText="Se houver (OPCIONAL)"
         />
-
-        <LabelImageFile
-          // id={styles.image}
-          style={{
-            backgroundImage: `url(${preview})`,
-            backgroundSize: '100% 100%',
-            backgroundRepeat: 'no-repeat',
-          }}
-          // className={image ? styles.hasImage : styles.noImage}
-          hasImage={!!image}
-        >
-          <input type="file" onChange={handleChange} />
-          <img src="/camera.svg" alt="Select" />
-        </LabelImageFile>
-
+        {!id.length && (
+          <LabelImageFile
+            // id={styles.image}
+            style={{
+              backgroundImage: `url(${preview})`,
+              backgroundSize: '100% 100%',
+              backgroundRepeat: 'no-repeat',
+            }}
+            // className={image ? styles.hasImage : styles.noImage}
+            hasImage={!!image}
+          >
+            <input type="file" onChange={handleChange} />
+            <img src="/camera.svg" alt="Select" />
+          </LabelImageFile>
+        )}
         <TextField
           error={false}
           variant="outlined"

@@ -35,7 +35,7 @@ export function Header({ toggleTheme }: HeaderProps) {
   }
 
   function goToManagement() {
-    push('/writer-area');
+    push('/writer-area?update=partners&id=60e211f1f83cf700210567e4');
   }
 
   return (
