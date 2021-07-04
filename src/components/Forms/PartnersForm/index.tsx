@@ -34,6 +34,8 @@ interface PartnersFormPros {
 }
 
 export const PartnersForm = ({ id }: PartnersFormPros) => {
+  const { handleLoading } = useAuth();
+
   const isUpdating = useMemo(() => id && id.length, [id]);
 
   const { push } = useRouter();
@@ -98,6 +100,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       });
       console.log('deu certo');
 
+      handleLoading();
       if (isUpdating) updateData();
       else storeData();
     } catch (err) {
@@ -138,6 +141,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       setShowAlert(true);
       push('/');
     } catch (err) {
+      handleLoading();
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
@@ -148,27 +152,28 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
     const text = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     console.log(id);
 
-    const data = new FormData();
-    data.append('text', text);
-    data.append('name', name);
-    data.append('facebook_url', facebook_url);
-    data.append('whatsapp_url', whatsapp_url);
-    data.append('telefone', telefone);
-    data.append('endereco', endereco);
+    const data = {
+      text,
+      name,
+      facebook_url,
+      whatsapp_url,
+      telefone,
+      endereco,
+    };
 
     try {
-      const { data: test } = await api.patch(`/partners/${id}`, data, {
+      await api.patch(`/partners/${id}`, data, {
         headers: {
           authorization: 'Bearer ' + token,
         },
       });
-      console.log(test);
 
       setIsError(false);
       setAlertMessage('Parceiro Atualizado com Sucesso');
       setShowAlert(true);
-      // push('/');
+      push('/');
     } catch (err) {
+      handleLoading();
       setIsError(true);
       setAlertMessage('Erro ao tentar atualizar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
@@ -269,6 +274,14 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
             onEditorStateChange={onEditorStateChange}
           />
         </LabelEditor>
+        <details>
+          <summary>Veja como será exibido o seu texto:</summary>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+            }}
+          />
+        </details>
         {!isUpdating && (
           <LabelImageFile
             // id={styles.image}

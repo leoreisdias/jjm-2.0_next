@@ -17,6 +17,8 @@ function Alert(props: AlertProps) {
 }
 
 export const ReportsForm = () => {
+  const { handleLoading } = useAuth();
+
   const { push } = useRouter();
 
   const { token } = useAuth();
@@ -64,7 +66,7 @@ export const ReportsForm = () => {
         abortEarly: false,
       });
       console.log('deu certo');
-
+      handleLoading();
       // storeData();
     } catch (err) {
       //..
@@ -100,6 +102,7 @@ export const ReportsForm = () => {
       setShowAlert(true);
       push('/');
     } catch (err) {
+      handleLoading();
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);

@@ -66,6 +66,8 @@ interface NewsFormProps {
 }
 
 export const NewsForm = ({ id }: NewsFormProps) => {
+  const { handleLoading } = useAuth();
+
   const isUpdating = id && id.length;
 
   const { push } = useRouter();
@@ -136,7 +138,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       await schema.validate(data, {
         abortEarly: false,
       });
-
+      handleLoading();
       storeData();
     } catch (err) {
       //..
@@ -179,6 +181,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       setShowAlert(true);
       push('/');
     } catch (err) {
+      handleLoading();
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
