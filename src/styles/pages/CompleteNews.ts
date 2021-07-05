@@ -87,7 +87,16 @@ export const SmallDetails = styled.div`
   }
 
   p:last-child {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+
     text-align: right;
+
+    .icon {
+      cursor: pointer;
+    }
   }
 
   @media (max-width: 720px) {

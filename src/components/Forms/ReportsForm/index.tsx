@@ -66,8 +66,8 @@ export const ReportsForm = () => {
         abortEarly: false,
       });
       console.log('deu certo');
-      handleLoading();
-      // storeData();
+      handleLoading(true);
+      storeData();
     } catch (err) {
       //..
       const validationErrors = {};
@@ -100,10 +100,10 @@ export const ReportsForm = () => {
       setIsError(false);
       setAlertMessage('Nota postada com Sucesso');
       setShowAlert(true);
-      handleLoading();
       push('/');
+      handleLoading(false);
     } catch (err) {
-      handleLoading();
+      handleLoading(false);
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);

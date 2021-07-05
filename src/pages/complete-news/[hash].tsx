@@ -3,11 +3,12 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaShareAlt } from 'react-icons/fa';
+import { FaEdit, FaShareAlt } from 'react-icons/fa';
 
 import { Advertisement } from '../../components/Advertisement';
 import DeathReportCard from '../../components/DeathReport';
 import { LastPosts } from '../../components/LastPosts';
+import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
 import {
   Wrapper,
@@ -19,6 +20,7 @@ import {
   NewsContent,
   RelatedNewsSection,
 } from '../../styles/pages/CompleteNews';
+import { formOptions } from '../../types/formOptions';
 
 interface NewsProps {
   subjects: string[];
@@ -65,6 +67,8 @@ export default function CompleteNews({
   currentUrl,
   formatedRelatedNews,
 }: CompleteNewsProps) {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Wrapper>
       <Head>
@@ -91,6 +95,13 @@ export default function CompleteNews({
             </p>
             <p>
               <span>{news.source}</span>
+              <span>
+                {isAuthenticated && (
+                  <Link href={`/writer-area?update=${formOptions.news}&id=${news.id}`}>
+                    <FaEdit size={17} color={'red'} className="icon" />
+                  </Link>
+                )}
+              </span>
             </p>
           </SmallDetails>
           <NewsContent>
@@ -196,7 +207,7 @@ export const getStaticProps: GetStaticProps = async ({
     }),
     mainImage: news.imageURL,
     author: news.author.toLowerCase(),
-    source: news.source ? news.source.toLowerCase() : '',
+    source: news.source ? news.source.toUpperCase() : '',
     summary: news.summary,
   };
 

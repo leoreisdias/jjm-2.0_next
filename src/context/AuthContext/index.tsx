@@ -15,7 +15,7 @@ interface AuthContextProps {
   handleLogin: (email: string, passwd: string) => void;
   handleLogout: () => void;
   handleLoginFailed: () => void;
-  handleLoading: () => void;
+  handleLoading: (active: boolean) => void;
 }
 
 interface AuthProviderProps {
@@ -76,8 +76,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     replace('/');
   }, [replace]);
 
-  const handleLoading = useCallback(() => {
-    setIsLoading((oldIsLoading) => !oldIsLoading);
+  const handleLoading = useCallback((active: boolean) => {
+    setIsLoading(active);
   }, []);
 
   useEffect(() => {

@@ -89,7 +89,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       });
       console.log('deu certo');
 
-      handleLoading();
+      handleLoading(true);
       if (isUpdating) updateData();
       else storeData();
     } catch (err) {
@@ -123,10 +123,10 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       setIsError(false);
       setAlertMessage('Destaque Adicionado com Sucesso');
       setShowAlert(true);
-      handleLoading();
       push('/');
+      handleLoading(false);
     } catch (err) {
-      handleLoading();
+      handleLoading(false);
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
@@ -152,10 +152,10 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       setIsError(false);
       setAlertMessage('Destaque Atualizado com Sucesso');
       setShowAlert(true);
-      handleLoading();
       push('/');
+      handleLoading(false);
     } catch (err) {
-      handleLoading();
+      handleLoading(false);
       setIsError(true);
       setAlertMessage('Erro ao tentar atualizar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
@@ -163,6 +163,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
   }
 
   const getPartnerHighlightById = useCallback(async (id: string) => {
+    handleLoading(true);
     try {
       const { data } = await api.get(`/findpartnershighlight/${id}`);
       if (data.partnerHighlight) {
@@ -173,7 +174,9 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
         setPartner(data.partnerHighlight.partner);
         setCurrentImageUrl(data.partnerHighlight.imageURL);
       }
+      handleLoading(false);
     } catch (err) {
+      handleLoading(false);
       console.log(err);
     }
   }, []);

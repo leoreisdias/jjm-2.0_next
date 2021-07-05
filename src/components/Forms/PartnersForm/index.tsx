@@ -94,7 +94,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       });
       console.log('deu certo');
 
-      handleLoading();
+      handleLoading(true);
       if (isUpdating) updateData();
       else storeData();
     } catch (err) {
@@ -133,10 +133,10 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       setIsError(false);
       setAlertMessage('Parceiro Adicionado com Sucesso');
       setShowAlert(true);
-      handleLoading();
       push('/');
+      handleLoading(false);
     } catch (err) {
-      handleLoading();
+      handleLoading(false);
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
@@ -166,36 +166,43 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       setIsError(false);
       setAlertMessage('Parceiro Atualizado com Sucesso');
       setShowAlert(true);
-      handleLoading();
       push('/');
+      handleLoading(false);
     } catch (err) {
-      handleLoading();
+      handleLoading(false);
       setIsError(true);
       setAlertMessage('Erro ao tentar atualizar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
     }
   }
 
-  const getPartnerById = useCallback(async (id: string) => {
-    try {
-      const { data } = await api.get(`/findpartner/${id}`);
-      if (data.partner) {
-        setName(data.partner.name);
-        setFacebookUrl(data.partner.facebook_url);
-        setWhatsappUrl(data.partner.whatsapp_url);
-        setTelefone(data.partner.telefone);
-        setEndereco(data.partner.endereco);
-        const blocksFromHTML = convertFromHTML(data.partner.text);
-        const stateEditor = ContentState.createFromBlockArray(
-          blocksFromHTML.contentBlocks,
-          blocksFromHTML.entityMap
-        );
-        setEditorState(EditorState.createWithContent(stateEditor));
+  const getPartnerById = useCallback(
+    async (id: string) => {
+      handleLoading(true);
+
+      try {
+        const { data } = await api.get(`/findpartner/${id}`);
+        if (data.partner) {
+          setName(data.partner.name);
+          setFacebookUrl(data.partner.facebook_url);
+          setWhatsappUrl(data.partner.whatsapp_url);
+          setTelefone(data.partner.telefone);
+          setEndereco(data.partner.endereco);
+          const blocksFromHTML = convertFromHTML(data.partner.text);
+          const stateEditor = ContentState.createFromBlockArray(
+            blocksFromHTML.contentBlocks,
+            blocksFromHTML.entityMap
+          );
+          setEditorState(EditorState.createWithContent(stateEditor));
+        }
+        handleLoading(false);
+      } catch (err) {
+        handleLoading(false);
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+    },
+    [handleLoading]
+  );
 
   useEffect(() => {
     if (isUpdating) getPartnerById(id);

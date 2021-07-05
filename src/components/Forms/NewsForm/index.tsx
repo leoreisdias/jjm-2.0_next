@@ -143,7 +143,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       await schema.validate(data, {
         abortEarly: false,
       });
-      handleLoading();
+      handleLoading(true);
 
       if (isUpdating) updateData();
       else storeData();
@@ -187,9 +187,9 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       setAlertMessage('Notícia Postada com Sucesso');
       setShowAlert(true);
       push('/');
-      handleLoading();
+      handleLoading(false);
     } catch (err) {
-      handleLoading();
+      handleLoading(false);
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
@@ -219,9 +219,9 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       setAlertMessage('Notícia Atualizada com Sucesso');
       setShowAlert(true);
       push('/');
-      handleLoading();
+      handleLoading(false);
     } catch (err) {
-      handleLoading();
+      handleLoading(false);
       setIsError(true);
       setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
       setShowAlert(true);
@@ -232,50 +232,57 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     setSubjects(e);
   }
 
-  const getNewsById = useCallback(async (id: string) => {
-    try {
-      const { data } = await api.get(`/detail?id=${id}`);
-      console.log(data.news);
+  const getNewsById = useCallback(
+    async (id: string) => {
+      handleLoading(true);
 
-      if (data.news) {
-        setTitle(data.news.title);
-        setSummary(data.news.summary);
-        setSource(data.news.source);
-        setVideo(data.news.video_url ?? '');
-        const blocksFromHTML = convertFromHTML(data.news.description);
-        const stateEditor = ContentState.createFromBlockArray(
-          blocksFromHTML.contentBlocks,
-          blocksFromHTML.entityMap
-        );
-        setEditorState(EditorState.createWithContent(stateEditor));
+      try {
+        const { data } = await api.get(`/detail?id=${id}`);
+        console.log(data.news);
 
-        const topics = data.news.subjects.map((item) => {
-          return {
-            value: item,
-            label: item,
-          };
-        });
+        if (data.news) {
+          setTitle(data.news.title);
+          setSummary(data.news.summary);
+          setSource(data.news.source);
+          setVideo(data.news.video_url ?? '');
+          const blocksFromHTML = convertFromHTML(data.news.description);
+          const stateEditor = ContentState.createFromBlockArray(
+            blocksFromHTML.contentBlocks,
+            blocksFromHTML.entityMap
+          );
+          setEditorState(EditorState.createWithContent(stateEditor));
 
-        setSubjects(topics);
+          const topics = data.news.subjects.map((item) => {
+            return {
+              value: item,
+              label: item,
+            };
+          });
 
-        // const findIndexOfSubjects = options
-        //   .map((item, index) => {
-        //     for (let i = 0; i < data.news.subjects.length; i++) {
-        //       if (item.value == data.news.subjects[i]) {
-        //         return index;
-        //       }
-        //     }
-        //   })
-        //   .filter((item) => {
-        //     return item != undefined;
-        //   });
-        // setDefaultSubjectOptions(findIndexOfSubjects);
-        // console.log(findIndexOfSubjects);
+          setSubjects(topics);
+
+          // const findIndexOfSubjects = options
+          //   .map((item, index) => {
+          //     for (let i = 0; i < data.news.subjects.length; i++) {
+          //       if (item.value == data.news.subjects[i]) {
+          //         return index;
+          //       }
+          //     }
+          //   })
+          //   .filter((item) => {
+          //     return item != undefined;
+          //   });
+          // setDefaultSubjectOptions(findIndexOfSubjects);
+          // console.log(findIndexOfSubjects);
+        }
+        handleLoading(false);
+      } catch (err) {
+        handleLoading(false);
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+    },
+    [handleLoading]
+  );
 
   useEffect(() => {
     if (isUpdating) getNewsById(id);
