@@ -7,9 +7,14 @@ import CardContent from '@material-ui/core/CardContent';
 import Image from 'next/image';
 import { FaFacebook } from 'react-icons/fa';
 
+import { PartnerHighlightProps } from '../../types/interfaces/Partners';
 import { AdImage, CardAd } from './BigAdStyle';
 
-export default function BigAd() {
+interface BigAdProps {
+  highlight: PartnerHighlightProps;
+}
+
+export default function BigAd({ highlight }: BigAdProps) {
   return (
     <CardAd>
       <CardActionArea>
@@ -18,24 +23,20 @@ export default function BigAd() {
             width={150}
             height={150}
             objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/donizete_pintor.png"
-            alt="Advertise"
+            placeholder="blur"
+            blurDataURL={highlight.imageURL}
+            src={highlight.imageURL}
+            alt={highlight.title}
           />
         </AdImage>
         <CardContent>
-          <h2>Donizete Pintor</h2>
-          <p>
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species,
-            ranging across all continents except Antarctica
-          </p>
+          <h2>{highlight.title}</h2>
+          <p>{highlight.text}</p>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          <FaFacebook size={20} />
-        </Button>
-        <Button size="small" color="primary">
-          (35) 9 9999-9999
+          {highlight.partner}
         </Button>
       </CardActions>
     </CardAd>

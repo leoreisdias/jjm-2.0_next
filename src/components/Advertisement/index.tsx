@@ -1,122 +1,66 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import Image from 'next/image';
 
+import { api } from '../../services/api';
+import { PartnerHighlightProps, PartnersProps } from '../../types/interfaces/Partners';
 import BigAd from '../BigAd';
 import { AdvertisementContainer } from './AdvertisementStyle';
 
 export function Advertisement() {
+  const [partners, setPartners] = useState<PartnersProps[]>();
+
+  const [lastTwoHighlights, setLastTwoHighlights] = useState<PartnerHighlightProps[]>();
+
+  const loadAdvertisments = useCallback(async () => {
+    try {
+      const { data } = await api.get('/partners');
+      setPartners(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  const loadLastTwoHighlights = useCallback(async () => {
+    try {
+      const { data } = await api.get('/partnershighlight');
+      console.log(data.slice(0, 2));
+      setLastTwoHighlights(data.slice(0, 2));
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadAdvertisments();
+    loadLastTwoHighlights();
+  }, [loadAdvertisments, loadLastTwoHighlights]);
+
   return (
     <AdvertisementContainer>
-      <BigAd />
-      <BigAd />
+      {lastTwoHighlights && (
+        <>
+          <BigAd highlight={lastTwoHighlights[0]} />
+          <BigAd highlight={lastTwoHighlights[1]} />
+        </>
+      )}
       <ul>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/VilaBurger_logo.jpg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/donizete_pintor.png"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
-        <li>
-          <Image
-            width={150}
-            height={150}
-            objectFit="contain"
-            src="https://jjm-upload.s3.amazonaws.com/Parceiros/CentralCaf%C3%A9_white.jpeg"
-            alt="Advertise"
-          />
-        </li>
+        {partners &&
+          partners.map((partner) => {
+            return (
+              <li key={partner._id}>
+                <Image
+                  width={150}
+                  height={150}
+                  objectFit="contain"
+                  placeholder="blur"
+                  blurDataURL={partner.imageURL}
+                  src={partner.imageURL}
+                  alt={partner.name}
+                />
+              </li>
+            );
+          })}
       </ul>
     </AdvertisementContainer>
   );

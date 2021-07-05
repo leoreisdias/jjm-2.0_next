@@ -58,13 +58,13 @@ export function Header({ toggleTheme }: HeaderProps) {
             <SpanExit>
               <motion.span whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}>
                 <GrDocumentConfig
-                  size={30}
+                  size={25}
                   color={colors.gray900}
                   onClick={goToManagement}
                 />
               </motion.span>
               <motion.span whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}>
-                <GiExitDoor size={30} color={colors.gray900} onClick={handleLogout} />
+                <GiExitDoor size={25} color={colors.gray900} onClick={handleLogout} />
               </motion.span>
             </SpanExit>
           </>

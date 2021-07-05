@@ -8,6 +8,7 @@ import Select from 'react-select';
 
 import { NewsForm } from '../components/Forms/NewsForm';
 import { PartnersForm } from '../components/Forms/PartnersForm';
+import { PartnersHightlightForm } from '../components/Forms/PartnersHighlightForm';
 import { ReportsForm } from '../components/Forms/ReportsForm';
 import { useAuth } from '../hooks/useAuth';
 import { WriterSection } from '../styles/pages/WriterArea';
@@ -68,6 +69,9 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
         {formType == formOptions.news && <NewsForm id={idNews} />}
         {formType == formOptions.deathReport && <ReportsForm />}
         {formType == formOptions.partners && <PartnersForm id={idPartners} />}
+        {formType == formOptions.partnersHighlight && (
+          <PartnersHightlightForm id={idPartnersHighlight} />
+        )}
       </WriterSection>
     </NoSsr>
   );

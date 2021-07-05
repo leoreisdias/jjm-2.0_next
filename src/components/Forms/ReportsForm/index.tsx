@@ -100,6 +100,7 @@ export const ReportsForm = () => {
       setIsError(false);
       setAlertMessage('Nota postada com Sucesso');
       setShowAlert(true);
+      handleLoading();
       push('/');
     } catch (err) {
       handleLoading();

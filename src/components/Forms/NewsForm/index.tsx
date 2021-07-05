@@ -1,10 +1,10 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
 import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -59,6 +59,9 @@ const options = [
   { value: 'televisão', label: 'televisão' },
   { value: 'musica', label: 'musica' },
   { value: 'estrada', label: 'estrada' },
+  { value: 'protesto', label: 'protesto' },
+  { value: 'ATO', label: 'ATO' },
+  { value: 'povo', label: 'povo' },
 ];
 
 interface NewsFormProps {
@@ -79,6 +82,8 @@ export const NewsForm = ({ id }: NewsFormProps) => {
   const [source, setSource] = useState<string>('');
   const [video, setVideo] = useState<string>('');
   const [subjects, setSubjects] = useState<SubjectsSelect[]>();
+
+  const [defaultSubjectOptions, setDefaultSubjectOptions] = useState<number[]>();
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState('');
@@ -109,7 +114,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
     const data = {
       title,
-      image,
+      image: isUpdating ? 'Updating' : image,
       description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
       summary,
       subjects: subjects ? subjects.map((item) => item.value) : [],
@@ -139,7 +144,9 @@ export const NewsForm = ({ id }: NewsFormProps) => {
         abortEarly: false,
       });
       handleLoading();
-      storeData();
+
+      if (isUpdating) updateData();
+      else storeData();
     } catch (err) {
       //..
       const validationErrors = {};
@@ -180,6 +187,39 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       setAlertMessage('Notícia Postada com Sucesso');
       setShowAlert(true);
       push('/');
+      handleLoading();
+    } catch (err) {
+      handleLoading();
+      setIsError(true);
+      setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
+      setShowAlert(true);
+    }
+  }
+
+  async function updateData() {
+    const description = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+    const subjectsString = subjects.map((item) => item.value).join(', ');
+
+    const data = {
+      title,
+      description,
+      subjects: subjectsString,
+      summary,
+      video_url: video,
+      source: source ?? 'JJM',
+    };
+
+    try {
+      await api.patch(`/news/${id}`, data, {
+        headers: {
+          authorization: 'Bearer ' + token,
+        },
+      });
+      setIsError(false);
+      setAlertMessage('Notícia Atualizada com Sucesso');
+      setShowAlert(true);
+      push('/');
+      handleLoading();
     } catch (err) {
       handleLoading();
       setIsError(true);
@@ -191,6 +231,55 @@ export const NewsForm = ({ id }: NewsFormProps) => {
   function handleSelectTopics(e: SubjectsSelect[]) {
     setSubjects(e);
   }
+
+  const getNewsById = useCallback(async (id: string) => {
+    try {
+      const { data } = await api.get(`/detail?id=${id}`);
+      console.log(data.news);
+
+      if (data.news) {
+        setTitle(data.news.title);
+        setSummary(data.news.summary);
+        setSource(data.news.source);
+        setVideo(data.news.video_url ?? '');
+        const blocksFromHTML = convertFromHTML(data.news.description);
+        const stateEditor = ContentState.createFromBlockArray(
+          blocksFromHTML.contentBlocks,
+          blocksFromHTML.entityMap
+        );
+        setEditorState(EditorState.createWithContent(stateEditor));
+
+        const topics = data.news.subjects.map((item) => {
+          return {
+            value: item,
+            label: item,
+          };
+        });
+
+        setSubjects(topics);
+
+        // const findIndexOfSubjects = options
+        //   .map((item, index) => {
+        //     for (let i = 0; i < data.news.subjects.length; i++) {
+        //       if (item.value == data.news.subjects[i]) {
+        //         return index;
+        //       }
+        //     }
+        //   })
+        //   .filter((item) => {
+        //     return item != undefined;
+        //   });
+        // setDefaultSubjectOptions(findIndexOfSubjects);
+        // console.log(findIndexOfSubjects);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isUpdating) getNewsById(id);
+  }, [getNewsById, id, isUpdating]);
 
   return (
     <NoSsr>
@@ -210,7 +299,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           isMulti
           name="options"
           options={options}
-          defaultValue={subjects}
+          value={subjects}
           className="basic-multi-select"
           classNamePrefix="select"
           placeholder="Palavras-Chaves da Matéria"
@@ -249,7 +338,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           onChange={(e) => setSource(e.target.value)}
           helperText="Se houver (OPCIONAL)"
         />
-        {!id.length && (
+        {!isUpdating && (
           <LabelImageFile
             // id={styles.image}
             style={{

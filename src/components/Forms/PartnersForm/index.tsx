@@ -4,13 +4,7 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import {
-  EditorState,
-  convertToRaw,
-  convertFromHTML,
-  convertFromRaw,
-  ContentState,
-} from 'draft-js';
+import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -139,6 +133,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       setIsError(false);
       setAlertMessage('Parceiro Adicionado com Sucesso');
       setShowAlert(true);
+      handleLoading();
       push('/');
     } catch (err) {
       handleLoading();
@@ -171,6 +166,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       setIsError(false);
       setAlertMessage('Parceiro Atualizado com Sucesso');
       setShowAlert(true);
+      handleLoading();
       push('/');
     } catch (err) {
       handleLoading();
@@ -212,7 +208,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           error={false}
           variant="outlined"
           id="Title"
-          label="Nome do Parceiro *"
+          label="Nome do Parceiro"
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -224,7 +220,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           variant="outlined"
           id="phone"
           name="phone"
-          label="Telefone do Parceiro *"
+          label="Telefone do Parceiro"
           value={telefone}
           onChange={(e) => setTelefone(e.target.value)}
           helperText="Coloque o DDD antes. Ex.: 359xxxxxxx"
@@ -235,7 +231,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           variant="outlined"
           id="address"
           name="address"
-          label="Endereço do Parceiro *"
+          label="Endereço do Parceiro"
           value={endereco}
           onChange={(e) => setEndereco(e.target.value)}
           helperText="Endereço completo"

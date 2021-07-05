@@ -41,7 +41,7 @@ export const Card = styled(motion.div)`
 
   h3 {
     font-size: 1.375rem;
-    padding: 0.2rem 2rem;
+    padding: 0.2rem 0.8rem;
     margin-top: 1rem;
     text-align: center;
 
