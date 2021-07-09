@@ -23,7 +23,7 @@ export const TopicsContainer = styled(motion.main)`
 export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
   padding: 10px 12px;
   border-width: 0;
-  border-radius: 30px;
+  border-radius: 10px;
 
   font-size: 1rem;
   font-weight: ${(props) => (props.active ? 600 : 200)};

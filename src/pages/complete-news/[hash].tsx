@@ -1,13 +1,18 @@
+import { useContext, useState } from 'react';
+
+import { Dialog } from '@material-ui/core';
 import { motion } from 'framer-motion';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FaEdit, FaShareAlt } from 'react-icons/fa';
+import { MdDelete } from 'react-icons/md';
+import { ThemeContext } from 'styled-components';
 
 import { Advertisement } from '../../components/Advertisement';
 import DeathReportCard from '../../components/DeathReport';
-import { LastPosts } from '../../components/LastPosts';
 import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
 import {
@@ -19,6 +24,7 @@ import {
   SmallDetails,
   NewsContent,
   RelatedNewsSection,
+  CustomDialogContent,
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
 
@@ -67,7 +73,29 @@ export default function CompleteNews({
   currentUrl,
   formatedRelatedNews,
 }: CompleteNewsProps) {
+  const { colors } = useContext(ThemeContext);
+
+  const { replace } = useRouter();
+
   const { isAuthenticated } = useAuth();
+
+  const [openDeleteModel, setOpenDeleteModal] = useState(false);
+
+  function handleDeleteModal() {
+    setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
+  }
+
+  async function deleteNewsById() {
+    try {
+      const { data } = await api.delete(`/news/${news.id}`);
+
+      if (data.message) {
+        replace('/');
+      }
+    } catch (err) {
+      //..
+    }
+  }
 
   return (
     <Wrapper>
@@ -97,9 +125,19 @@ export default function CompleteNews({
               <span>{news.source}</span>
               <span>
                 {isAuthenticated && (
-                  <Link href={`/writer-area?update=${formOptions.news}&id=${news.id}`}>
-                    <FaEdit size={17} color={'red'} className="icon" />
-                  </Link>
+                  <>
+                    <Link href={`/writer-area?update=${formOptions.news}&id=${news.id}`}>
+                      <span>
+                        <FaEdit size={17} color={colors.jjmBlue} className="icon" />
+                      </span>
+                    </Link>
+                    <MdDelete
+                      size={17}
+                      color={'red'}
+                      className="icon"
+                      onClick={handleDeleteModal}
+                    />
+                  </>
                 )}
               </span>
             </p>
@@ -157,6 +195,24 @@ export default function CompleteNews({
           <Advertisement />
         </Aside>
       </Container>
+      <Dialog
+        open={openDeleteModel}
+        onClose={handleDeleteModal}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <CustomDialogContent>
+          <strong>Tem certeza que deseja excluir essa notícia?</strong>
+          <span>
+            <button type="button" onClick={deleteNewsById}>
+              Excluir
+            </button>
+            <button type="button" onClick={handleDeleteModal}>
+              Cancelar
+            </button>
+          </span>
+        </CustomDialogContent>
+      </Dialog>
     </Wrapper>
   );
 }
@@ -186,54 +242,62 @@ export const getStaticProps: GetStaticProps = async ({
   const format = (await import('date-fns/format')).default;
   const parseISO = (await import('date-fns/parseISO')).default;
   const ptBR = (await import('date-fns/locale/pt-BR')).default;
+  try {
+    const { hash } = params;
 
-  const { hash } = params;
+    const {
+      data: { news },
+    } = await api.get<{ news: NewsProps }>('/detail', {
+      params: {
+        id: hash,
+      },
+    });
 
-  const {
-    data: { news },
-  } = await api.get<{ news: NewsProps }>('/detail', {
-    params: {
-      id: hash,
-    },
-  });
-
-  const formatNews = {
-    subjects: news.subjects,
-    id: news._id,
-    title: news.title,
-    description: news.description.split('##').join('\n'),
-    date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
-      locale: ptBR,
-    }),
-    mainImage: news.imageURL,
-    author: news.author.toLowerCase(),
-    source: news.source ? news.source.toUpperCase() : '',
-    summary: news.summary,
-  };
-
-  const relatedNews = await api.get('/search', {
-    params: {
-      subjects: formatNews.subjects.join(', '),
-    },
-  });
-  const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
-
-  const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
-    return {
+    const formatNews = {
+      subjects: news.subjects,
       id: news._id,
       title: news.title,
+      description: news.description.split('##').join('\n'),
+      date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
+        locale: ptBR,
+      }),
       mainImage: news.imageURL,
-      source: news.source ? news.source.toLowerCase() : '',
-      url: `www.jornaljotamaria.com.br/complete-news/${news._id}`,
+      author: news.author.toLowerCase(),
+      source: news.source ? news.source.toUpperCase() : '',
+      summary: news.summary,
     };
-  });
 
-  return {
-    props: {
-      news: formatNews,
-      formatedRelatedNews,
-      currentUrl: `www.jornaljotamaria.com.br/complete-news/${hash}`,
-    },
-    revalidate: 60 * 60 * 24, // 24 hours
-  };
+    const relatedNews = await api.get('/search', {
+      params: {
+        subjects: formatNews.subjects.join(', '),
+      },
+    });
+    const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
+
+    const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
+      return {
+        id: news._id,
+        title: news.title,
+        mainImage: news.imageURL,
+        source: news.source ? news.source.toLowerCase() : '',
+        url: `www.jornaljotamaria.com.br/complete-news/${news._id}`,
+      };
+    });
+
+    return {
+      props: {
+        news: formatNews,
+        formatedRelatedNews,
+        currentUrl: `www.jornaljotamaria.com.br/complete-news/${hash}`,
+      },
+      revalidate: 60 * 60 * 24, // 24 hours
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 };

@@ -23,6 +23,8 @@ export default {
 
     blue: '#47C9E5',
 
+    jjmRed: '#A62E37',
+
     jjmBlue: '#1D75A5',
     jjmGreen: '#208366',
   },

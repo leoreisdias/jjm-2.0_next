@@ -17,6 +17,8 @@ export const Card = styled(motion.div)`
 
   background: ${(props) => props.theme.colors.white};
 
+  border-radius: 10px;
+
   -webkit-box-shadow: 0px 2px 45px -9px rgb(0 0 0 / 20%);
   -moz-box-shadow: 0px 2px 45px -9px rgb(0 0 0 / 20%);
   box-shadow: 0px 2px 45px -9px rgb(0 0 0 / 20%);
@@ -28,6 +30,7 @@ export const Card = styled(motion.div)`
   transition: 1s;
 
   img {
+    border-radius: 5px;
     width: 100%;
     height: 100%;
     filter: contrast(1.2) brightness(1);

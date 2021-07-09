@@ -6,8 +6,9 @@ import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
+import { FaHandshake } from 'react-icons/fa';
 import { GiExitDoor } from 'react-icons/gi';
-import { GrDocumentConfig } from 'react-icons/gr';
+import { RiAdminFill } from 'react-icons/ri';
 import { ThemeContext } from 'styled-components';
 
 import { useAuth } from '../../hooks/useAuth';
@@ -56,15 +57,14 @@ export function Header({ toggleTheme }: HeaderProps) {
         {isAuthenticated && (
           <>
             <SpanExit>
-              <motion.span whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}>
-                <GrDocumentConfig
-                  size={25}
-                  color={colors.gray900}
-                  onClick={goToManagement}
-                />
+              <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
+                <FaHandshake size={25} color={colors.gray50} onClick={goToManagement} />
               </motion.span>
-              <motion.span whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}>
-                <GiExitDoor size={25} color={colors.gray900} onClick={handleLogout} />
+              <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
+                <RiAdminFill size={25} color={colors.gray50} onClick={goToManagement} />
+              </motion.span>
+              <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
+                <GiExitDoor size={25} color={colors.white} onClick={handleLogout} />
               </motion.span>
             </SpanExit>
           </>

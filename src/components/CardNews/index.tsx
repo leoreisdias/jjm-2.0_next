@@ -35,7 +35,13 @@ export function CardNews({ news }: CardNewsProps) {
   };
   return (
     <Card whileTap={{ scale: 0.95, transition: { duration: 0.01 } }}>
-      <Link href={`/complete-news/${news.id}`}>
+      <Link
+        href={{
+          pathname: '/complete-news/[hash]',
+          query: { hash: news.id },
+        }}
+        as={'complete-news'}
+      >
         <CardActionArea>
           <Image
             width={720}

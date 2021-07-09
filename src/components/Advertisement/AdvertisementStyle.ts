@@ -1,3 +1,4 @@
+import { DialogContent } from '@material-ui/core';
 import styled from 'styled-components';
 
 export const AdvertisementContainer = styled.section`
@@ -30,8 +31,12 @@ export const AdvertisementContainer = styled.section`
       align-items: center;
 
       li {
-        width: 25%;
+        width: 50%;
       }
     }
   }
+`;
+
+export const CustomDialogContent = styled(DialogContent)`
+  background: #f5fbff;
 `;

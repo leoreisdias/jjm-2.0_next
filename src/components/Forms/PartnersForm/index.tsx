@@ -42,6 +42,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
   const [telefone, setTelefone] = useState<string>('');
   const [endereco, setEndereco] = useState<string>('');
   const [image, setImage] = useState('');
+  const [paymentDay, setPaymentDay] = useState(0);
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
@@ -154,6 +155,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       whatsapp_url,
       telefone,
       endereco,
+      paymentDay,
     };
 
     try {
@@ -183,7 +185,10 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       try {
         const { data } = await api.get(`/findpartner/${id}`);
         if (data.partner) {
+          console.log(data.partner);
+
           setName(data.partner.name);
+          setPaymentDay(data.partner.paymentDay);
           setFacebookUrl(data.partner.facebook_url);
           setWhatsappUrl(data.partner.whatsapp_url);
           setTelefone(data.partner.telefone);
@@ -222,6 +227,20 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           helperText=""
           required
         />
+        {isUpdating && (
+          <TextField
+            error={false}
+            variant="outlined"
+            id="paymentDay"
+            label="Dia do mês de Vencimento"
+            name="payment"
+            type="number"
+            value={paymentDay}
+            onChange={(e) => setPaymentDay(Number(e.target.value))}
+            helperText=""
+            required
+          />
+        )}
         <TextField
           error={false}
           variant="outlined"
