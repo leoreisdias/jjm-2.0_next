@@ -8,6 +8,8 @@ export interface PartnersProps {
   telefone: string;
   text: string;
   whatsapp_url: string;
+  paymentDay: number;
+  active: boolean;
 }
 
 export interface PartnerHighlightProps {

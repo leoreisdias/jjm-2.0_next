@@ -17,6 +17,7 @@ import { Form, LabelImageFile, LabelEditor, SubmitButton } from './PartnersFormS
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
   ssr: false,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) as any;
 
 function Alert(props: AlertProps) {

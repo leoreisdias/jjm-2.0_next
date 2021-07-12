@@ -30,7 +30,6 @@ export function Advertisement() {
   const loadLastTwoHighlights = useCallback(async () => {
     try {
       const { data } = await api.get('/partnershighlight');
-      console.log(data.slice(0, 2));
       setLastTwoHighlights(data.slice(0, 2));
     } catch (err) {
       console.log(err);

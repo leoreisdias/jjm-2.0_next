@@ -77,6 +77,8 @@ export const SubmitButton = styled.button`
   max-width: 200px;
   padding: 1rem 1.2rem;
 
+  font-family: 'Nunito';
+
   &:hover {
     filter: brightness(0.9);
   }

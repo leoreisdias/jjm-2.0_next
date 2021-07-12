@@ -83,8 +83,6 @@ export const NewsForm = ({ id }: NewsFormProps) => {
   const [video, setVideo] = useState<string>('');
   const [subjects, setSubjects] = useState<SubjectsSelect[]>();
 
-  const [defaultSubjectOptions, setDefaultSubjectOptions] = useState<number[]>();
-
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState('');
 

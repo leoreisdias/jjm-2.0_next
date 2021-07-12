@@ -70,7 +70,6 @@ export const SpanExit = styled.span`
 
   border-radius: 5px;
   padding: 0.2rem;
-  background: ${(props) => props.theme.colors.jjmGreen};
 
   display: flex;
   gap: 1rem;

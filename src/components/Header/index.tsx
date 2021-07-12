@@ -35,10 +35,6 @@ export function Header({ toggleTheme }: HeaderProps) {
     toggleTheme();
   }
 
-  function goToManagement() {
-    push('/writer-area?update=partners&id=60e211f1f83cf700210567e4');
-  }
-
   return (
     <HeaderContainer>
       <img src="/logo.png" alt="GoCast" />
@@ -58,10 +54,20 @@ export function Header({ toggleTheme }: HeaderProps) {
           <>
             <SpanExit>
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
-                <FaHandshake size={25} color={colors.gray50} onClick={goToManagement} />
+                <FaHandshake
+                  size={25}
+                  color={colors.gray50}
+                  onClick={() => push('/partners')}
+                />
               </motion.span>
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
-                <RiAdminFill size={25} color={colors.gray50} onClick={goToManagement} />
+                <RiAdminFill
+                  size={25}
+                  color={colors.gray50}
+                  onClick={() =>
+                    push('/writer-area?update=partners&id=60e211f1f83cf700210567e4')
+                  }
+                />
               </motion.span>
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
                 <GiExitDoor size={25} color={colors.white} onClick={handleLogout} />
