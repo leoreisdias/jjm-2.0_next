@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useMemo, useCallback } from 'react';
 
 import { Dialog } from '@material-ui/core';
 import { motion } from 'framer-motion';
@@ -9,10 +9,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
+import CircleLoader from 'react-spinners/CircleLoader';
 import { ThemeContext } from 'styled-components';
 
 import { Advertisement } from '../../components/Advertisement';
 import DeathReportCard from '../../components/DeathReport';
+import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
 import {
@@ -74,6 +76,9 @@ export default function CompleteNews({
   formatedRelatedNews,
 }: CompleteNewsProps) {
   const { colors } = useContext(ThemeContext);
+  const { token } = useAuth();
+
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { replace } = useRouter();
 
@@ -85,17 +90,48 @@ export default function CompleteNews({
     setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
   }
 
-  async function deleteNewsById() {
+  const deleteNewsById = useCallback(async () => {
     try {
-      const { data } = await api.delete(`/news/${news.id}`);
+      setIsDeleting(true);
+      const { data } = await api.delete(`/news/${news.id}`, {
+        headers: {
+          authorization: 'Bearer ' + token,
+        },
+      });
 
       if (data.message) {
         replace('/');
+      } else {
+        setIsDeleting(false);
       }
     } catch (err) {
-      //..
+      setIsDeleting(false);
     }
-  }
+  }, [news.id, replace, token]);
+
+  const ExcludeNewsModalContent = useMemo(() => {
+    return (
+      <>
+        <strong>
+          {isDeleting
+            ? 'Deletando... Aguarde'
+            : 'Tem certeza que deseja excluir essa notícia?'}
+        </strong>
+        {isDeleting ? (
+          <CircleLoader size={40} />
+        ) : (
+          <span>
+            <button type="button" onClick={deleteNewsById}>
+              Excluir
+            </button>
+            <button type="button" onClick={handleDeleteModal}>
+              Cancelar
+            </button>
+          </span>
+        )}
+      </>
+    );
+  }, [deleteNewsById, isDeleting]);
 
   return (
     <Wrapper>
@@ -114,7 +150,14 @@ export default function CompleteNews({
       </Head>
       <Container>
         <Main>
-          <Image width={900} height={500} src={news.mainImage} />
+          <Image
+            width={800}
+            height={600}
+            src={news.mainImage}
+            objectFit="contain"
+            placeholder="blur"
+            blurDataURL={news.mainImage}
+          />
           <NewsTitle>{news.title}</NewsTitle>
           <SmallDetails>
             <p>
@@ -178,7 +221,13 @@ export default function CompleteNews({
                         <motion.li
                           whileHover={{ scale: 1.05, transition: { duration: 0.1 } }}
                         >
-                          <Image width={250} height={150} src={news.mainImage} />
+                          <Image
+                            width={250}
+                            height={150}
+                            src={news.mainImage}
+                            placeholder="blur"
+                            blurDataURL={news.mainImage}
+                          />
 
                           <strong>{news.title}</strong>
                           <span>{news.source}</span>
@@ -201,18 +250,13 @@ export default function CompleteNews({
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <CustomDialogContent>
-          <strong>Tem certeza que deseja excluir essa notícia?</strong>
-          <span>
-            <button type="button" onClick={deleteNewsById}>
-              Excluir
-            </button>
-            <button type="button" onClick={handleDeleteModal}>
-              Cancelar
-            </button>
-          </span>
-        </CustomDialogContent>
+        <CustomDialogContent></CustomDialogContent>
       </Dialog>
+      <ModalDialog
+        isOpen={openDeleteModel}
+        close={handleDeleteModal}
+        modalContent={ExcludeNewsModalContent}
+      />
     </Wrapper>
   );
 }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
 import { format, parseISO } from 'date-fns';
@@ -8,6 +7,7 @@ import ptBr from 'date-fns/locale/pt-BR';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { FaSearch } from 'react-icons/fa';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 import { Advertisement } from '../components/Advertisement';
 import { CardNews } from '../components/CardNews';
@@ -148,34 +148,35 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
         <meta property="og:image:height" content="800" />
         <meta property="og:site_name" content="Jornal JM" />
       </Head>
-      <Container>
-        <Main onTouchMove={handleSlideDown}>
-          {currentNewsList ? (
-            currentNewsList.map((newsItem) => {
+      {currentNewsList ? (
+        <Container>
+          <Main onTouchMove={handleSlideDown}>
+            {currentNewsList.map((newsItem) => {
               return <CardNews key={newsItem.id} news={newsItem} />;
-            })
-          ) : (
-            <CircularProgress />
-          )}
-        </Main>
-        <Aside>
-          <label htmlFor="search">
-            <FaSearch color={colors.jjmBlue} />
-            <input
-              type="text"
-              placeholder="Pesquise algo específico"
-              value={isSearching ? 'Pesquisando...' : searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onKeyDown={handleEnter}
-            />
-          </label>
+            })}
+          </Main>
+          <Aside>
+            <label htmlFor="search">
+              <FaSearch color={colors.jjmBlue} />
+              <input
+                type="text"
+                placeholder="Pesquise algo específico"
+                value={isSearching ? 'Pesquisando...' : searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={handleEnter}
+              />
+            </label>
 
-          <LastPosts lastestNews={topFourRecentNews} />
-          <DeathReportCard />
-          <Advertisement />
-        </Aside>
-      </Container>
-      {!matches && (
+            <LastPosts lastestNews={topFourRecentNews} />
+            <DeathReportCard />
+            <Advertisement />
+          </Aside>
+        </Container>
+      ) : (
+        <PuffLoader size={100} color={colors.jjmBlue} />
+      )}
+
+      {!matches && currentNewsList && (
         <PaginationContainer>
           <Pagination
             count={totalPages}

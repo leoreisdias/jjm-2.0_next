@@ -71,6 +71,10 @@ export const Aside = styled.aside`
       margin-left: 0.25rem;
 
       font-family: 'Nunito';
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 

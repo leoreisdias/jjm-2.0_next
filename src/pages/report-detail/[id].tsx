@@ -56,7 +56,13 @@ export default function CompleteNews({ report, currentUrl }: CompleteReportProps
       <Container>
         <Main>
           <span>
-            <Image width={400} height={500} src={report.mainImage} />
+            <Image
+              width={400}
+              height={500}
+              src={report.mainImage}
+              placeholder="blur"
+              blurDataURL={report.mainImage}
+            />
           </span>
           <NewsTitle>{report.title}</NewsTitle>
           <SmallDetails>

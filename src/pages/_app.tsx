@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
+import { LoadingRouteChange } from '../components/LoadingRouteChange';
 import { Topics } from '../components/Topics';
 import { AuthProvider } from '../context/AuthContext';
 import GlobalStyle from '../styles/global';
@@ -37,6 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Main login={pathname === '/login'}>
             <Component {...pageProps} />
           </Main>
+          <LoadingRouteChange />
           {pathname !== '/login' && !matches && <Footer />}
         </AuthProvider>
         <GlobalStyle />

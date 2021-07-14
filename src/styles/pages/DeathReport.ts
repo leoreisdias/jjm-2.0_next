@@ -60,7 +60,7 @@ export const NewsTitle = styled.h1`
   word-break: keep-all;
   margin: 1rem 0;
   font-family: 'Nunito';
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 
   color: ${(props) => props.theme.colors.gray900};
 

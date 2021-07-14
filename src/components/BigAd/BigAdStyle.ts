@@ -13,8 +13,15 @@ export const AdImage = styled.div`
 `;
 
 export const CardAd = styled(Card)`
-  max-width: 345px;
+  max-width: 265px;
   margin-bottom: 0.25rem;
+  min-width: 260px;
+
+  h2 {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 0.875rem;
+  }
 
   @media (max-width: 400px) {
     display: none;

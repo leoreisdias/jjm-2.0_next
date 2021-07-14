@@ -72,5 +72,5 @@ export const SpanExit = styled.span`
   padding: 0.2rem;
 
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
 `;

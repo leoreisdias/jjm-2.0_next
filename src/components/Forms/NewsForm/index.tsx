@@ -18,6 +18,7 @@ import { Form, LabelEditor, LabelImageFile, SubmitButton } from './NewsFormStyle
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
   ssr: false,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) as any;
 
 interface SubjectsSelect {

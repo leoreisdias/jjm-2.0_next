@@ -37,6 +37,13 @@ export const Main = styled.section`
 
   transition: 1s ease-in-out;
 
+  display: flex;
+  flex-direction: column;
+
+  img {
+    justify-self: flex-start;
+  }
+
   h4 {
     font-size: 1.2rem;
     padding-bottom: 0.5rem;

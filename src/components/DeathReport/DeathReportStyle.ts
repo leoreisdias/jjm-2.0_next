@@ -19,10 +19,11 @@ export const CardAd = styled(Card)`
   h3 {
     font-family: 'Nunito';
     margin-bottom: 1rem;
+    font-size: 1.1rem;
   }
   p {
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-family: 'Nunito';
   }
 `;

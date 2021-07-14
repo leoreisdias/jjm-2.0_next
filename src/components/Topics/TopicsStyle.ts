@@ -18,6 +18,10 @@ export const TopicsContainer = styled(motion.main)`
   gap: 1rem;
 
   background: ${(props) => props.theme.colors.background};
+
+  .MuiPaper-root {
+    width: 500px !important;
+  }
 `;
 
 export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
@@ -45,18 +49,6 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
   @media (max-width: 768px) {
     font-size: 0.875rem;
   }
-`;
-
-export const ModalContent = styled.div`
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 50%;
-  height: 100%;
-  background-color: white;
-  border: '2px solid #000';
-  box-shadow: 1px 1px 1px black;
 `;
 
 export const CustomDialogContent = styled(DialogContent)`
