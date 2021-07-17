@@ -180,6 +180,9 @@ export const NewsContent = styled.main`
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
+
+      font-family: 'Nunito';
+
       background: ${(props) => props.theme.colors.gray100};
 
       width: 180px;
@@ -195,6 +198,8 @@ export const NewsContent = styled.main`
 `;
 
 export const RelatedNewsSection = styled.section`
+  font-family: 'Nunito';
+
   ul {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;

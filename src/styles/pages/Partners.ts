@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.section`
   display: flex;
@@ -19,7 +19,7 @@ export const Container = styled.section`
   }
 `;
 
-export const ListItem = styled.li`
+export const ListItem = styled.li<{ active: boolean }>`
   list-style: none;
 
   display: flex;
@@ -33,6 +33,20 @@ export const ListItem = styled.li`
   background: ${(props) => props.theme.colors.gray100};
   max-height: 200px;
   border-radius: 5px;
+
+  hr {
+    display: block;
+    padding: 1.2px 0;
+    width: 75%;
+    margin: 0 auto;
+    border-radius: 100%;
+    border: none;
+
+    background: ${(props) =>
+      props.active ? props.theme.colors.jjmGreen : props.theme.colors.jjmRed};
+    color: ${(props) =>
+      props.active ? props.theme.colors.jjmGreen : props.theme.colors.jjmRed};
+  }
 
   strong {
     font-size: 1.1rem;
@@ -49,6 +63,12 @@ export const ListItem = styled.li`
       font-size: 2rem;
     }
   }
+
+  ${(props) =>
+    !props.active &&
+    css`
+      filter: brightness(0.96);
+    `}
 `;
 
 export const ListItemButtonContainer = styled.div`
@@ -74,15 +94,15 @@ export const ListItemButtonContainer = styled.div`
     }
   }
 
-  & button:first-child {
+  & button.disable {
     background: ${(props) => props.theme.colors.jjmRed};
+  }
+
+  & button.active {
+    background: ${(props) => props.theme.colors.jjmGreen};
   }
 
   & button:last-child {
     background: ${(props) => props.theme.colors.jjmBlue};
-  }
-
-  .active {
-    background: ${(props) => props.theme.colors.jjmGreen};
   }
 `;

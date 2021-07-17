@@ -1,7 +1,12 @@
+import { useState } from 'react';
+
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
 import { parseCookies } from 'nookies';
 
+import { useAuth } from '../hooks/useAuth';
 import { api } from '../services/api';
 import { Container, ListItem, ListItemButtonContainer } from '../styles/pages/Partners';
 import { formOptions } from '../types/formOptions';
@@ -11,49 +16,123 @@ interface PartnersServer {
   partnersList: PartnersProps[];
 }
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 export default function Partners({ partnersList }: PartnersServer) {
-  async function handleDisablePartner(id: string) {
+  const { token } = useAuth();
+
+  const [currentPartners, setCurrentPartners] = useState<PartnersProps[]>(partnersList);
+
+  const [showAlert, setShowAlert] = useState(false);
+
+  function handleFailedPartnersActionAlert() {
+    setShowAlert(false);
+  }
+
+  async function disablePartner(id: string): Promise<boolean> {
     try {
-      await api.patch(`/partners/${id}`, {
-        active: false,
-      });
+      await api.patch(
+        `/partners/${id}`,
+        {
+          active: false,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      setShowAlert(false);
+
+      return true;
     } catch (err) {
-      //...
+      setShowAlert(true);
+      return false;
     }
+  }
+
+  async function activatePartner(id: string): Promise<boolean> {
+    try {
+      await api.patch(
+        `/partners/${id}`,
+        {
+          active: true,
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      setShowAlert(false);
+      return true;
+    } catch (err) {
+      setShowAlert(true);
+      return false;
+    }
+  }
+
+  function mutatePartner(index: number, active: boolean) {
+    const updatedPartners = [...currentPartners];
+    updatedPartners[index]['active'] = active;
+    setCurrentPartners(updatedPartners);
+  }
+
+  async function handlePartnerAction(index: number, isActive: boolean) {
+    const id = currentPartners[index]['_id'];
+
+    isActive && (await disablePartner(id)) && mutatePartner(index, !isActive);
+    !isActive && (await activatePartner(id)) && mutatePartner(index, !isActive);
   }
 
   return (
     <Container>
       <h3>Parceiros Cadastrados</h3>
       <ul>
-        {partnersList &&
-          partnersList.map((partner) => {
+        {currentPartners &&
+          currentPartners.map((partner, index) => {
             return (
-              <Link
-                href={`/writer-area?update=${formOptions.partners}&id=${partner._id}`}
-                key={partner._id}
-              >
-                <ListItem>
-                  <strong>{partner.name}</strong>
-                  <span>
-                    Vencimento dia
-                    <strong>{partner.paymentDay}</strong>
-                  </span>
-                  <ListItemButtonContainer>
-                    <button
-                      type="button"
-                      className={partner.active ? 'active' : ''}
-                      onClick={() => handleDisablePartner(partner._id)}
-                    >
-                      {partner.active ? 'Desativar' : 'Ativar'}
-                    </button>
+              <ListItem key={partner._id} active={partner.active}>
+                <strong>{partner.name}</strong>
+                <hr />
+                <span>
+                  Vencimento dia
+                  <strong>{partner.paymentDay}</strong>
+                </span>
+                <ListItemButtonContainer>
+                  <button
+                    type="button"
+                    className={partner.active ? 'disable' : 'active'}
+                    onClick={() => handlePartnerAction(index, partner.active)}
+                  >
+                    {partner.active ? 'Desativar' : 'Ativar'}
+                  </button>
+                  <Link
+                    href={{
+                      // pathname: `/writer-area?update=${formOptions.partners}&id=${partner._id}`,
+                      pathname: `/writer-area`,
+                      query: { update: formOptions.partners, id: partner._id },
+                    }}
+                    as={'writer-area'}
+                  >
                     <button type="button">Editar</button>
-                  </ListItemButtonContainer>
-                </ListItem>
-              </Link>
+                  </Link>
+                </ListItemButtonContainer>
+              </ListItem>
             );
           })}
       </ul>
+      <Snackbar
+        open={showAlert}
+        autoHideDuration={6000}
+        onClose={handleFailedPartnersActionAlert}
+      >
+        <Alert severity="warning">
+          Houve algum problema ao processar! Tente mais tarde!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

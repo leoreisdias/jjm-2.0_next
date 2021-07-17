@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 export const Card = styled(motion.div)`
-  display: flex;
+  display: table;
   flex-direction: column;
 
   align-items: center;
@@ -57,6 +57,7 @@ export const Card = styled(motion.div)`
 
   h3 + p {
     padding: 1rem 2rem;
+    text-align: center;
   }
 
   hr {

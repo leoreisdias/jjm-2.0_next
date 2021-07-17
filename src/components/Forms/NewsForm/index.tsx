@@ -259,20 +259,6 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           });
 
           setSubjects(topics);
-
-          // const findIndexOfSubjects = options
-          //   .map((item, index) => {
-          //     for (let i = 0; i < data.news.subjects.length; i++) {
-          //       if (item.value == data.news.subjects[i]) {
-          //         return index;
-          //       }
-          //     }
-          //   })
-          //   .filter((item) => {
-          //     return item != undefined;
-          //   });
-          // setDefaultSubjectOptions(findIndexOfSubjects);
-          // console.log(findIndexOfSubjects);
         }
         handleLoading(false);
       } catch (err) {

@@ -44,6 +44,11 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
       if (update == 'news') setIdNews(id);
       if (update == 'partners') setIdPartners(id);
       if (update == 'partnersHighlight') setIdPartnersHighlight(id);
+    } else {
+      setFormType('');
+      setIdNews(null);
+      setIdPartners(null);
+      setIdPartnersHighlight(null);
     }
   }, [id, isUpdating, update]);
 

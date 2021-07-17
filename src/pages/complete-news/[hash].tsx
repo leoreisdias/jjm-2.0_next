@@ -136,7 +136,7 @@ export default function CompleteNews({
   return (
     <Wrapper>
       <Head>
-        <title>Jornal JM - {news.title}</title>
+        <title>[JJM] {news.title}</title>
         <meta
           property="og:url"
           content={`www.jornaljotamaria.com.br/complete-news/${news.id}`}
@@ -169,7 +169,13 @@ export default function CompleteNews({
               <span>
                 {isAuthenticated && (
                   <>
-                    <Link href={`/writer-area?update=${formOptions.news}&id=${news.id}`}>
+                    <Link
+                      href={{
+                        pathname: `/writer-area`,
+                        query: { update: formOptions.news, id: news.id },
+                      }}
+                      as={'writer-area'}
+                    >
                       <span>
                         <FaEdit size={17} color={colors.jjmBlue} className="icon" />
                       </span>

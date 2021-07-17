@@ -1,4 +1,13 @@
 module.exports = {
+  async redirects(){
+		return [
+			{
+				source: '/complete-news',
+				destination: '/',
+        permanent: false
+			},
+		]
+	},
   images: {
     domains: ['jjm-upload.s3.amazonaws.com','assets.hgbrasil.com','jornaljm.s3.sa-east-1.amazonaws.com']
   },
