@@ -131,69 +131,102 @@ export const NewsContent = styled.main`
     white-space: pre-wrap;
     color: ${(props) => props.theme.colors.gray900};
   }
+`;
 
-  & p + div {
-    align-self: flex-start;
-    margin-top: 1rem;
+export const OfferedBy = styled.div`
+  align-self: flex-start;
+  margin-top: 2rem;
+
+  h5 {
     font-family: 'Nunito';
+    font-size: 1rem;
+    font-weight: 600;
+    color: ${(props) => props.theme.colors.gray800};
+  }
 
-    width: 100%;
+  span {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    p {
+      font-family: 'Nunito';
+      font-weight: 600;
 
-    padding-bottom: 2rem;
-    border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
-
-    ul {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-
-      li {
-        width: 100%;
-        max-width: 100px;
-
-        display: flex;
-        justify-content: center;
-
-        color: ${(props) => props.theme.colors.gray500};
-        font-size: 0.75rem;
-
-        padding: 0.5rem;
-        border-radius: 2.5px;
-
-        list-style: none;
-        background: ${(props) => props.theme.colors.gray100};
-      }
+      color: ${(props) => props.theme.colors.jjmBlue};
     }
   }
 
-  & div:last-child {
-    margin: 1rem 0;
-    padding-bottom: 1rem;
-
-    width: 100%;
-
-    border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
-
+  @media (max-width: 380px) {
     span {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-
-      font-family: 'Nunito';
-
-      background: ${(props) => props.theme.colors.gray100};
-
-      width: 180px;
-      padding: 0.5rem 1rem;
-
-      border-radius: 30px;
-
-      gap: 1rem;
-
-      color: ${(props) => props.theme.colors.gray800};
+      flex-direction: column;
+      gap: 0;
     }
+  }
+`;
+
+export const Subjects = styled.div`
+  align-self: flex-start;
+  margin-top: 1rem;
+  font-family: 'Nunito';
+
+  width: 100%;
+
+  padding-bottom: 2rem;
+  border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    li {
+      width: 100%;
+      max-width: 100px;
+
+      display: flex;
+      justify-content: center;
+
+      color: ${(props) => props.theme.colors.gray500};
+      font-size: 0.75rem;
+
+      padding: 0.5rem;
+      border-radius: 2.5px;
+
+      list-style: none;
+      background: ${(props) => props.theme.colors.gray100};
+    }
+  }
+`;
+
+export const ShareSocialMedia = styled.div`
+  margin: 1rem 0;
+  padding-bottom: 1rem;
+
+  width: 100%;
+
+  border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
+
+  span {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    font-family: 'Nunito';
+
+    background: ${(props) => props.theme.colors.gray100};
+
+    width: 180px;
+    padding: 0.5rem 1rem;
+
+    border-radius: 20px;
+
+    gap: 1rem;
+
+    color: ${(props) => props.theme.colors.gray800};
   }
 `;
 
@@ -232,6 +265,7 @@ export const RelatedNewsSection = styled.section`
         color: ${(props) => props.theme.colors.gray800};
 
         text-align: left;
+        text-transform: capitalize;
 
         padding-bottom: 0.875rem;
         border-bottom: 1px solid ${(props) => props.theme.colors.gray800};

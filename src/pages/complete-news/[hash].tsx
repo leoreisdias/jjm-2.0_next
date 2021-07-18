@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo, useCallback } from 'react';
+import { useContext, useState, useMemo, useCallback, useEffect } from 'react';
 
 import { Dialog } from '@material-ui/core';
 import { motion } from 'framer-motion';
@@ -13,7 +13,6 @@ import CircleLoader from 'react-spinners/CircleLoader';
 import { ThemeContext } from 'styled-components';
 
 import { Advertisement } from '../../components/Advertisement';
-import DeathReportCard from '../../components/DeathReport';
 import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
@@ -27,8 +26,12 @@ import {
   NewsContent,
   RelatedNewsSection,
   CustomDialogContent,
+  Subjects,
+  ShareSocialMedia,
+  OfferedBy,
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
+import { PartnersProps } from '../../types/interfaces/Partners';
 
 interface NewsProps {
   subjects: string[];
@@ -86,6 +89,8 @@ export default function CompleteNews({
 
   const [openDeleteModel, setOpenDeleteModal] = useState(false);
 
+  const [randomPartner, setRandomPartner] = useState<PartnersProps>();
+
   function handleDeleteModal() {
     setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
   }
@@ -132,6 +137,21 @@ export default function CompleteNews({
       </>
     );
   }, [deleteNewsById, isDeleting]);
+
+  const getRandomPartner = useCallback(async () => {
+    try {
+      const { data } = await api.get('/getrandompartner');
+      if (data.partner) {
+        setRandomPartner(data.partner[0]);
+      }
+    } catch (err) {
+      setRandomPartner(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    getRandomPartner();
+  }, [getRandomPartner]);
 
   return (
     <Wrapper>
@@ -194,7 +214,24 @@ export default function CompleteNews({
           <NewsContent>
             <p dangerouslySetInnerHTML={{ __html: news.description }} />
 
-            <div>
+            {randomPartner && (
+              <OfferedBy>
+                <h5>Oferecido por:</h5>
+                <span>
+                  <Image
+                    src={randomPartner.imageURL}
+                    blurDataURL={randomPartner.imageURL}
+                    placeholder="blur"
+                    height={100}
+                    width={100}
+                    objectFit="contain"
+                  />
+                  <p>{randomPartner.name}</p>
+                </span>
+              </OfferedBy>
+            )}
+
+            <Subjects>
               <h4>Assuntos</h4>
               <ul>
                 {news.subjects &&
@@ -202,19 +239,19 @@ export default function CompleteNews({
                     return <li key={subject}>{subject}</li>;
                   })}
               </ul>
-            </div>
-            <div>
+            </Subjects>
+            <ShareSocialMedia>
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}
                 target="_blank"
                 rel="noreferrer"
               >
                 <span>
-                  <FaShareAlt size={25} color={'gray'} />
+                  <FaShareAlt size={25} color={colors.jjmBlue} />
                   Compartilhar
                 </span>
               </a>
-            </div>
+            </ShareSocialMedia>
           </NewsContent>
           <RelatedNewsSection>
             <h4>Notícias Relacionadas</h4>
@@ -235,7 +272,7 @@ export default function CompleteNews({
                             blurDataURL={news.mainImage}
                           />
 
-                          <strong>{news.title}</strong>
+                          <strong>{news.title.toLowerCase()}</strong>
                           <span>{news.source}</span>
                         </motion.li>
                       </Link>
@@ -246,8 +283,7 @@ export default function CompleteNews({
           </RelatedNewsSection>
         </Main>
         <Aside>
-          <DeathReportCard />
-          <Advertisement />
+          <Advertisement reverse={true} />
         </Aside>
       </Container>
       <Dialog

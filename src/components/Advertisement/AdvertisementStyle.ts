@@ -1,11 +1,11 @@
 import { DialogContent } from '@material-ui/core';
 import styled from 'styled-components';
 
-export const AdvertisementContainer = styled.section`
+export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: ${(props) => (props.reverse ? 'column-reverse' : 'column')};
 
   & ul {
     display: grid;

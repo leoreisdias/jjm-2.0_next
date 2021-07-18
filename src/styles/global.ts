@@ -24,7 +24,7 @@ body {
 }
 
 body, input, textarea, button{
-  font: 400 1rem "Montserrat", sans-serif;
+  font: 400 1rem "Nunito", sans-serif;
 }
 
 button{

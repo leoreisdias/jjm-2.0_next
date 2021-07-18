@@ -9,7 +9,11 @@ import BigAd from '../BigAd';
 import { PartnerDetails } from '../PartnerDetails';
 import { AdvertisementContainer, CustomDialogContent } from './AdvertisementStyle';
 
-export function Advertisement() {
+interface AdvertisementProps {
+  reverse?: boolean;
+}
+
+export function Advertisement({ reverse }: AdvertisementProps) {
   const [partners, setPartners] = useState<PartnersProps[]>();
 
   const [partnerDetail, setPartnerDetail] = useState<PartnersProps>();
@@ -47,7 +51,7 @@ export function Advertisement() {
   }, [loadAdvertisments, loadLastTwoHighlights]);
 
   return (
-    <AdvertisementContainer>
+    <AdvertisementContainer reverse={reverse}>
       {lastTwoHighlights && (
         <>
           <BigAd highlight={lastTwoHighlights[0]} />
