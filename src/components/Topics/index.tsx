@@ -60,14 +60,13 @@ const TopicsContainerVariant = {
 export function Topics() {
   const { pathname } = useRouter();
   const [openWeatherModal, setOpenWeatherModal] = useState(false);
-  const [openCoffeeModal, setOpenCoffeeModal] = useState(false);
 
   function handleWeatherModal() {
     setOpenWeatherModal(!openWeatherModal);
   }
 
-  function handleCoffeeModal() {
-    setOpenCoffeeModal(!openCoffeeModal);
+  function handleFacebookPage() {
+    window.open('https://www.facebook.com/jornaljotamaria', '_blank');
   }
 
   return (
@@ -90,16 +89,7 @@ export function Topics() {
               Notícias
             </ButtonTopic>
           </Link>
-          <ButtonTopic
-            active={pathname == '/notes'}
-            initial="begin"
-            animate="animate"
-            exit="exit"
-            variants={TopicsVariant}
-            onClick={handleCoffeeModal}
-          >
-            Cotação do Café
-          </ButtonTopic>
+
           <ButtonTopic
             active={false}
             initial="begin"
@@ -110,19 +100,19 @@ export function Topics() {
           >
             Previsão do Tempo
           </ButtonTopic>
+          <ButtonTopic
+            active={false}
+            initial="begin"
+            animate="animate"
+            exit="exit"
+            variants={TopicsVariant}
+            onClick={handleFacebookPage}
+          >
+            Visite nossa Página
+          </ButtonTopic>
           <Dialog
             open={openWeatherModal}
             onClose={handleWeatherModal}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-          >
-            <CustomDialogContent>
-              <WeatherForecast />
-            </CustomDialogContent>
-          </Dialog>
-          <Dialog
-            open={openCoffeeModal}
-            onClose={handleCoffeeModal}
             aria-labelledby="simple-modal-title"
             aria-describedby="simple-modal-description"
           >

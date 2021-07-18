@@ -4,7 +4,6 @@ export const LastPostsWrapper = styled.section`
   margin-bottom: 1rem;
 
   legend {
-    font-family: 'Montserrat';
     font-weight: 700;
     color: ${(props) => props.theme.colors.gray900};
     font-size: 1.25rem;

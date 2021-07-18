@@ -63,6 +63,13 @@ const options = [
   { value: 'protesto', label: 'protesto' },
   { value: 'ATO', label: 'ATO' },
   { value: 'povo', label: 'povo' },
+  { value: 'LOTERICA SUA CASA', label: 'LOTERICA SUA CASA' },
+  { value: 'LOTERICA', label: 'LOTERICA' },
+  { value: 'APOSTAS', label: 'APOSTAS' },
+  { value: 'MEGA SENA', label: 'MEGA SENA' },
+  { value: 'LOTO FACIL', label: 'LOTO FACIL' },
+  { value: 'DUPLA SENA', label: 'DUPLA SENA' },
+  { value: 'QUINA', label: 'QUINA' },
 ];
 
 interface NewsFormProps {

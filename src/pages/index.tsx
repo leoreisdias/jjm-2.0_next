@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
@@ -66,13 +66,13 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
 
   async function handleChangePage(event: React.ChangeEvent<unknown>, value: number) {
     setCurrentPage(value);
-    const loadedNews = await loadDataFromNewPage(value);
-    setCurrentNewsList(loadedNews);
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
+    const loadedNews = await loadDataFromNewPage(value);
+    setCurrentNewsList(loadedNews);
   }
 
   async function loadDataFromNewPage(nextPage: number) {
@@ -118,7 +118,6 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
             title: searchText,
           },
         });
-        console.log(response.data.news);
 
         if (response?.data?.news.length) {
           const formatedNews = formatNews(response.data.news);
@@ -130,6 +129,10 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
       }
     }
   }
+
+  useEffect(() => {
+    searchText == '' && setCurrentNewsList(newsList);
+  }, [newsList, searchText]);
 
   return (
     <Wrapper>
@@ -192,33 +195,43 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await api.get('/news?page=1');
+  try {
+    const { data } = await api.get('/news?page=1');
 
-  const totalPages = data.pages;
+    const totalPages = data.pages;
 
-  const newsList = data.docs.map((newsItem: serverNewsProps) => {
+    const newsList = data.docs.map((newsItem: serverNewsProps) => {
+      return {
+        id: newsItem._id,
+        title: newsItem.title,
+        description: newsItem.description,
+        date: format(parseISO(newsItem.createdAt), 'd MMM yy', {
+          locale: ptBr,
+        }),
+        imageURL: newsItem.imageURL,
+        author: newsItem.author,
+        source: newsItem.source ?? '',
+        summary: newsItem.summary,
+      };
+    });
+
+    const topFourRecentNews = newsList.slice(0, 4);
     return {
-      id: newsItem._id,
-      title: newsItem.title,
-      description: newsItem.description,
-      date: format(parseISO(newsItem.createdAt), 'd MMM yy', {
-        locale: ptBr,
-      }),
-      imageURL: newsItem.imageURL,
-      author: newsItem.author,
-      source: newsItem.source ?? '',
-      summary: newsItem.summary,
+      props: {
+        newsList,
+        topFourRecentNews,
+        totalPages,
+      },
+      revalidate: 60 * 30, // 30 Minutes
     };
-  });
-
-  const topFourRecentNews = newsList.slice(0, 4);
-
-  return {
-    props: {
-      newsList,
-      topFourRecentNews,
-      totalPages,
-    },
-    revalidate: 60 * 60, // 1 hour
-  };
+  } catch (err) {
+    return {
+      props: {
+        newsList: [],
+        topFourRecentNews: [],
+        totalPages: 1,
+      },
+      revalidate: 15, // 1 hour
+    };
+  }
 };

@@ -1,3 +1,4 @@
+import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 
 export const Wrapper = styled.section`
@@ -15,6 +16,7 @@ export const Container = styled.article`
   justify-items: center;
 
   margin-bottom: 2rem;
+  transition: 0.5s;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
@@ -56,11 +58,11 @@ export const Aside = styled.aside`
     border-radius: 10px;
 
     padding: 0 0.5rem;
-    box-shadow: 0 0 0 2pt ${(props) => props.theme.colors.jjmBlue};
+    box-shadow: 0 0 0 2pt ${(props) => lighten(0.05, props.theme.colors.jjmBlue)};
 
     &:hover {
       border: none;
-      box-shadow: 0 0 0 2pt ${(props) => props.theme.colors.jjmGreen};
+      box-shadow: 0 0 0 2pt ${(props) => shade(0.05, props.theme.colors.jjmBlue)};
     }
     input {
       width: 100%;

@@ -149,7 +149,6 @@ export const getServerSideProps: GetServerSideProps = async (
       },
     });
     const partnersList = data.sort((item) => item.active);
-    console.log(partnersList);
 
     return {
       props: {
@@ -157,12 +156,11 @@ export const getServerSideProps: GetServerSideProps = async (
       },
     };
   } catch (err) {
-    console.log(err);
-    // return {
-    //   redirect: {
-    //     destination: '/',
-    //     permanent: false,
-    //   },
-    // };
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
   }
 };

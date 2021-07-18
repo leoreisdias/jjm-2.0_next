@@ -64,6 +64,7 @@ export const NewsTitle = styled.h1`
   font-size: 1.4rem;
 
   color: ${(props) => props.theme.colors.gray900};
+  transition: 0.5s;
 
   @media (max-width: 720px) {
     font-size: 1.25rem;
@@ -210,6 +211,7 @@ export const CustomDialogContent = styled(DialogContent)`
 
   strong {
     font-size: 1.25rem;
+    transition: 0.5s;
   }
 
   span {
@@ -218,6 +220,7 @@ export const CustomDialogContent = styled(DialogContent)`
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    transition: 0.5s;
 
     button {
       padding: 0.5rem 1rem;

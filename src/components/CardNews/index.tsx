@@ -47,7 +47,7 @@ export function CardNews({ news }: CardNewsProps) {
             alt="Imagem da Noticia"
           />
           <small>
-            Por: {news.author} - {news.date}
+            Por: {news.author.toLowerCase()} - {news.date}
           </small>
         </CardActionArea>
       </Link>
@@ -59,7 +59,7 @@ export function CardNews({ news }: CardNewsProps) {
         {news.source}
         <CardActions disableSpacing>
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=https://www.jornaljotamaria.com.br/popnews-detail?id=608c14609f768e002133af43`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=www.jornaljotamaria.com.br/complete-news/${news.id}`}
             target="_blank"
             rel="noreferrer"
           >

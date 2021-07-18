@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Main = styled.main<{ login: boolean }>`
-  margin: ${(props) => (props.login ? 0 : '20rem')} auto 0 auto;
+  margin: ${(props) => (props.login ? 0 : '30rem')} auto 0 auto;
   display: flex;
   justify-content: center;
 

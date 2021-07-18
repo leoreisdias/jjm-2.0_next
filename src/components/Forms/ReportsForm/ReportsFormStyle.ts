@@ -52,6 +52,11 @@ export const Warning = styled.strong`
   font-size: 1.3rem;
   text-align: center;
   color: ${(props) => props.theme.colors.jjmGreen};
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SubmitButton = styled.button`

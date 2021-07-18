@@ -16,6 +16,8 @@ export default {
 
     green500: '#04d361',
 
+    borderColor: '#e6e8eb',
+
     purple300: '#9f75ff',
     purple400: '#9164fa',
     purple500: '#8257e5',

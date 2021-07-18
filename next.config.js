@@ -12,9 +12,9 @@ module.exports = {
     domains: ['jjm-upload.s3.amazonaws.com','assets.hgbrasil.com','jornaljm.s3.sa-east-1.amazonaws.com']
   },
   env: {
-    backendApi: process.env.APP_BACKEND,
-    dollarApiKey: process.env.DOLLAR_API,
-    coffeeApiKey: process.env.COFFEE_API,
-    weatherApiKey: process.env.WEATHER_API
+    BACKEND_API: process.env.APP_BACKEND,
+    DOLLAR_API_KEY: process.env.DOLLAR_API,
+    COFFEE_API_KEY: process.env.COFFEE_API,
+    WEATHER_API_KEY: process.env.WEATHER_API
   },
 }

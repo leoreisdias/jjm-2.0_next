@@ -1,10 +1,29 @@
 import { useEffect, useState, useContext } from 'react';
 
+import { AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { ThemeContext } from 'styled-components';
 
 import { CustomBackdrop } from './LoadingRouteChangeStyle';
+
+const PageLoadingVariant = {
+  begin: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 1,
+    },
+  },
+};
 
 export const LoadingRouteChange = () => {
   const router = useRouter();
@@ -29,9 +48,16 @@ export const LoadingRouteChange = () => {
 
   return (
     loading && (
-      <CustomBackdrop open={loading}>
-        <BeatLoader color={colors.white} size={30} />
-      </CustomBackdrop>
+      <AnimatePresence exitBeforeEnter>
+        <CustomBackdrop
+          variants={PageLoadingVariant}
+          initial="begin"
+          animate="animate"
+          exit="exit"
+        >
+          <BeatLoader color={colors.jjmBlue} size={30} />
+        </CustomBackdrop>
+      </AnimatePresence>
     )
   );
 };

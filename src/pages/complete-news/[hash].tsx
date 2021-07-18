@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 import { Dialog } from '@material-ui/core';
 import { motion } from 'framer-motion';
@@ -14,6 +14,7 @@ import CircleLoader from 'react-spinners/CircleLoader';
 import { Advertisement } from '../../components/Advertisement';
 import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
+import { useJJM } from '../../hooks/useJJM';
 import { useTheme } from '../../hooks/useTheme';
 import { api } from '../../services/api';
 import {
@@ -29,6 +30,7 @@ import {
   Subjects,
   ShareSocialMedia,
   OfferedBy,
+  Video,
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
 import { PartnersProps } from '../../types/interfaces/Partners';
@@ -45,6 +47,7 @@ interface NewsProps {
   author: string;
   source: string;
   summary: string;
+  video_url?: string;
 }
 
 interface NewsPropsFromServer {
@@ -57,6 +60,7 @@ interface NewsPropsFromServer {
   author: string;
   source: string;
   summary: string;
+  video_url?: string;
 }
 
 interface RelatedNewsProps {
@@ -73,11 +77,17 @@ interface CompleteNewsProps {
   currentUrl: string;
 }
 
+interface RandomPartners {
+  partner: PartnersProps[];
+}
+
 export default function CompleteNews({
   news,
   currentUrl,
   formatedRelatedNews,
 }: CompleteNewsProps) {
+  const { data: randomPartner } = useJJM<RandomPartners>('/getrandompartner');
+
   const { colors } = useTheme();
   const { token } = useAuth();
 
@@ -89,7 +99,7 @@ export default function CompleteNews({
 
   const [openDeleteModel, setOpenDeleteModal] = useState(false);
 
-  const [randomPartner, setRandomPartner] = useState<PartnersProps>();
+  // const [randomPartner, setRandomPartner] = useState<PartnersProps>();
 
   function handleDeleteModal() {
     setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
@@ -137,21 +147,6 @@ export default function CompleteNews({
       </>
     );
   }, [deleteNewsById, isDeleting]);
-
-  const getRandomPartner = useCallback(async () => {
-    try {
-      const { data } = await api.get('/getrandompartner');
-      if (data.partner) {
-        setRandomPartner(data.partner[0]);
-      }
-    } catch (err) {
-      setRandomPartner(null);
-    }
-  }, []);
-
-  useEffect(() => {
-    getRandomPartner();
-  }, [getRandomPartner]);
 
   return (
     <Wrapper>
@@ -214,23 +209,36 @@ export default function CompleteNews({
           <NewsContent>
             <p dangerouslySetInnerHTML={{ __html: news.description }} />
 
+            {news.video_url && (
+              <Video>
+                <h5>Vídeo Reportagem</h5>
+                <hr />
+                <div>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        '<iframe width="560" height="315" src="https://www.youtube.com/embed/YdGSgocDR1E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+                    }}
+                  />
+                </div>
+              </Video>
+            )}
             {randomPartner && (
               <OfferedBy>
                 <h5>Oferecido por:</h5>
                 <span>
                   <Image
-                    src={randomPartner.imageURL}
-                    blurDataURL={randomPartner.imageURL}
+                    src={randomPartner.partner[0].imageURL}
+                    blurDataURL={randomPartner.partner[0].imageURL}
                     placeholder="blur"
                     height={100}
                     width={100}
                     objectFit="contain"
                   />
-                  <p>{randomPartner.name}</p>
+                  <p>{randomPartner.partner[0].name}</p>
                 </span>
               </OfferedBy>
             )}
-
             <Subjects>
               <h4>Assuntos</h4>
               <ul>
@@ -339,6 +347,8 @@ export const getStaticProps: GetStaticProps = async ({
       },
     });
 
+    console.log(news);
+
     const formatNews = {
       subjects: news.subjects,
       id: news._id,
@@ -351,6 +361,7 @@ export const getStaticProps: GetStaticProps = async ({
       author: news.author.toLowerCase(),
       source: news.source ? news.source.toUpperCase() : '',
       summary: news.summary,
+      video_url: news.video_url ?? '',
     };
 
     const relatedNews = await api.get('/search', {

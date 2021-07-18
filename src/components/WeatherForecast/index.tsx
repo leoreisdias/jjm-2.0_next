@@ -4,7 +4,7 @@ import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { FiWind } from 'react-icons/fi';
 import { GiWaterDrop } from 'react-icons/gi';
 
-import { useFetch } from '../../hooks/useFetch';
+import { useWeather } from '../../hooks/useWeather';
 import { LoadingBird } from '../LoadingBird';
 import {
   WeatherForecastContainer,
@@ -44,7 +44,7 @@ interface WeatherProps {
 }
 
 export const WeatherForecast = () => {
-  const { data } = useFetch<WeatherProps>('/');
+  const { data } = useWeather<WeatherProps>('/');
 
   if (!data) {
     return <LoadingBird />;

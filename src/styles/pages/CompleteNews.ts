@@ -87,6 +87,8 @@ export const SmallDetails = styled.div`
 
   border-bottom: 1px solid ${(props) => props.theme.colors.gray500};
 
+  transition: 0.5s;
+
   p:first-child {
     display: flex;
     flex-direction: row;
@@ -133,13 +135,52 @@ export const NewsContent = styled.main`
   }
 `;
 
+export const Video = styled.div`
+  align-self: flex-start;
+  margin-top: 2rem;
+
+  h5 {
+    font-family: 'Nunito';
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: ${(props) => props.theme.colors.gray800};
+  }
+
+  hr {
+    display: block;
+    padding: 0.8px 0;
+    width: 100%;
+    margin: 0.3rem;
+    border-radius: 100%;
+    border: none;
+
+    background: ${(props) => props.theme.colors.jjmBlue};
+  }
+
+  iframe {
+    max-width: 100%;
+    transition: 0.5s;
+  }
+
+  div {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media (max-width: 500px) {
+    iframe {
+      height: 220px;
+    }
+  }
+`;
+
 export const OfferedBy = styled.div`
   align-self: flex-start;
   margin-top: 2rem;
 
   h5 {
     font-family: 'Nunito';
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: ${(props) => props.theme.colors.gray800};
   }
@@ -150,6 +191,8 @@ export const OfferedBy = styled.div`
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    transition: 0.5s;
+
     p {
       font-family: 'Nunito';
       font-weight: 600;
@@ -188,9 +231,11 @@ export const Subjects = styled.div`
 
       display: flex;
       justify-content: center;
+      align-items: center;
 
       color: ${(props) => props.theme.colors.gray500};
       font-size: 0.75rem;
+      text-align: center;
 
       padding: 0.5rem;
       border-radius: 2.5px;
@@ -240,6 +285,7 @@ export const RelatedNewsSection = styled.section`
     margin-top: 1rem;
 
     gap: 0.5rem;
+    transition: 0.5s;
 
     li {
       display: flex;
@@ -318,6 +364,7 @@ export const CustomDialogContent = styled(DialogContent)`
 
   strong {
     font-size: 1.25rem;
+    transition: 0.5s;
   }
 
   span {
@@ -326,6 +373,8 @@ export const CustomDialogContent = styled(DialogContent)`
     justify-content: center;
     align-items: center;
     gap: 1rem;
+
+    transition: 0.5s;
 
     button {
       padding: 0.5rem 1rem;

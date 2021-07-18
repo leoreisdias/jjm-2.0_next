@@ -36,8 +36,8 @@ export function LastPosts({ lastestNews }: LastPostsProps) {
                     alt=""
                   />
                   <p>
-                    <span>{newsItem.source}</span>
                     <strong>{newsItem.title}</strong>
+                    <span>{newsItem.source}</span>
                   </p>
                 </LastPostsContainer>
               </Link>

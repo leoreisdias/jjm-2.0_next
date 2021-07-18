@@ -213,35 +213,43 @@ export const getStaticProps: GetStaticProps = async ({
   const format = (await import('date-fns/format')).default;
   const parseISO = (await import('date-fns/parseISO')).default;
   const ptBR = (await import('date-fns/locale/pt-BR')).default;
+  try {
+    const { id } = params;
 
-  const { id } = params;
+    const {
+      data: { reports },
+    } = await api.get<{ reports: ReportProps }>('/reportDetail', {
+      params: {
+        id,
+      },
+    });
 
-  const {
-    data: { reports },
-  } = await api.get<{ reports: ReportProps }>('/reportDetail', {
-    params: {
-      id,
-    },
-  });
+    const formatedReport = {
+      id: reports._id,
+      title: reports.title,
+      description: reports.description ?? '',
+      name: reports.name,
+      mainImage:
+        reports.imageURL ??
+        'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png',
+      date: format(parseISO(reports.createdAt), 'dd/MM/yyyy', {
+        locale: ptBR,
+      }),
+    };
 
-  const formatedReport = {
-    id: reports._id,
-    title: reports.title,
-    description: reports.description ?? '',
-    name: reports.name,
-    mainImage:
-      reports.imageURL ??
-      'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png',
-    date: format(parseISO(reports.createdAt), 'dd/MM/yyyy', {
-      locale: ptBR,
-    }),
-  };
-
-  return {
-    props: {
-      report: formatedReport,
-      currentUrl: `www.jornaljotamaria.com.br/report-detail/${id}`,
-    },
-    revalidate: 60 * 60 * 24, // 24 hours
-  };
+    return {
+      props: {
+        report: formatedReport,
+        currentUrl: `www.jornaljotamaria.com.br/report-detail/${id}`,
+      },
+      revalidate: 60 * 60 * 24, // 24 hours
+    };
+  } catch (err) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 };

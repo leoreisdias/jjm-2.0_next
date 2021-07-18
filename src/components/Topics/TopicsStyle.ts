@@ -1,10 +1,11 @@
 import { DialogContent } from '@material-ui/core';
 import { motion } from 'framer-motion';
+import { shade, lighten, complement } from 'polished';
 import styled from 'styled-components';
 
 export const TopicsContainer = styled(motion.main)`
   position: absolute;
-  top: 10.5rem;
+  top: 20rem;
   left: 0;
   width: 100%;
   padding: 1rem 0;
@@ -26,24 +27,27 @@ export const TopicsContainer = styled(motion.main)`
 
 export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
   padding: 10px 12px;
-  border-width: 0;
+
   border-radius: 10px;
 
   font-size: 1rem;
-  font-weight: ${(props) => (props.active ? 600 : 200)};
+  font-weight: ${(props) => (props.active ? 600 : 400)};
   color: ${(props) =>
-    props.active ? props.theme.colors.white : props.theme.colors.gray500};
+    props.active ? props.theme.colors.white : shade(0.1, props.theme.colors.gray500)};
 
-  border: 1px solid ${(props) => props.theme.colors.gray100};
+  border: 0.1px solid ${(props) => props.theme.colors.borderColor};
 
   background: ${(props) =>
-    props.active ? props.theme.colors.primary : props.theme.colors.white};
+    props.active ? lighten(0.1, props.theme.colors.jjmBlue) : props.theme.colors.white};
 
   transition: 0.2s;
 
   &:hover {
     color: ${(props) => props.theme.colors.white};
-    background: ${(props) => props.theme.colors.primary};
+    background: ${(props) =>
+      props.active
+        ? complement(lighten(0.1, props.theme.colors.jjmBlue))
+        : complement(shade(0.4, props.theme.colors.white))};
   }
 
   @media (max-width: 768px) {

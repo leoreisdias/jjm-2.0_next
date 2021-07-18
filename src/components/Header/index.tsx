@@ -18,6 +18,8 @@ interface HeaderProps {
   toggleTheme: () => void;
 }
 
+const wppMsg = 'Olá! Estou interessado em ser um Patrocinador do JJM';
+
 export function Header({ toggleTheme }: HeaderProps) {
   const { push } = useRouter();
 
@@ -37,10 +39,16 @@ export function Header({ toggleTheme }: HeaderProps) {
 
   return (
     <HeaderContainer>
-      <img src="/logo.png" alt="GoCast" />
-      <p>Na Pura Verdade é Isso</p>
       <div>
-        <span>{currentDate}</span>
+        <img src="/logo.png" alt="GoCast" />
+        <p>Na Pura Verdade é Isso</p>
+      </div>
+
+      <div>
+        <a href={`https://api.whatsapp.com/send?phone=5535997283216&text=${wppMsg}`}>
+          Seja um Patrocinador
+        </a>
+        <span className="date">{currentDate}</span>
         <NoSsr>
           <Switch
             checked={switchState}

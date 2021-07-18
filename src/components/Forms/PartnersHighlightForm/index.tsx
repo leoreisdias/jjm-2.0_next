@@ -249,7 +249,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           id="outlined-multiline-static"
           label="Descrição do Destaque"
           multiline
-          rows={6}
+          rows={8}
           defaultValue={text}
           onChange={(e) => setText(e.target.value)}
           variant="outlined"

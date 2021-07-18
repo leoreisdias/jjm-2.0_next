@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const FooterContainer = styled.footer`
   height: 100%;
   background: #000;
+  color: ${(props) => props.theme.colors.white};
 
   padding: 2rem 0;
 
@@ -46,14 +47,12 @@ export const ParternsTags = styled.div`
   }
 
   ul li {
-    color: ${(props) => props.theme.colors.white};
     font-size: 0.75rem;
-
+    font-weight: 700;
     padding: 0.5rem 0.45rem;
     border-radius: 2.5px;
 
     list-style: none;
     background: ${(props) => props.theme.colors.gray900};
-    /* box-shadow: 0 0 0 1px white; */
   }
 `;

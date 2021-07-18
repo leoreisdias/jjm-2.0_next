@@ -14,6 +14,14 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
     list-style: none;
 
     padding-top: 1rem;
+
+    li {
+      cursor: pointer;
+      transition: 0.5s;
+      &:hover {
+        scale: 1.05;
+      }
+    }
   }
 
   @media (max-width: 720px) {

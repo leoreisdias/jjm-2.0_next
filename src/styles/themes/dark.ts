@@ -2,7 +2,7 @@ export default {
   title: 'dark',
 
   colors: {
-    background: '#FAF5FF',
+    background: '#7D7A80',
     text: '#e1e1e6',
     primary: '#D8C0FC',
     white: '#FFF',
@@ -15,6 +15,7 @@ export default {
     gray900: '#3f3f3f',
 
     green500: '#04d361',
+    borderColor: '#A3A3A3',
 
     purple300: '#9f75ff',
     purple400: '#9164fa',

@@ -8,7 +8,7 @@ export const Card = styled(motion.div)`
 
   align-items: center;
 
-  color: ${(props) => props.theme.colors.gray500};
+  color: ${(props) => props.theme.colors.gray800};
 
   max-width: 24.785rem;
   margin-top: 10px;
@@ -40,6 +40,8 @@ export const Card = styled(motion.div)`
     padding: 0rem 0rem 0rem 1rem;
     font-size: 1rem;
     align-self: flex-start;
+
+    text-transform: capitalize;
   }
 
   h3 {
@@ -49,7 +51,6 @@ export const Card = styled(motion.div)`
     text-align: center;
 
     text-transform: lowercase;
-
     &::first-letter {
       text-transform: capitalize;
     }

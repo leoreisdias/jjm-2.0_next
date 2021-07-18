@@ -10,7 +10,7 @@ import parseISO from 'date-fns/parseISO';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useJJM } from '../../hooks/useFetch';
+import { useJJM } from '../../hooks/useJJM';
 import { AdImage, CardAd } from './DeathReportStyle';
 
 interface Reports {

@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import NoSsr from '@material-ui/core/NoSsr';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import Select from 'react-select';
 
 import { NewsForm } from '../components/Forms/NewsForm';

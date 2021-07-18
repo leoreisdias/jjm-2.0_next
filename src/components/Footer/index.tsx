@@ -1,9 +1,13 @@
 import { FaFacebook } from 'react-icons/fa';
 
+import { useJJM } from '../../hooks/useJJM';
+import { PartnersProps } from '../../types/interfaces/Partners';
 import { Copyright } from '../Copyright';
 import { FooterContainer, AboutJJM, ParternsTags } from './FooterStyle';
 
 export function Footer() {
+  const { data: partners } = useJJM<PartnersProps[]>('/partners');
+
   return (
     <FooterContainer>
       <AboutJJM>
@@ -28,14 +32,13 @@ export function Footer() {
       <ParternsTags>
         <h3>Parceiros</h3>
         <ul>
-          <li>Donizete Pintor</li>
-          <li>Sindicato dos Trabalhadores Rurais</li>
-          <li>Wizard</li>
-          <li>MilBr</li>
-          <li>Central do Café</li>
-          <li>Vila Burguer</li>
-          <li>Lotérica Sua Casa</li>
-          <li>Funerária São Dimas</li>
+          {partners ? (
+            partners.map((item) => {
+              return <li key={item._id}>{item.name}</li>;
+            })
+          ) : (
+            <li>Seja um Patrocinador como os que aparecerão aqui já já</li>
+          )}
         </ul>
       </ParternsTags>
     </FooterContainer>

@@ -4,6 +4,7 @@ import NoSsr from '@material-ui/core/NoSsr';
 import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import * as Yup from 'yup';
@@ -57,14 +58,14 @@ export const ReportsForm = ({ id }: ReportFormPros) => {
     const data = {
       title,
       name,
-      image: isUpdating ? 'Updating' : image,
+      image,
       description,
     };
 
     try {
       const schema = Yup.object().shape({
         title: Yup.string().required('Faltando Título da Nota!'),
-        image: Yup.string().required('Faltando uma imagem!'),
+        image: Yup.string(),
         description: Yup.string().required('Faltando a descrição da nota!'),
         name: Yup.string().required('Nome é obrigatório!'),
       });
@@ -196,7 +197,7 @@ export const ReportsForm = ({ id }: ReportFormPros) => {
           id="outlined-multiline-static"
           label="Descrição da Nota"
           multiline
-          rows={6}
+          rows={8}
           defaultValue={description}
           onChange={(e) => setDescription(e.target.value)}
           variant="outlined"
@@ -207,6 +208,18 @@ export const ReportsForm = ({ id }: ReportFormPros) => {
             <Warning>
               Lembre-se! Postar imagem somente do falecido! Caso não poste, aparecerá o
               pombo!
+              <Image
+                src={
+                  'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png'
+                }
+                width={150}
+                height={150}
+                blurDataURL={
+                  'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png'
+                }
+                placeholder="blur"
+                objectFit="contain"
+              />
             </Warning>
             <LabelImageFile
               // id={styles.image}
