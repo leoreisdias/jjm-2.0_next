@@ -1,4 +1,4 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useState, useEffect } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -16,8 +16,14 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const ReportsForm = () => {
+interface ReportFormPros {
+  id?: string;
+}
+
+export const ReportsForm = ({ id }: ReportFormPros) => {
   const { handleLoading } = useAuth();
+
+  const isUpdating = useMemo(() => id && id.length, [id]);
 
   const { push } = useRouter();
 
@@ -51,7 +57,7 @@ export const ReportsForm = () => {
     const data = {
       title,
       name,
-      image,
+      image: isUpdating ? 'Updating' : image,
       description,
     };
 
@@ -65,9 +71,9 @@ export const ReportsForm = () => {
       await schema.validate(data, {
         abortEarly: false,
       });
-      console.log('deu certo');
       handleLoading(true);
-      storeData();
+      if (isUpdating) updateData();
+      else storeData();
     } catch (err) {
       //..
       const validationErrors = {};
@@ -110,6 +116,56 @@ export const ReportsForm = () => {
     }
   }
 
+  async function updateData() {
+    const data = {
+      name,
+      description,
+      title,
+    };
+
+    try {
+      await api.patch(`/reports/${id}`, data, {
+        headers: {
+          authorization: 'Bearer ' + token,
+        },
+      });
+
+      setIsError(false);
+      setAlertMessage('Nota Atualizada com Sucesso');
+      setShowAlert(true);
+      push('/');
+      handleLoading(false);
+    } catch (err) {
+      handleLoading(false);
+      setIsError(true);
+      setAlertMessage('Erro ao tentar atualizar! Tente novamente daqui 5 minutos!');
+      setShowAlert(true);
+    }
+  }
+
+  const getReportById = useCallback(
+    async (id: string) => {
+      handleLoading(true);
+
+      try {
+        const { data } = await api.get(`/reportDetail?id=${id}`);
+        if (data.reports) {
+          setName(data.reports.name);
+          setTitle(data.reports.title);
+          setDescription(data.reports.description);
+        }
+        handleLoading(false);
+      } catch (err) {
+        handleLoading(false);
+      }
+    },
+    [handleLoading]
+  );
+
+  useEffect(() => {
+    if (isUpdating) getReportById(id);
+  }, [getReportById, id, isUpdating]);
+
   return (
     <NoSsr>
       <Form onSubmit={handleSubmit}>
@@ -146,23 +202,27 @@ export const ReportsForm = () => {
           variant="outlined"
           required
         />
-
-        <Warning>
-          Lembre-se! Postar imagem somente do falecido! Caso não poste, aparecerá o pombo!
-        </Warning>
-        <LabelImageFile
-          // id={styles.image}
-          style={{
-            backgroundImage: `url(${preview})`,
-            backgroundSize: '100% 100%',
-            backgroundRepeat: 'no-repeat',
-          }}
-          // className={image ? styles.hasImage : styles.noImage}
-          hasImage={!!image}
-        >
-          <input type="file" onChange={handleChange} />
-          <img src="/camera.svg" alt="Select" />
-        </LabelImageFile>
+        {!isUpdating && (
+          <>
+            <Warning>
+              Lembre-se! Postar imagem somente do falecido! Caso não poste, aparecerá o
+              pombo!
+            </Warning>
+            <LabelImageFile
+              // id={styles.image}
+              style={{
+                backgroundImage: `url(${preview})`,
+                backgroundSize: '100% 100%',
+                backgroundRepeat: 'no-repeat',
+              }}
+              // className={image ? styles.hasImage : styles.noImage}
+              hasImage={!!image}
+            >
+              <input type="file" onChange={handleChange} />
+              <img src="/camera.svg" alt="Select" />
+            </LabelImageFile>
+          </>
+        )}
 
         <SubmitButton type="submit" onSubmit={handleSubmit}>
           Salvar Nota

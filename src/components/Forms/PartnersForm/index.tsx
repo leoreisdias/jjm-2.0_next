@@ -186,8 +186,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       try {
         const { data } = await api.get(`/findpartner/${id}`);
         if (data.partner) {
-          console.log(data.partner);
-
           setName(data.partner.name);
           setPaymentDay(data.partner.paymentDay);
           setFacebookUrl(data.partner.facebook_url);
@@ -204,7 +202,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
         handleLoading(false);
       } catch (err) {
         handleLoading(false);
-        console.log(err);
       }
     },
     [handleLoading]

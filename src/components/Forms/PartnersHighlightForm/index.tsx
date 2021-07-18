@@ -87,7 +87,6 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       await schema.validate(data, {
         abortEarly: false,
       });
-      console.log('deu certo');
 
       handleLoading(true);
       if (isUpdating) updateData();
@@ -162,24 +161,25 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
     }
   }
 
-  const getPartnerHighlightById = useCallback(async (id: string) => {
-    handleLoading(true);
-    try {
-      const { data } = await api.get(`/findpartnershighlight/${id}`);
-      if (data.partnerHighlight) {
-        console.log(data);
-
-        setText(data.partnerHighlight.text);
-        setTitle(data.partnerHighlight.title);
-        setPartner(data.partnerHighlight.partner);
-        setCurrentImageUrl(data.partnerHighlight.imageURL);
+  const getPartnerHighlightById = useCallback(
+    async (id: string) => {
+      handleLoading(true);
+      try {
+        const { data } = await api.get(`/findpartnershighlight/${id}`);
+        if (data.partnerHighlight) {
+          setText(data.partnerHighlight.text);
+          setTitle(data.partnerHighlight.title);
+          setPartner(data.partnerHighlight.partner);
+          setCurrentImageUrl(data.partnerHighlight.imageURL);
+        }
+        handleLoading(false);
+      } catch (err) {
+        handleLoading(false);
+        console.log(err);
       }
-      handleLoading(false);
-    } catch (err) {
-      handleLoading(false);
-      console.log(err);
-    }
-  }, []);
+    },
+    [handleLoading]
+  );
 
   const getPartnersList = useCallback(async () => {
     setIsLoading(true);
@@ -195,10 +195,8 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       setPartnerOptions(availablePartners);
 
       setIsLoading(false);
-      console.log(data);
     } catch (err) {
       setIsLoading(false);
-      console.log(err);
     }
   }, []);
 

@@ -29,6 +29,7 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
   const [idNews, setIdNews] = useState('');
   const [idPartners, setIdPartners] = useState('');
   const [idPartnersHighlight, setIdPartnersHighlight] = useState('');
+  const [idReport, setIdReport] = useState('');
 
   const options = [
     { value: '', label: 'Escolher Opção' },
@@ -44,11 +45,13 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
       if (update == 'news') setIdNews(id);
       if (update == 'partners') setIdPartners(id);
       if (update == 'partnersHighlight') setIdPartnersHighlight(id);
+      if (update == 'deathReport') setIdReport(id);
     } else {
       setFormType('');
       setIdNews(null);
       setIdPartners(null);
       setIdPartnersHighlight(null);
+      setIdReport(null);
     }
   }, [id, isUpdating, update]);
 
@@ -72,7 +75,7 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
           />
         )}
         {formType == formOptions.news && <NewsForm id={idNews} />}
-        {formType == formOptions.deathReport && <ReportsForm />}
+        {formType == formOptions.deathReport && <ReportsForm id={idReport} />}
         {formType == formOptions.partners && <PartnersForm id={idPartners} />}
         {formType == formOptions.partnersHighlight && (
           <PartnersHightlightForm id={idPartnersHighlight} />

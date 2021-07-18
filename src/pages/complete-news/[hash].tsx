@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 
 import { Dialog } from '@material-ui/core';
 import { motion } from 'framer-motion';
@@ -10,11 +10,11 @@ import { useRouter } from 'next/router';
 import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
-import { ThemeContext } from 'styled-components';
 
 import { Advertisement } from '../../components/Advertisement';
 import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
 import { api } from '../../services/api';
 import {
   Wrapper,
@@ -78,7 +78,7 @@ export default function CompleteNews({
   currentUrl,
   formatedRelatedNews,
 }: CompleteNewsProps) {
-  const { colors } = useContext(ThemeContext);
+  const { colors } = useTheme();
   const { token } = useAuth();
 
   const [isDeleting, setIsDeleting] = useState(false);
