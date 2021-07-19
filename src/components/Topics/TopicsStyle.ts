@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 export const TopicsContainer = styled(motion.main)`
   position: absolute;
-  top: 20rem;
+  top: 8rem;
   left: 0;
   width: 100%;
   padding: 1rem 0;
@@ -20,8 +20,14 @@ export const TopicsContainer = styled(motion.main)`
 
   background: ${(props) => props.theme.colors.background};
 
+  transition: 0.5s;
+
   .MuiPaper-root {
     width: 500px !important;
+  }
+
+  @media (max-width: 780px) {
+    top: 10rem;
   }
 `;
 

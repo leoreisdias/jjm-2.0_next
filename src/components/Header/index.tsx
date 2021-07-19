@@ -5,6 +5,7 @@ import Switch from '@material-ui/core/Switch';
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FaHandshake } from 'react-icons/fa';
 import { GiExitDoor } from 'react-icons/gi';
@@ -13,7 +14,6 @@ import { ThemeContext } from 'styled-components';
 
 import { useAuth } from '../../hooks/useAuth';
 import { HeaderContainer, SpanExit } from './HeaderStyle';
-
 interface HeaderProps {
   toggleTheme: () => void;
 }
@@ -39,25 +39,30 @@ export function Header({ toggleTheme }: HeaderProps) {
 
   return (
     <HeaderContainer>
-      <div>
-        <img src="/logo.png" alt="GoCast" />
-        <p>Na Pura Verdade é Isso</p>
-      </div>
+      {/* <div>
+        <Image src="/logo.png" alt="GoCast" width={80} height={80} objectFit="contain" />
+      </div> */}
 
       <div>
-        <a href={`https://api.whatsapp.com/send?phone=5535997283216&text=${wppMsg}`}>
+        <div>
+          <span className="date">{currentDate}</span>
+          <NoSsr>
+            <Switch
+              checked={switchState}
+              onChange={handleThemeSwitch}
+              name="checkedA"
+              color="primary"
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+          </NoSsr>
+        </div>
+        <a
+          href={`https://api.whatsapp.com/send?phone=5535997283216&text=${wppMsg}`}
+          target="_blank"
+          rel="noreferrer"
+        >
           Seja um Patrocinador
         </a>
-        <span className="date">{currentDate}</span>
-        <NoSsr>
-          <Switch
-            checked={switchState}
-            onChange={handleThemeSwitch}
-            name="checkedA"
-            color="primary"
-            inputProps={{ 'aria-label': 'secondary checkbox' }}
-          />
-        </NoSsr>
         {isAuthenticated && (
           <>
             <SpanExit>

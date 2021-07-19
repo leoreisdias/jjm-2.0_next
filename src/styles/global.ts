@@ -23,6 +23,7 @@ body {
   color: ${(props) => props.theme.colors.gray900};
 }
 
+
 body, input, textarea, button{
   font: 400 1rem "Nunito", sans-serif;
 }
