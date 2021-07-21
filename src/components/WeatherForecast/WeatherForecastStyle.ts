@@ -1,6 +1,7 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-export const WeatherForecastContainer = styled.article`
+export const WeatherForecastContainer = styled(motion.article)`
   display: flex;
   flex-direction: column;
   justify-content: center;

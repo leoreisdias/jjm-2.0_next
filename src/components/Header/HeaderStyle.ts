@@ -120,5 +120,11 @@ export const SpanExit = styled.span`
   padding: 0.2rem;
 
   display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: ${(props) => props.theme.colors.gray100};
+  padding: 0 1rem;
+
   gap: 0.8rem;
 `;

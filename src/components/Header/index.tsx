@@ -69,19 +69,19 @@ export function Header({ toggleTheme }: HeaderProps) {
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
                 <FaHandshake
                   size={25}
-                  color={colors.gray50}
+                  color={colors.jjmBlue}
                   onClick={() => push('/partners')}
                 />
               </motion.span>
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
                 <RiAdminFill
                   size={25}
-                  color={colors.gray50}
+                  color={colors.jjmGreen}
                   onClick={() => push('/writer-area')}
                 />
               </motion.span>
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
-                <GiExitDoor size={25} color={colors.white} onClick={handleLogout} />
+                <GiExitDoor size={25} color={colors.jjmRed} onClick={handleLogout} />
               </motion.span>
             </SpanExit>
           </>

@@ -43,6 +43,21 @@ interface WeatherProps {
   temp: number;
 }
 
+const Variant = {
+  begin: {
+    scale: 0.2,
+    opacity: 0,
+  },
+  animate: {
+    scale: 1,
+    opacity: 1,
+    transition: {
+      duration: 1,
+      ease: [0.48, 0.15, 0.25, 0.96],
+    },
+  },
+};
+
 export const WeatherForecast = () => {
   const { data } = useWeather<WeatherProps>('/');
 
@@ -51,7 +66,7 @@ export const WeatherForecast = () => {
   }
 
   return (
-    <WeatherForecastContainer>
+    <WeatherForecastContainer initial="begin" animate="animate" variants={Variant}>
       <Today>
         <CityMaxMin>
           <strong>{data?.city_name}</strong>

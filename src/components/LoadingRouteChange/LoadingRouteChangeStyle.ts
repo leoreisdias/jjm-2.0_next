@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { rgba } from 'polished';
 import styled from 'styled-components';
 
 export const CustomBackdrop = styled(motion.div)`
@@ -13,6 +14,6 @@ export const CustomBackdrop = styled(motion.div)`
   justify-content: center;
   align-items: center;
 
-  background: ${(props) => props.theme.colors.white};
+  background: ${(props) => rgba(props.theme.colors.white, 0.9)};
   color: #fff;
 `;

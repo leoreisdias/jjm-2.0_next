@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 export const TopicsContainer = styled(motion.main)`
   position: absolute;
-  top: 8rem;
+  top: 8.5rem;
   left: 0;
   width: 100%;
   padding: 1rem 0;

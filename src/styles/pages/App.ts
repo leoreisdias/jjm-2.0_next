@@ -1,21 +1,22 @@
+import { motion } from 'framer-motion';
 import { rgba } from 'polished';
 import styled from 'styled-components';
 
-export const Main = styled.main<{ login: boolean }>`
-  margin: 2rem auto 0 auto;
+export const Main = styled(motion.main)<{ login: boolean }>`
+  margin: ${(props) => (!props.login ? '2rem' : '0')} auto 0 auto;
   display: flex;
-  padding-top: 17rem;
+  padding-top: ${(props) => (!props.login ? '17rem' : '0')};
   justify-content: center;
   min-height: 100vh;
 
   transition: 1s;
 
   @media (max-width: 780px) {
-    padding-top: 20rem;
+    padding-top: ${(props) => (!props.login ? '20rem' : '0')};
   }
 `;
 
-export const ParallaxPageOne = styled.div`
+export const ParallaxPageOne = styled(motion.div)`
   display: flex;
   flex-direction: row;
   justify-content: center;
