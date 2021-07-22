@@ -103,6 +103,6 @@ export const ListItemButtonContainer = styled.div`
   }
 
   & button:last-child {
-    background: ${(props) => props.theme.colors.jjmBlue};
+    background: ${(props) => props.theme.colors.jjmPallete_1};
   }
 `;

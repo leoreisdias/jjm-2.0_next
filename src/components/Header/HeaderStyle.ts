@@ -1,4 +1,3 @@
-import { rgba, shade } from 'polished';
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
@@ -61,7 +60,7 @@ export const HeaderContainer = styled.header`
       border-right: 1px solid ${(props) => props.theme.colors.white};
       /* padding-right: 0.5rem; */
       &:hover {
-        color: ${(props) => props.theme.colors.jjmBlue};
+        color: ${(props) => props.theme.colors.jjmPallete_1};
       }
     }
 
@@ -117,14 +116,19 @@ export const SpanExit = styled.span`
   }
 
   border-radius: 5px;
-  padding: 0.2rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
   background: ${(props) => props.theme.colors.gray100};
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   gap: 0.8rem;
 `;

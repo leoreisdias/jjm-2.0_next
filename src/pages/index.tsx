@@ -160,7 +160,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
           </Main>
           <Aside>
             <label htmlFor="search">
-              <FaSearch color={colors.jjmBlue} />
+              <FaSearch color={colors.jjmPallete_1} />
               <input
                 type="text"
                 placeholder="Pesquise algo específico"
@@ -172,11 +172,11 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
 
             <LastPosts lastestNews={topFourRecentNews} />
             <DeathReportCard />
-            <Advertisement />
+            <Advertisement showSmallPartners={!matches} />
           </Aside>
         </Container>
       ) : (
-        <PuffLoader size={100} color={colors.jjmBlue} />
+        <PuffLoader size={100} color={colors.jjmPallete_1} />
       )}
 
       {!matches && currentNewsList && (
@@ -187,6 +187,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
             color="primary"
             size="large"
             onChange={handleChangePage}
+            style={{ color: 'white' }}
           />
         </PaginationContainer>
       )}

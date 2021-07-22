@@ -80,6 +80,11 @@ export function Topics() {
         >
           <Link href="/">
             <ButtonTopic
+              whileHover={{
+                scale: 1.1,
+                rotate: pathname == '/' ? 2 : 1.2,
+                transition: { duration: 0.05 },
+              }}
               active={pathname == '/'}
               initial="begin"
               animate="animate"
@@ -91,6 +96,7 @@ export function Topics() {
           </Link>
 
           <ButtonTopic
+            whileHover={{ scale: 1.05, rotate: 1.1, transition: { duration: 0.05 } }}
             active={false}
             initial="begin"
             animate="animate"
@@ -100,7 +106,34 @@ export function Topics() {
           >
             Previsão do Tempo
           </ButtonTopic>
+          <Link href="/reports">
+            <ButtonTopic
+              whileHover={{ scale: 1.05, rotate: 1.1, transition: { duration: 0.05 } }}
+              active={pathname == '/reports'}
+              initial="begin"
+              animate="animate"
+              exit="exit"
+              variants={TopicsVariant}
+            >
+              Notas de Falecimento
+            </ButtonTopic>
+          </Link>
+
+          <Link href="/ourpartners">
+            <ButtonTopic
+              whileHover={{ scale: 1.05, rotate: 1.1, transition: { duration: 0.05 } }}
+              active={pathname == '/ourpartners'}
+              initial="begin"
+              animate="animate"
+              exit="exit"
+              variants={TopicsVariant}
+            >
+              Nossos Parceiros
+            </ButtonTopic>
+          </Link>
+
           <ButtonTopic
+            whileHover={{ scale: 1.05, rotate: 1.1, transition: { duration: 0.05 } }}
             active={false}
             initial="begin"
             animate="animate"

@@ -71,7 +71,7 @@ export const CurrentImageLabel = styled.label`
   gap: 1rem;
 
   strong {
-    color: ${(props) => props.theme.colors.jjmBlue};
+    color: ${(props) => props.theme.colors.jjmPallete_1};
     font-size: 1.2rem;
   }
 `;
@@ -82,7 +82,7 @@ export const SubmitButton = styled.button`
   background: linear-gradient(
     217deg,
     ${(props) => props.theme.colors.jjmGreen},
-    ${(props) => props.theme.colors.jjmBlue}
+    ${(props) => props.theme.colors.jjmPallete_1}
   );
 
   color: white;

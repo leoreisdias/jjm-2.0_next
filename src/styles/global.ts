@@ -50,7 +50,7 @@ a {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background:${(props) => props.theme.colors.jjmBlue};
+  background:${(props) => props.theme.colors.jjmPallete_1};
   border-radius: 10px;
 }
 

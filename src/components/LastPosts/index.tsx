@@ -27,7 +27,12 @@ export function LastPosts({ lastestNews }: LastPostsProps) {
           lastestNews.map((newsItem) => {
             return (
               <Link href={`/complete-news/${newsItem.id}`} key={newsItem.id}>
-                <LastPostsContainer>
+                <LastPostsContainer
+                  whileHover={{
+                    scale: 1.05,
+                    transition: { duration: 0.4 },
+                  }}
+                >
                   <Image
                     width={100}
                     height={100}

@@ -145,7 +145,7 @@ export default function ReportDetail({ report, currentUrl }: CompleteReportProps
                       as={'/writer-area'}
                     >
                       <span>
-                        <FaEdit size={17} color={colors.jjmBlue} className="icon" />
+                        <FaEdit size={17} color={colors.jjmPallete_1} className="icon" />
                       </span>
                     </Link>
                     <MdDelete

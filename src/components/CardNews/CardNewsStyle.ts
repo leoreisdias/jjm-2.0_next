@@ -1,5 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import { motion } from 'framer-motion';
+import { shade } from 'polished';
 import styled from 'styled-components';
 
 export const Card = styled(motion.div)`
@@ -34,6 +35,12 @@ export const Card = styled(motion.div)`
     width: 100%;
     height: 100%;
     filter: contrast(1.2) brightness(1);
+
+    transition: 0.5s;
+
+    &:hover {
+      filter: contrast(1) brightness(0.2);
+    }
   }
 
   small {
@@ -51,8 +58,17 @@ export const Card = styled(motion.div)`
     text-align: center;
 
     text-transform: lowercase;
+    transition: 0.5s;
+
+    color: ${(props) => shade(0.5, props.theme.colors.jjmPallete_1)};
+
     &::first-letter {
       text-transform: capitalize;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: ${(props) => props.theme.colors.jjmPallete_1};
     }
   }
 

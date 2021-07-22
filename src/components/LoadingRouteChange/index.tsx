@@ -55,7 +55,7 @@ export const LoadingRouteChange = () => {
           animate="animate"
           exit="exit"
         >
-          <BeatLoader color={colors.jjmBlue} size={30} />
+          <BeatLoader color={colors.jjmPallete_1} size={30} />
         </CustomBackdrop>
       </AnimatePresence>
     )

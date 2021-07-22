@@ -27,7 +27,7 @@ export default {
 
     jjmRed: '#A62E37',
 
-    jjmBlue: '#1D75A5',
+    jjmPallete_1: '#1D75A5',
     jjmGreen: '#208366',
   },
 };

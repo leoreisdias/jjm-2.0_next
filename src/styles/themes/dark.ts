@@ -2,8 +2,8 @@ export default {
   title: 'dark',
 
   colors: {
-    background: '#7D7A80',
-    text: '#e1e1e6',
+    background: '#202124',
+    text: '#BDC1C6',
     primary: '#D8C0FC',
     white: '#FFF',
     gray50: '#f7f8fa',
@@ -26,7 +26,7 @@ export default {
 
     jjmRed: '#A62E37',
 
-    jjmBlue: '#1D75A5',
+    jjmPallete_1: '#D06125',
     jjmGreen: '#208366',
   },
 };

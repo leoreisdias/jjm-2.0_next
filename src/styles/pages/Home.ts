@@ -4,6 +4,11 @@ import styled from 'styled-components';
 export const Wrapper = styled.section`
   color: ${(props) => props.theme.colors.text};
   margin-bottom: 2rem;
+
+  .MuiPaginationItem-root {
+    color: ${(props) =>
+      props.theme.title == 'dark' ? props.theme.colors.white : '#000'};
+  }
 `;
 
 export const Container = styled.article`
@@ -58,11 +63,11 @@ export const Aside = styled.aside`
     border-radius: 10px;
 
     padding: 0 0.5rem;
-    box-shadow: 0 0 0 2pt ${(props) => lighten(0.05, props.theme.colors.jjmBlue)};
+    box-shadow: 0 0 0 2pt ${(props) => lighten(0.05, props.theme.colors.jjmPallete_1)};
 
     &:hover {
       border: none;
-      box-shadow: 0 0 0 2pt ${(props) => shade(0.05, props.theme.colors.jjmBlue)};
+      box-shadow: 0 0 0 2pt ${(props) => shade(0.05, props.theme.colors.jjmPallete_1)};
     }
     input {
       width: 100%;

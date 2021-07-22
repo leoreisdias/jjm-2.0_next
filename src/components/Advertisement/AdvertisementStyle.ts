@@ -1,4 +1,5 @@
 import { DialogContent } from '@material-ui/core';
+import { shade } from 'polished';
 import styled from 'styled-components';
 
 export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
@@ -24,9 +25,27 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
     }
   }
 
+  @media (max-width: 1020px) {
+    span {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  }
+
   @media (max-width: 720px) {
+    span {
+      flex-direction: column;
+      gap: 0;
+    }
     & ul {
       grid-template-columns: repeat(3, 1fr);
+
+      li {
+        margin: auto;
+        width: 75%;
+      }
     }
   }
 
@@ -39,7 +58,8 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
       align-items: center;
 
       li {
-        width: 50%;
+        margin: auto;
+        width: 20%;
       }
     }
   }
@@ -47,4 +67,30 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
 
 export const CustomDialogContent = styled(DialogContent)`
   background: #f5fbff;
+`;
+
+export const ExpiredPartners = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem;
+  h4 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: ${(props) => props.theme.colors.jjmRed};
+  }
+
+  p {
+    font-size: 1.2rem;
+    ul {
+      margin-top: 1rem;
+      list-style: symbols('💵');
+      li {
+        margin-bottom: 0.2rem;
+        font-size: 1.1rem;
+        color: ${(props) => shade(0.2, props.theme.colors.jjmGreen)};
+      }
+    }
+  }
 `;

@@ -69,7 +69,7 @@ export const SubmitButton = styled.button`
   background: linear-gradient(
     217deg,
     ${(props) => props.theme.colors.jjmGreen},
-    ${(props) => props.theme.colors.jjmBlue}
+    ${(props) => props.theme.colors.jjmPallete_1}
   );
 
   color: white;

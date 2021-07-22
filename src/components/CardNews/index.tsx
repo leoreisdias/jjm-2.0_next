@@ -34,7 +34,7 @@ export function CardNews({ news }: CardNewsProps) {
     setExpanded(!expanded);
   };
   return (
-    <Card whileTap={{ scale: 0.95, transition: { duration: 0.01 } }}>
+    <Card whileHover={{ scale: 0.99, transition: { duration: 0.1 } }}>
       <Link href={`/complete-news/${news.id}`}>
         <CardActionArea>
           <Image
@@ -51,8 +51,9 @@ export function CardNews({ news }: CardNewsProps) {
           </small>
         </CardActionArea>
       </Link>
-
-      <h3>{news.title}</h3>
+      <Link href={`/complete-news/${news.id}`}>
+        <h3>{news.title}</h3>
+      </Link>
       <p>{news.summary}</p>
       <hr />
       <span>

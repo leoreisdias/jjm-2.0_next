@@ -69,7 +69,7 @@ export function Header({ toggleTheme }: HeaderProps) {
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>
                 <FaHandshake
                   size={25}
-                  color={colors.jjmBlue}
+                  color={colors.jjmPallete_1}
                   onClick={() => push('/partners')}
                 />
               </motion.span>

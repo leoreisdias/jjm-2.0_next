@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 
 export const LastPostsWrapper = styled.section`
@@ -19,7 +21,7 @@ export const LastPostsWrapper = styled.section`
   }
 `;
 
-export const LastPostsContainer = styled.li`
+export const LastPostsContainer = styled(motion.li)`
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -67,9 +69,10 @@ export const LastPostsContainer = styled.li`
     font-size: 0.875rem;
 
     transition: 0.25s;
+    color: ${(props) => shade(0.5, props.theme.colors.jjmPallete_1)};
 
     &:hover {
-      color: ${(props) => props.theme.colors.blue};
+      color: ${(props) => lighten(0.1, props.theme.colors.jjmPallete_1)};
     }
   }
 `;

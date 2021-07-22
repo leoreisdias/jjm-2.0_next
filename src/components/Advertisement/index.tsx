@@ -1,20 +1,33 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { Dialog } from '@material-ui/core';
+import { getDate } from 'date-fns';
 import Image from 'next/image';
 
+import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
 import { PartnerHighlightProps, PartnersProps } from '../../types/interfaces/Partners';
 import BigAd from '../BigAd';
 import { PartnerDetails } from '../PartnerDetails';
-import { AdvertisementContainer, CustomDialogContent } from './AdvertisementStyle';
+import {
+  AdvertisementContainer,
+  CustomDialogContent,
+  ExpiredPartners,
+} from './AdvertisementStyle';
 
 interface AdvertisementProps {
   reverse?: boolean;
+  showSmallPartners: boolean;
 }
 
-export function Advertisement({ reverse }: AdvertisementProps) {
+export function Advertisement({ reverse, showSmallPartners }: AdvertisementProps) {
+  const { isAuthenticated } = useAuth();
+
   const [partners, setPartners] = useState<PartnersProps[]>();
+
+  const [dueDatePartners, setDueDatePartners] = useState<PartnersProps[]>();
+
+  const [hasPartnersExpired, setHasPartnersExpired] = useState(false);
 
   const [partnerDetail, setPartnerDetail] = useState<PartnersProps>();
 
@@ -26,10 +39,18 @@ export function Advertisement({ reverse }: AdvertisementProps) {
     try {
       const { data } = await api.get('/partners');
       setPartners(data);
+
+      if (isAuthenticated) {
+        const dueDate = data.filter(
+          (item: PartnersProps) => item.paymentDay == getDate(new Date())
+        );
+        setDueDatePartners(dueDate);
+        if (dueDate.length) setHasPartnersExpired(true);
+      }
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const loadLastTwoHighlights = useCallback(async () => {
     try {
@@ -53,29 +74,31 @@ export function Advertisement({ reverse }: AdvertisementProps) {
   return (
     <AdvertisementContainer reverse={reverse}>
       {lastTwoHighlights && (
-        <>
+        <span>
           <BigAd highlight={lastTwoHighlights[0]} />
           <BigAd highlight={lastTwoHighlights[1]} />
-        </>
+        </span>
       )}
-      <ul>
-        {partners &&
-          partners.map((partner, index) => {
-            return (
-              <li key={partner._id} onClick={() => handleModalPartnerDetail(index)}>
-                <Image
-                  width={150}
-                  height={150}
-                  objectFit="contain"
-                  placeholder="blur"
-                  blurDataURL={partner.imageURL}
-                  src={partner.imageURL}
-                  alt={partner.name}
-                />
-              </li>
-            );
-          })}
-      </ul>
+      {showSmallPartners && (
+        <ul>
+          {partners &&
+            partners.map((partner, index) => {
+              return (
+                <li key={partner._id} onClick={() => handleModalPartnerDetail(index)}>
+                  <Image
+                    width={150}
+                    height={150}
+                    objectFit="contain"
+                    placeholder="blur"
+                    blurDataURL={partner.imageURL}
+                    src={partner.imageURL}
+                    alt={partner.name}
+                  />
+                </li>
+              );
+            })}
+        </ul>
+      )}
       <Dialog
         open={openPartnerModal}
         onClose={() => setOpenPartnerModal((oldOpenModal) => !oldOpenModal)}
@@ -84,6 +107,31 @@ export function Advertisement({ reverse }: AdvertisementProps) {
       >
         <CustomDialogContent>
           <PartnerDetails partner={partnerDetail} />
+        </CustomDialogContent>
+      </Dialog>
+      <Dialog
+        open={hasPartnersExpired}
+        onClose={() => setHasPartnersExpired((oldOpenModal) => !oldOpenModal)}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <CustomDialogContent>
+          <ExpiredPartners>
+            <h4>Atenção!</h4>
+            <p>
+              Esses patrocinios vencem hoje:
+              <ul>
+                {dueDatePartners &&
+                  dueDatePartners.map((item) => {
+                    return (
+                      <li key={item._id}>
+                        {item.name} / Dia {item.paymentDay}
+                      </li>
+                    );
+                  })}
+              </ul>
+            </p>
+          </ExpiredPartners>
         </CustomDialogContent>
       </Dialog>
     </AdvertisementContainer>

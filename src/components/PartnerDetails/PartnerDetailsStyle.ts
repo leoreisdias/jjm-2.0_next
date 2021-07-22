@@ -22,7 +22,7 @@ export const PartnerDetailContainer = styled.section`
 
 export const Title = styled.h3`
   font-size: 1.25rem;
-  color: ${(props) => props.theme.colors.jjmBlue};
+  color: ${(props) => props.theme.colors.jjmPallete_1};
 `;
 
 export const Content = styled.div`

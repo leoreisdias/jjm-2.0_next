@@ -14,6 +14,9 @@ export const Main = styled(motion.main)<{ login: boolean }>`
   @media (max-width: 780px) {
     padding-top: ${(props) => (!props.login ? '20rem' : '0')};
   }
+  @media (max-width: 420px) {
+    padding-top: ${(props) => (!props.login ? '22rem' : '0')};
+  }
 `;
 
 export const ParallaxPageOne = styled(motion.div)`
@@ -21,7 +24,7 @@ export const ParallaxPageOne = styled(motion.div)`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 0 0 2000px ${(props) => rgba(props.theme.colors.jjmBlue, 0.4)};
+  box-shadow: inset 0 0 0 2000px ${(props) => rgba(props.theme.colors.jjmPallete_1, 0.4)};
   strong {
     color: ${(props) => props.theme.colors.white};
     font-size: 1.8rem;

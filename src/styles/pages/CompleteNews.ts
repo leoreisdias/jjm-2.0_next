@@ -154,7 +154,7 @@ export const Video = styled.div`
     border-radius: 100%;
     border: none;
 
-    background: ${(props) => props.theme.colors.jjmBlue};
+    background: ${(props) => props.theme.colors.jjmPallete_1};
   }
 
   iframe {
@@ -197,7 +197,7 @@ export const OfferedBy = styled.div`
       font-family: 'Nunito';
       font-weight: 600;
 
-      color: ${(props) => props.theme.colors.jjmBlue};
+      color: ${(props) => props.theme.colors.jjmPallete_1};
     }
   }
 

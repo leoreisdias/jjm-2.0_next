@@ -44,7 +44,9 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
   border: 0.1px solid ${(props) => props.theme.colors.borderColor};
 
   background: ${(props) =>
-    props.active ? lighten(0.1, props.theme.colors.jjmBlue) : props.theme.colors.white};
+    props.active
+      ? lighten(0.1, props.theme.colors.jjmPallete_1)
+      : props.theme.colors.white};
 
   transition: 0.2s;
 
@@ -52,12 +54,12 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
     color: ${(props) => props.theme.colors.white};
     background: ${(props) =>
       props.active
-        ? complement(lighten(0.1, props.theme.colors.jjmBlue))
-        : complement(shade(0.4, props.theme.colors.white))};
+        ? complement(lighten(0.1, props.theme.colors.jjmPallete_1))
+        : lighten(0.3, props.theme.colors.jjmPallete_1)};
   }
 
   @media (max-width: 768px) {
-    font-size: 0.875rem;
+    font-size: 1rem;
   }
 `;
 

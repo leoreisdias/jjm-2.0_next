@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useMediaQuery } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { AppProps } from 'next/app';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -81,7 +81,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                 bgImageAlt="the dog"
                 strength={100}
                 bgImageStyle={{ opacity: 0.9 }}
-                style={{ boxShadow: 'inset 0 0 0 2000px rgba(255, 0, 150, 0.3)' }}
               >
                 <ParallaxPageOne
                   style={{ height: '100vh' }}
@@ -89,7 +88,20 @@ function MyApp({ Component, pageProps }: AppProps) {
                   animate="animate"
                   variants={Variant}
                 >
-                  <Image src={'/logo.png'} width={150} height={150} objectFit="contain" />
+                  <motion.span
+                    whileHover={{
+                      scale: 1.1,
+                      rotate: [1, 2, 5, -6.2, -4, 0],
+                      transition: { duration: 0.8 },
+                    }}
+                  >
+                    <Image
+                      src={'/logo.png'}
+                      width={150}
+                      height={150}
+                      objectFit="contain"
+                    />
+                  </motion.span>
                   <strong>Na Pura Verdade Junto de Você!</strong>
                 </ParallaxPageOne>
               </Parallax>

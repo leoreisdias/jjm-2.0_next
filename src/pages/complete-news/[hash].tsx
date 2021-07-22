@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 
-import { Dialog } from '@material-ui/core';
+import { Dialog, useMediaQuery } from '@material-ui/core';
 import { motion } from 'framer-motion';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
@@ -87,6 +87,7 @@ export default function CompleteNews({
   formatedRelatedNews,
 }: CompleteNewsProps) {
   const { data: randomPartner } = useJJM<RandomPartners>('/getrandompartner');
+  const matches = useMediaQuery('(max-width:720px)');
 
   const { colors } = useTheme();
   const { token } = useAuth();
@@ -192,7 +193,7 @@ export default function CompleteNews({
                       as={'writer-area'}
                     >
                       <span>
-                        <FaEdit size={17} color={colors.jjmBlue} className="icon" />
+                        <FaEdit size={17} color={colors.jjmPallete_1} className="icon" />
                       </span>
                     </Link>
                     <MdDelete
@@ -255,7 +256,7 @@ export default function CompleteNews({
                 rel="noreferrer"
               >
                 <span>
-                  <FaShareAlt size={25} color={colors.jjmBlue} />
+                  <FaShareAlt size={25} color={colors.jjmPallete_1} />
                   Compartilhar
                 </span>
               </a>
@@ -291,7 +292,7 @@ export default function CompleteNews({
           </RelatedNewsSection>
         </Main>
         <Aside>
-          <Advertisement reverse={true} />
+          <Advertisement reverse={!matches} showSmallPartners={true} />
         </Aside>
       </Container>
       <Dialog
