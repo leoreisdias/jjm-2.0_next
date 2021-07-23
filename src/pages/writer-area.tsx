@@ -56,6 +56,9 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
 
   return (
     <NoSsr>
+      <Head>
+        <title>Cadastros e Edições - JJM</title>
+      </Head>
       <WriterSection>
         <Head>
           <title>Area do Redator | JJM</title>

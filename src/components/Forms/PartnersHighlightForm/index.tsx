@@ -46,6 +46,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
   const [partner, setPartner] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [text, setText] = useState<string>('');
+  const [summary, setSummary] = useState<string>('');
   const [image, setImage] = useState('');
 
   const [currentImageUrl, setCurrentImageUrl] = useState('');
@@ -74,6 +75,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       text,
       partner,
       title,
+      summary,
       image: isUpdating ? 'Sem Imagem' : image,
     };
 
@@ -81,6 +83,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       const schema = Yup.object().shape({
         partner: Yup.string().required('Faltando Nome do Parceiro!'),
         text: Yup.string().required('Faltando Texto do Destaque!'),
+        summary: Yup.string().required('Pequeno Resumo Faltando!'),
         title: Yup.string().required('Faltando Titulo do Destaque!'),
         image: Yup.string().required('Imagem faltando!'),
       });
@@ -110,6 +113,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
     const data = new FormData();
     data.append('image', image);
     data.append('text', text);
+    data.append('summary', summary);
     data.append('title', title);
     data.append('partner', partner);
 
@@ -133,11 +137,10 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
   }
 
   async function updateData() {
-    console.log(id);
-
     const data = new FormData();
     data.append('image', image);
     data.append('text', text);
+    data.append('summary', summary);
     data.append('title', title);
     data.append('partner', partner);
 
@@ -170,12 +173,12 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           setText(data.partnerHighlight.text);
           setTitle(data.partnerHighlight.title);
           setPartner(data.partnerHighlight.partner);
+          setSummary(data.partnerHighlight.summary);
           setCurrentImageUrl(data.partnerHighlight.imageURL);
         }
         handleLoading(false);
       } catch (err) {
         handleLoading(false);
-        console.log(err);
       }
     },
     [handleLoading]
@@ -245,6 +248,16 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           required
         />
 
+        <TextField
+          id="outlined-multiline-static"
+          label="Resuminho do Destaque"
+          multiline
+          rows={2}
+          defaultValue={summary}
+          onChange={(e) => setSummary(e.target.value)}
+          variant="outlined"
+          required
+        />
         <TextField
           id="outlined-multiline-static"
           label="Descrição do Destaque"

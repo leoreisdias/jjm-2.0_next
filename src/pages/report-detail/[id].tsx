@@ -180,7 +180,7 @@ export default function ReportDetail({ report, currentUrl }: CompleteReportProps
           </NewsContent>
         </Main>
         <Aside>
-          <Advertisement />
+          <Advertisement showSmallPartners={true} />
         </Aside>
       </Container>
       <Dialog

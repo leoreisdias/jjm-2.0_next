@@ -6,7 +6,12 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FaEdit } from 'react-icons/fa';
 
+import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
+import { formOptions } from '../../types/formOptions';
 import { PartnerHighlightProps } from '../../types/interfaces/Partners';
 import { AdImage, CardAd, CustomDialogContent, DetailHighlightModal } from './BigAdStyle';
 
@@ -15,6 +20,9 @@ interface BigAdProps {
 }
 
 export default function BigAd({ highlight }: BigAdProps) {
+  const { colors } = useTheme();
+  const { isAuthenticated } = useAuth();
+
   const [openHighlightDetail, setOpenHighlightDetail] = useState(false);
   const matches = useMediaQuery('(max-width:720px)');
 
@@ -63,6 +71,24 @@ export default function BigAd({ highlight }: BigAdProps) {
               objectFit="contain"
             />
             <strong>{highlight.partner}</strong>
+            <span>
+              {isAuthenticated && (
+                <>
+                  <Link
+                    href={{
+                      pathname: `/writer-area`,
+                      query: { update: formOptions.partnersHighlight, id: highlight._id },
+                    }}
+                    as={'writer-area'}
+                  >
+                    <span>
+                      <FaEdit size={25} color={colors.jjmPallete_1} className="icon" />
+                      Editar
+                    </span>
+                  </Link>
+                </>
+              )}
+            </span>
           </DetailHighlightModal>
         </CustomDialogContent>
       </Dialog>

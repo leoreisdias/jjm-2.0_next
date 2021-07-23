@@ -5,7 +5,6 @@ import Switch from '@material-ui/core/Switch';
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FaHandshake } from 'react-icons/fa';
 import { GiExitDoor } from 'react-icons/gi';
@@ -70,7 +69,7 @@ export function Header({ toggleTheme }: HeaderProps) {
                 <FaHandshake
                   size={25}
                   color={colors.jjmPallete_1}
-                  onClick={() => push('/partners')}
+                  onClick={() => push('/managerpartners')}
                 />
               </motion.span>
               <motion.span whileHover={{ scale: 1.3, transition: { duration: 0.1 } }}>

@@ -56,6 +56,22 @@ export const DetailHighlightModal = styled.div`
     color: ${(props) => shade(0.1, props.theme.colors.jjmPallete_1)};
   }
 
+  span {
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      scale: 1.05;
+    }
+
+    span {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      color: ${(props) => props.theme.colors.gray900};
+    }
+  }
   @media (max-width: 380px) {
     h2 {
       font-size: 1.2rem;

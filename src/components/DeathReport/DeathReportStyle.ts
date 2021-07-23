@@ -66,4 +66,13 @@ export const DetailReportModal = styled.div`
     white-space: pre-wrap;
     padding-bottom: 0.4rem;
   }
+
+  .icon {
+    cursor: pointer;
+    transition: 0.2s;
+
+    &:hover {
+      scale: 1.05;
+    }
+  }
 `;

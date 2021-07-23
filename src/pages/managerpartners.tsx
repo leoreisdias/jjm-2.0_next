@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
 import { parseCookies } from 'nookies';
 
@@ -89,6 +90,9 @@ export default function Partners({ partnersList }: PartnersServer) {
 
   return (
     <Container>
+      <Head>
+        <title>Gerenciamento dos Parceiros | JJM</title>
+      </Head>
       <h3>Parceiros Cadastrados</h3>
       <ul>
         {currentPartners &&

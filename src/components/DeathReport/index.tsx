@@ -9,8 +9,13 @@ import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 import parseISO from 'date-fns/parseISO';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FaEdit } from 'react-icons/fa';
 
+import { useAuth } from '../../hooks/useAuth';
 import { useJJM } from '../../hooks/useJJM';
+import { useTheme } from '../../hooks/useTheme';
+import { formOptions } from '../../types/formOptions';
 import {
   AdImage,
   CardAd,
@@ -33,6 +38,9 @@ interface DeathReportsProps {
 }
 
 export default function DeathReportCard() {
+  const { colors } = useTheme();
+  const { isAuthenticated } = useAuth();
+
   const { data } = useJJM<DeathReportsProps>('/deathreports?page=1');
   const [openNoteDetail, setOpenNoteDetail] = useState(false);
   const matches = useMediaQuery('(max-width:720px)');
@@ -41,6 +49,9 @@ export default function DeathReportCard() {
   if (!data) {
     return <div></div>;
   }
+
+  const pombinhaBrancaUrl =
+    'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png';
 
   return (
     <CardAd>
@@ -51,9 +62,9 @@ export default function DeathReportCard() {
               width={150}
               height={150}
               objectFit="contain"
-              blurDataURL={data.docs[0].imageURL}
+              blurDataURL={data.docs[0].imageURL ?? pombinhaBrancaUrl}
               placeholder="blur"
-              src={data.docs[0].imageURL}
+              src={data.docs[0].imageURL ?? pombinhaBrancaUrl}
               alt="Advertise"
             />
           </AdImage>
@@ -94,6 +105,21 @@ export default function DeathReportCard() {
               })}
             </span>
             <p>{data.docs[0].description}</p>
+            <span>
+              {isAuthenticated && (
+                <>
+                  <Link
+                    href={{
+                      pathname: `/writer-area`,
+                      query: { update: formOptions.deathReport, id: data.docs[0]._id },
+                    }}
+                    as={'/writer-area'}
+                  >
+                    <FaEdit size={25} color={colors.jjmPallete_1} className="icon" />
+                  </Link>
+                </>
+              )}
+            </span>
           </DetailReportModal>
         </CustomDialogContent>
       </Dialog>
