@@ -8,6 +8,10 @@ export const Container = styled.section`
 
   max-width: 90%;
 
+  & h3:first-child {
+    color: ${(props) => props.theme.colors.title};
+  }
+
   ul {
     width: 100%;
     display: flex;
@@ -16,6 +20,10 @@ export const Container = styled.section`
     flex-direction: row;
     flex-wrap: wrap;
     gap: 2rem;
+  }
+
+  @media (max-width: 400px) {
+    margin-top: 2rem;
   }
 `;
 

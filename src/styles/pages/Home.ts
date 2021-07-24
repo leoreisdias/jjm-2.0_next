@@ -4,11 +4,6 @@ import styled from 'styled-components';
 export const Wrapper = styled.section`
   color: ${(props) => props.theme.colors.text};
   margin-bottom: 2rem;
-
-  .MuiPaginationItem-root {
-    color: ${(props) =>
-      props.theme.title == 'dark' ? props.theme.colors.white : '#000'};
-  }
 `;
 
 export const Container = styled.article`
@@ -59,7 +54,7 @@ export const Aside = styled.aside`
     flex-direction: row;
     align-items: center;
 
-    background: #ffffff;
+    background: ${(props) => lighten(0.75, props.theme.colors.background)};
     border-radius: 10px;
 
     padding: 0 0.5rem;
@@ -78,6 +73,10 @@ export const Aside = styled.aside`
       margin-left: 0.25rem;
 
       font-family: 'Nunito';
+
+      background: ${(props) => lighten(0.75, props.theme.colors.background)};
+
+      color: ${(props) => props.theme.colors.gray800};
 
       &:focus {
         outline: none;

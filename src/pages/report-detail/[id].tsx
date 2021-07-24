@@ -10,7 +10,7 @@ import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
 
-import { Advertisement } from '../../components/Advertisement';
+import Advertisement from '../../components/Advertisement';
 import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
@@ -20,10 +20,11 @@ import {
   Container,
   Main,
   Aside,
-  NewsTitle,
+  ReportTitle,
   SmallDetails,
-  NewsContent,
+  ReportContent,
   CustomDialogContent,
+  ShareSocialMedia,
 } from '../../styles/pages/DeathReport';
 import { formOptions } from '../../types/formOptions';
 
@@ -130,7 +131,7 @@ export default function ReportDetail({ report, currentUrl }: CompleteReportProps
               blurDataURL={report.mainImage}
             />
           </span>
-          <NewsTitle>{report.title}</NewsTitle>
+          <ReportTitle>{report.title}</ReportTitle>
           <SmallDetails>
             <p>
               <span>{report.date}</span>
@@ -159,25 +160,25 @@ export default function ReportDetail({ report, currentUrl }: CompleteReportProps
               </span>
             </p>
           </SmallDetails>
-          <NewsContent>
+          <ReportContent>
             <p>{report.description}</p>
 
             <div>
               <h4>Informativo da Funerária São Dimas</h4>
             </div>
-            <div>
+            <ShareSocialMedia>
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}
                 target="_blank"
                 rel="noreferrer"
               >
                 <span>
-                  <FaShareAlt size={25} color={'gray'} />
+                  <FaShareAlt size={25} color={colors.jjmPallete_1} />
                   Compartilhar
                 </span>
               </a>
-            </div>
-          </NewsContent>
+            </ShareSocialMedia>
+          </ReportContent>
         </Main>
         <Aside>
           <Advertisement showSmallPartners={true} />

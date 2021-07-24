@@ -3,7 +3,7 @@ export default {
 
   colors: {
     background: '#202124',
-    text: '#BDC1C6',
+    text: '#f7f8fa',
     primary: '#D8C0FC',
     white: '#FFF',
     gray50: '#f7f8fa',
@@ -13,6 +13,10 @@ export default {
     gray500: '#808080',
     gray800: '#494d4b',
     gray900: '#3f3f3f',
+
+    transitionBackground: '#000',
+
+    title: '#f7f8fa',
 
     green500: '#04d361',
     borderColor: '#A3A3A3',

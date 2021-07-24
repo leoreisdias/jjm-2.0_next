@@ -1,6 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import { motion } from 'framer-motion';
-import { shade } from 'polished';
+import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 
 export const Card = styled(motion.div)`
@@ -16,7 +16,7 @@ export const Card = styled(motion.div)`
 
   word-break: keep-all;
 
-  background: ${(props) => props.theme.colors.white};
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
 
   border-radius: 10px;
 

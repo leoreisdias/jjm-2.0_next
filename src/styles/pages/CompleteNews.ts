@@ -1,8 +1,8 @@
 import { DialogContent } from '@material-ui/core';
+import { shade } from 'polished';
 import styled from 'styled-components';
 
 export const Wrapper = styled.section`
-  color: ${(props) => props.theme.colors.text};
   width: 90%;
 
   margin-bottom: 1rem;
@@ -65,7 +65,7 @@ export const NewsTitle = styled.h1`
   font-family: 'Nunito';
   font-size: 1.6rem;
 
-  color: ${(props) => props.theme.colors.gray900};
+  color: ${(props) => props.theme.colors.title};
 
   @media (max-width: 720px) {
     font-size: 1.25rem;
@@ -83,24 +83,27 @@ export const SmallDetails = styled.div`
   font-family: 'Nunito';
 
   padding-bottom: 1rem;
-  color: ${(props) => props.theme.colors.gray500};
+  color: ${(props) => props.theme.colors.text};
 
-  border-bottom: 1px solid ${(props) => props.theme.colors.gray500};
+  border-bottom: 1px solid
+    ${(props) =>
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray200
+        : props.theme.colors.gray500};
 
   transition: 0.5s;
 
   p:first-child {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   p:last-child {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-end;
+    /* gap: 0.25rem; */
 
     text-align: right;
 
@@ -117,6 +120,15 @@ export const SmallDetails = styled.div`
   @media (max-width: 720px) {
     font-size: 0.875rem;
   }
+
+  @media (max-width: 400px) {
+    p:last-child {
+      max-width: 70%;
+      & span:first-child {
+        max-width: 80%;
+      }
+    }
+  }
 `;
 
 export const NewsContent = styled.main`
@@ -131,7 +143,7 @@ export const NewsContent = styled.main`
   p {
     line-height: 1.75rem;
     white-space: pre-wrap;
-    color: ${(props) => props.theme.colors.gray900};
+    color: ${(props) => shade(0.1, props.theme.colors.text)};
   }
 `;
 
@@ -182,7 +194,10 @@ export const OfferedBy = styled.div`
     font-family: 'Nunito';
     font-size: 1.1rem;
     font-weight: 600;
-    color: ${(props) => props.theme.colors.gray800};
+    color: ${(props) =>
+      props.theme.title == 'dark'
+        ? shade(0.1, props.theme.colors.text)
+        : shade(0.5, props.theme.colors.text)};
   }
 
   span {
@@ -217,7 +232,13 @@ export const Subjects = styled.div`
   width: 100%;
 
   padding-bottom: 2rem;
-  border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
+  border-bottom: 1px solid
+    ${(props) =>
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray300
+        : props.theme.colors.gray800};
+
+  color: ${(props) => props.theme.colors.title};
 
   ul {
     display: flex;
@@ -252,7 +273,11 @@ export const ShareSocialMedia = styled.div`
 
   width: 100%;
 
-  border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
+  border-bottom: 1px solid
+    ${(props) =>
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray300
+        : props.theme.colors.gray800};
 
   span {
     display: flex;
@@ -277,6 +302,7 @@ export const ShareSocialMedia = styled.div`
 
 export const RelatedNewsSection = styled.section`
   font-family: 'Nunito';
+  color: ${(props) => props.theme.colors.title};
 
   ul {
     display: grid;
@@ -308,19 +334,23 @@ export const RelatedNewsSection = styled.section`
         font-size: 0.925rem;
         margin-top: 0.5rem;
 
-        color: ${(props) => props.theme.colors.gray800};
+        color: ${(props) => shade(0.2, props.theme.colors.title)};
 
         text-align: left;
         text-transform: capitalize;
 
         padding-bottom: 0.875rem;
-        border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
+        border-bottom: 1px solid
+          ${(props) =>
+            props.theme.title == 'dark'
+              ? props.theme.colors.gray300
+              : props.theme.colors.gray800};
       }
 
       span {
         align-self: flex-start;
 
-        color: ${(props) => props.theme.colors.gray500};
+        color: ${(props) => shade(0.1, props.theme.colors.text)};
         margin-top: 0.875rem;
         text-transform: uppercase;
       }

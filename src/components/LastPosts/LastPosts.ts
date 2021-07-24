@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { lighten, shade } from 'polished';
+import { lighten } from 'polished';
 import styled from 'styled-components';
 
 export const LastPostsWrapper = styled.section`
@@ -7,7 +7,7 @@ export const LastPostsWrapper = styled.section`
 
   legend {
     font-weight: 700;
-    color: ${(props) => props.theme.colors.gray900};
+    color: ${(props) => props.theme.colors.title};
     font-size: 1.25rem;
 
     margin-bottom: 1rem;
@@ -35,10 +35,6 @@ export const LastPostsContainer = styled(motion.li)`
 
   cursor: pointer;
 
-  &:hover {
-    filter: grayscale(60%);
-  }
-
   img {
     border-radius: 50%;
     min-width: 48px;
@@ -63,16 +59,20 @@ export const LastPostsContainer = styled(motion.li)`
     text-transform: uppercase;
     font-size: 0.8rem;
     margin-bottom: 0.4rem;
+    color: ${(props) => props.theme.colors.title};
   }
 
   p strong {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
 
     transition: 0.25s;
-    color: ${(props) => shade(0.5, props.theme.colors.jjmPallete_1)};
+    color: ${(props) => props.theme.colors.jjmPallete_1};
 
     &:hover {
-      color: ${(props) => lighten(0.1, props.theme.colors.jjmPallete_1)};
+      color: ${(props) =>
+        props.theme.title == 'dark'
+          ? lighten(0.5, props.theme.colors.jjmPallete_1)
+          : lighten(0.1, props.theme.colors.jjmPallete_1)};
     }
   }
 `;

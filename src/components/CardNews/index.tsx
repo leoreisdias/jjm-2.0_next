@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -27,7 +27,7 @@ interface CardNewsProps {
   news: NewsProps;
 }
 
-export function CardNews({ news }: CardNewsProps) {
+const CardNews = ({ news }: CardNewsProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -91,4 +91,6 @@ export function CardNews({ news }: CardNewsProps) {
       </Collapse>
     </Card>
   );
-}
+};
+
+export default memo(CardNews);

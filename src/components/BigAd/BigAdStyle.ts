@@ -1,5 +1,5 @@
 import { Card, DialogContent } from '@material-ui/core';
-import { shade } from 'polished';
+import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 
 export const AdImage = styled.div`
@@ -19,6 +19,7 @@ export const CardAd = styled(Card)`
   max-width: 260px;
   margin-bottom: 0.25rem;
   min-width: 260px;
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
 
   h2 {
     font-size: 1.1rem;
@@ -29,7 +30,7 @@ export const CardAd = styled(Card)`
 `;
 
 export const CustomDialogContent = styled(DialogContent)`
-  background: #f5fbff;
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
 `;
 
 export const DetailHighlightModal = styled.div`
@@ -64,11 +65,17 @@ export const DetailHighlightModal = styled.div`
     }
 
     span {
-      margin-top: 1rem;
+      margin-top: 0.5rem;
+
       display: flex;
       flex-direction: row;
       justify-content: center;
       align-items: center;
+
+      gap: 0.25rem;
+
+      font-weight: 600;
+
       color: ${(props) => props.theme.colors.gray900};
     }
   }

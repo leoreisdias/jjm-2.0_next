@@ -58,10 +58,12 @@ export const WeatherForecast = () => {
           <strong>{data?.city_name}</strong>
           <p>
             <span>
-              <FaArrowUp size={18} color="green" /> {data?.forecast[0].max}º
+              <FaArrowUp size={18} color="green" />
+              {data?.forecast[0].max}º
             </span>
             <span>
-              <FaArrowDown size={18} color="red" /> {data?.forecast[0].min}º
+              <FaArrowDown size={18} color="red" />
+              {data?.forecast[0].min}º
             </span>
           </p>
         </CityMaxMin>

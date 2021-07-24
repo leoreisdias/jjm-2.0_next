@@ -1,7 +1,7 @@
-export const FadeSlideDownToUpSlow = {
+export const BigFadeSlideDownToUp = {
   begin: {
     scale: 1.8,
-    y: 300,
+    y: 200,
     opacity: 0,
   },
   animate: {
@@ -10,7 +10,20 @@ export const FadeSlideDownToUpSlow = {
     opacity: 1,
     transition: {
       duration: 1.6,
-      ease: [0.48, 0.15, 0.25, 0.96],
+    },
+  },
+};
+
+export const SlideDownUp = {
+  begin: {
+    y: 200,
+    opacity: 0,
+  },
+  animate: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
     },
   },
 };
@@ -18,7 +31,7 @@ export const FadeSlideDownToUpSlow = {
 export const FadeRightToLeft = {
   begin: {
     scale: 1.4,
-    x: 300,
+    x: 200,
     opacity: 0,
   },
   animate: {
@@ -27,7 +40,6 @@ export const FadeRightToLeft = {
     opacity: 1,
     transition: {
       duration: 1,
-      ease: [0.48, 0.15, 0.25, 0.96],
     },
   },
 };
@@ -43,7 +55,7 @@ export const EaseFadeSlideDownToUp = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 1,
+      duration: 0.6,
     },
   },
   exit: {
@@ -56,7 +68,7 @@ export const EaseFadeSlideDownToUp = {
   },
 };
 
-export const SlowFadeDownToUp_RightToLeft = {
+export const SlowFadeDownToUpRightToLeft = {
   begin: {
     scale: 0.8,
     y: 50,
@@ -69,7 +81,7 @@ export const SlowFadeDownToUp_RightToLeft = {
     x: 0,
     opacity: 1,
     transition: {
-      duration: 1,
+      duration: 0.6,
     },
   },
   exit: {
@@ -92,8 +104,7 @@ export const SlowFadeInOut = {
     scale: 1,
     opacity: 1,
     transition: {
-      duration: 0.8,
-      ease: [0.48, 0.15, 0.25, 0.96],
+      duration: 0.6,
     },
   },
   exit: {
@@ -101,15 +112,14 @@ export const SlowFadeInOut = {
     opacity: 0,
     transition: {
       duration: 0.5,
-      ease: [0.48, 0.15, 0.25, 0.96],
     },
   },
 };
 
-export const slowFadeInOut_SlideDownToUp = {
+export const slowFadeInOutWithSlideDownUp = {
   begin: {
     scale: 0.96,
-    y: 30,
+    y: 100,
     opacity: 0,
   },
   animate: {
@@ -117,8 +127,7 @@ export const slowFadeInOut_SlideDownToUp = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 1,
-      ease: [0.48, 0.15, 0.25, 0.96],
+      duration: 0.6,
     },
   },
   exit: {

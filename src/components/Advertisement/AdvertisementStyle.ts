@@ -1,5 +1,5 @@
 import { DialogContent } from '@material-ui/core';
-import { shade } from 'polished';
+import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 
 export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
@@ -59,14 +59,14 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
 
       li {
         margin: auto;
-        width: 20%;
+        width: 75%;
       }
     }
   }
 `;
 
 export const CustomDialogContent = styled(DialogContent)`
-  background: #f5fbff;
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
 `;
 
 export const ExpiredPartners = styled.div`

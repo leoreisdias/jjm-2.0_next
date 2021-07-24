@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import { SlowFadeDownToUp_RightToLeft } from '../assets/motion/Variants';
+import { slowFadeInOutWithSlideDownUp } from '../assets/motion/Variants';
 import { api } from '../services/api';
 import { ListImages, PartnersContainer } from '../styles/pages/Ourpartners';
 import { PartnersProps } from '../types/interfaces/Partners';
@@ -46,11 +46,11 @@ export default function OurPartners({ partners }: OurPartnersServerProps) {
                   initial="begin"
                   animate="animate"
                   exit="exit"
-                  variants={SlowFadeDownToUp_RightToLeft}
+                  variants={slowFadeInOutWithSlideDownUp}
                   whileHover={{
-                    scale: 1.1,
+                    scale: 1.02,
                     rotate: [0, 2.1, 3.1, -3.1, -2.1, -1.1, 0],
-                    transition: { duration: 0.3 },
+                    transition: { duration: 0 },
                   }}
                 >
                   <a

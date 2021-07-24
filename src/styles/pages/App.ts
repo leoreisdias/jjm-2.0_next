@@ -11,11 +11,20 @@ export const Main = styled(motion.main)<{ login: boolean }>`
 
   transition: 1s;
 
+  .MuiPaginationItem-root {
+    color: ${(props) =>
+      props.theme.title == 'dark' ? props.theme.colors.white : '#000'};
+    border-color: ${(props) => props.theme.colors.jjmPallete_1};
+  }
+
   @media (max-width: 780px) {
     padding-top: ${(props) => (!props.login ? '20rem' : '0')};
   }
   @media (max-width: 420px) {
     padding-top: ${(props) => (!props.login ? '22rem' : '0')};
+  }
+  @media (max-width: 300px) {
+    padding-top: ${(props) => (!props.login ? '26rem' : '0')};
   }
 `;
 

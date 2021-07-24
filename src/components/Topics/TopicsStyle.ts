@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 export const TopicsContainer = styled(motion.main)`
   position: absolute;
-  top: 8.5rem;
+  top: 9rem;
   left: 0;
   width: 100%;
   padding: 1rem 0;
@@ -37,16 +37,20 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
   border-radius: 10px;
 
   font-size: 1rem;
-  font-weight: ${(props) => (props.active ? 600 : 400)};
+  font-weight: ${(props) => (props.theme.title == 'dark' ? 600 : 400)};
   color: ${(props) =>
-    props.active ? props.theme.colors.white : shade(0.1, props.theme.colors.gray500)};
+    props.active
+      ? props.theme.colors.white
+      : props.theme.title == 'dark'
+      ? shade(0.75, props.theme.colors.title)
+      : lighten(0.1, props.theme.colors.title)};
 
   border: 0.1px solid ${(props) => props.theme.colors.borderColor};
 
   background: ${(props) =>
     props.active
       ? lighten(0.1, props.theme.colors.jjmPallete_1)
-      : props.theme.colors.white};
+      : lighten(0.75, props.theme.colors.background)};
 
   transition: 0.2s;
 
@@ -55,7 +59,7 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
     background: ${(props) =>
       props.active
         ? complement(lighten(0.1, props.theme.colors.jjmPallete_1))
-        : lighten(0.3, props.theme.colors.jjmPallete_1)};
+        : lighten(0.05, props.theme.colors.jjmPallete_1)};
   }
 
   @media (max-width: 768px) {
@@ -64,5 +68,5 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
 `;
 
 export const CustomDialogContent = styled(DialogContent)`
-  background: #f5fbff;
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
 `;

@@ -8,27 +8,20 @@ export const HeaderContainer = styled.header`
   z-index: 1;
   font-family: 'Nunito';
 
-  /* background: url('/bgJJM.png'); */
   background-size: cover;
   background-position: center 30%;
   opacity: 0.95;
   height: 10rem;
 
-  /* clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%); */
-  /* border-radius: 0 0 85% 85% / 30%; */
-
   padding: 2rem 3rem;
-
-  /* border-bottom: 1px solid ${(props) => props.theme.colors.gray500}; */
 
   display: flex;
   align-items: center;
   justify-content: space-around;
 
-  color: ${(props) => props.theme.colors.gray900};
+  color: ${(props) => props.theme.colors.title};
 
   p {
-    /* border-left: 1px solid ${(props) => props.theme.colors.gray50}; */
     font-size: 1.2rem;
 
     font-weight: 700;
@@ -57,15 +50,12 @@ export const HeaderContainer = styled.header`
       transition: 0.5s;
       text-decoration: none;
       font-size: 1.2rem;
-      border-right: 1px solid ${(props) => props.theme.colors.white};
-      /* padding-right: 0.5rem; */
       &:hover {
         color: ${(props) => props.theme.colors.jjmPallete_1};
       }
     }
 
     span:not(:last-child) {
-      /* margin-left: auto; */
       text-transform: capitalize;
       font-size: 2rem;
     }

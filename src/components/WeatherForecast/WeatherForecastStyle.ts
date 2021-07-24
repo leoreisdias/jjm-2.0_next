@@ -9,7 +9,10 @@ export const WeatherForecastContainer = styled(motion.article)`
   align-items: center;
 
   width: 100%;
-  color: ${(props) => darken(0.12, props.theme.colors.white)};
+  color: ${(props) =>
+    props.theme.title == 'dark'
+      ? darken(0.9, props.theme.colors.title)
+      : props.theme.colors.white};
 
   border: none;
 `;
@@ -17,7 +20,7 @@ export const WeatherForecastContainer = styled(motion.article)`
 export const Today = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 1rem;
+  gap: 0.5rem;
 
   padding: 1rem;
 
@@ -30,6 +33,7 @@ export const Today = styled.div`
     ${(props) => props.theme.colors.jjmPallete_1},
     ${(props) => complement(props.theme.colors.jjmPallete_1)}
   );
+
   @media (max-width: 400px) {
     display: flex;
     flex-direction: column;
@@ -59,12 +63,16 @@ export const CityMaxMin = styled.div`
     justify-content: center;
     align-items: center;
 
+    strong {
+      font-size: 1.8rem;
+    }
+
     p {
       display: flex;
       flex-direction: row;
 
       & span:last-child {
-        margin-left: 1rem;
+        margin-left: 0.25rem;
       }
     }
   }
@@ -137,7 +145,11 @@ export const TodayWeatherDetail = styled.div`
 
     & div:nth-child(2) {
       img {
-        margin-left: 2rem;
+        margin-left: 2.5rem;
+      }
+
+      strong {
+        font-size: 3.5rem;
       }
 
       text-align: center;
@@ -155,7 +167,7 @@ export const NextDays = styled.section`
   padding-top: 1rem;
 
   @media (max-width: 400px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -174,11 +186,14 @@ export const EachDay = styled.div`
     ${(props) => props.theme.colors.jjmPallete_1},
     ${(props) => complement(props.theme.colors.jjmPallete_1)}
   );
+
   strong {
     font-size: 1rem;
   }
 
   p {
+    margin-bottom: 0.2rem;
+
     span {
       font-size: 1rem;
       font-weight: bold;
@@ -188,7 +203,20 @@ export const EachDay = styled.div`
       justify-content: center;
       align-items: center;
     }
+  }
 
-    margin-bottom: 0.2rem;
+  @media (max-width: 400px) {
+    justify-content: space-around;
+    strong {
+      font-size: 1.2rem;
+    }
+    p {
+      display: flex;
+      gap: 0.5rem;
+
+      span {
+        font-size: 1.6rem;
+      }
+    }
   }
 `;

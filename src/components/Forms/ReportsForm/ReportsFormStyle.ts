@@ -1,3 +1,4 @@
+import { lighten } from 'polished';
 import styled, { css } from 'styled-components';
 
 export const Form = styled.form`
@@ -9,7 +10,7 @@ export const Form = styled.form`
   margin-top: 2rem;
   gap: 3rem;
 
-  background: ${(props) => props.theme.colors.white};
+  background: ${(props) => lighten(0.9, props.theme.colors.background)};
 
   border-radius: 10px;
 

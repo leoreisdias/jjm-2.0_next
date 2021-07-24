@@ -244,7 +244,6 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
       try {
         const { data } = await api.get(`/detail?id=${id}`);
-        console.log(data.news);
 
         if (data.news) {
           setTitle(data.news.title);
@@ -270,7 +269,6 @@ export const NewsForm = ({ id }: NewsFormProps) => {
         handleLoading(false);
       } catch (err) {
         handleLoading(false);
-        console.log(err);
       }
     },
     [handleLoading]

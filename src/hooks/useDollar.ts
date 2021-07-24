@@ -7,7 +7,6 @@ export function useDollar<Data = any>(url: string) {
     url,
     async () => {
       const response = await dollarToReal.get('');
-      console.log(response);
 
       return response.data.USD_BRL;
     },

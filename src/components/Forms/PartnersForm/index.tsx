@@ -94,7 +94,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       await schema.validate(data, {
         abortEarly: false,
       });
-      console.log('deu certo');
 
       handleLoading(true);
       if (isUpdating) updateData();
@@ -147,7 +146,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
 
   async function updateData() {
     const text = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    console.log(id);
 
     const data = {
       text,

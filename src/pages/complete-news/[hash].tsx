@@ -11,7 +11,7 @@ import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
 
-import { Advertisement } from '../../components/Advertisement';
+import Advertisement from '../../components/Advertisement';
 import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { useJJM } from '../../hooks/useJJM';
@@ -347,8 +347,6 @@ export const getStaticProps: GetStaticProps = async ({
         id: hash,
       },
     });
-
-    console.log(news);
 
     const formatNews = {
       subjects: news.subjects,

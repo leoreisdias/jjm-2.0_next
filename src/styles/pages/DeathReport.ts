@@ -1,12 +1,15 @@
 import { DialogContent } from '@material-ui/core';
+import { complement, lighten, shade } from 'polished';
 import styled from 'styled-components';
 
 export const Wrapper = styled.section`
-  color: ${(props) => props.theme.colors.text};
   width: 90%;
 
   @media (min-width: 1900px) {
     width: 80%;
+  }
+  @media (max-width: 400px) {
+    margin-top: 1rem;
   }
 `;
 
@@ -45,6 +48,7 @@ export const Main = styled.section`
   h4 {
     font-size: 1.2rem;
     padding-bottom: 0.5rem;
+    color: ${(props) => shade(0.25, props.theme.colors.text)};
   }
 
   @media (max-width: 720px) {
@@ -57,13 +61,13 @@ export const Main = styled.section`
   }
 `;
 
-export const NewsTitle = styled.h1`
+export const ReportTitle = styled.h1`
   word-break: keep-all;
   margin: 1rem 0;
   font-family: 'Nunito';
   font-size: 1.4rem;
 
-  color: ${(props) => props.theme.colors.gray900};
+  color: ${(props) => props.theme.colors.title};
   transition: 0.5s;
 
   @media (max-width: 720px) {
@@ -82,9 +86,13 @@ export const SmallDetails = styled.div`
   font-family: 'Nunito';
 
   padding-bottom: 1rem;
-  color: ${(props) => props.theme.colors.gray500};
+  color: ${(props) => props.theme.colors.text};
 
-  border-bottom: 1px solid ${(props) => props.theme.colors.gray500};
+  border-bottom: 1px solid
+    ${(props) =>
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray200
+        : props.theme.colors.gray500};
 
   p:first-child {
     display: flex;
@@ -111,7 +119,7 @@ export const SmallDetails = styled.div`
   }
 `;
 
-export const NewsContent = styled.main`
+export const ReportContent = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -123,7 +131,7 @@ export const NewsContent = styled.main`
   p {
     line-height: 1.5rem;
     white-space: pre-wrap;
-    color: ${(props) => props.theme.colors.gray900};
+    color: ${(props) => shade(0.1, props.theme.colors.text)};
   }
 
   & p + div {
@@ -134,7 +142,11 @@ export const NewsContent = styled.main`
     width: 100%;
 
     padding-bottom: 2rem;
-    border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
+    border-bottom: 1px solid
+      ${(props) =>
+        props.theme.title == 'dark'
+          ? props.theme.colors.gray200
+          : props.theme.colors.gray500};
 
     ul {
       display: flex;
@@ -159,30 +171,45 @@ export const NewsContent = styled.main`
       }
     }
   }
+`;
 
-  & div:last-child {
-    margin: 1rem 0;
-    padding-bottom: 1rem;
+export const ShareSocialMedia = styled.div`
+  margin: 1rem 0;
+  padding-bottom: 1rem;
 
-    width: 100%;
+  width: 100%;
 
-    border-bottom: 1px solid ${(props) => props.theme.colors.gray800};
+  border-bottom: 1px solid
+    ${(props) =>
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray300
+        : props.theme.colors.gray800};
 
-    span {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-items: center;
-      background: ${(props) => props.theme.colors.gray100};
+  span {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 
-      width: 180px;
-      padding: 0.5rem 1rem;
+    font-family: 'Nunito';
 
-      border-radius: 30px;
+    background: ${(props) => props.theme.colors.gray100};
 
-      gap: 1rem;
+    width: 180px;
+    padding: 0.5rem 1rem;
 
-      color: ${(props) => props.theme.colors.gray800};
+    border-radius: 20px;
+
+    gap: 1rem;
+
+    color: ${(props) => props.theme.colors.gray800};
+
+    &:hover {
+      background: ${(props) => complement(lighten(0.1, props.theme.colors.jjmPallete_1))};
+      color: ${(props) =>
+        props.theme.title == 'dark'
+          ? props.theme.colors.gray900
+          : props.theme.colors.gray100};
     }
   }
 `;

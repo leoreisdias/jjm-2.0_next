@@ -48,6 +48,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
   const [text, setText] = useState<string>('');
   const [summary, setSummary] = useState<string>('');
   const [image, setImage] = useState('');
+  const [videoURL, setVideoURL] = useState('');
 
   const [currentImageUrl, setCurrentImageUrl] = useState('');
 
@@ -76,6 +77,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       partner,
       title,
       summary,
+      videoURL,
       image: isUpdating ? 'Sem Imagem' : image,
     };
 
@@ -86,6 +88,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
         summary: Yup.string().required('Pequeno Resumo Faltando!'),
         title: Yup.string().required('Faltando Titulo do Destaque!'),
         image: Yup.string().required('Imagem faltando!'),
+        videoURL: Yup.string(),
       });
       await schema.validate(data, {
         abortEarly: false,
@@ -115,6 +118,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
     data.append('text', text);
     data.append('summary', summary);
     data.append('title', title);
+    data.append('videoURL', videoURL);
     data.append('partner', partner);
 
     try {
@@ -141,6 +145,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
     data.append('image', image);
     data.append('text', text);
     data.append('summary', summary);
+    data.append('videoURL', videoURL);
     data.append('title', title);
     data.append('partner', partner);
 
@@ -174,6 +179,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           setTitle(data.partnerHighlight.title);
           setPartner(data.partnerHighlight.partner);
           setSummary(data.partnerHighlight.summary);
+          setVideoURL(data.partnerHighlight.videoURL);
           setCurrentImageUrl(data.partnerHighlight.imageURL);
         }
         handleLoading(false);
@@ -266,6 +272,18 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           defaultValue={text}
           onChange={(e) => setText(e.target.value)}
           variant="outlined"
+          required
+        />
+
+        <TextField
+          error={false}
+          variant="outlined"
+          id="video_url"
+          name="video_url"
+          label="Vídeo do Facebook ou Youtube (Opcional)"
+          value={videoURL}
+          onChange={(e) => setVideoURL(e.target.value)}
+          helperText="Se houver, poste primeiro no Facebook e cole o link aqui"
           required
         />
 

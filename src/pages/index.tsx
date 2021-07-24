@@ -9,10 +9,10 @@ import Head from 'next/head';
 import { FaSearch } from 'react-icons/fa';
 import PuffLoader from 'react-spinners/PuffLoader';
 
-import { Advertisement } from '../components/Advertisement';
-import { CardNews } from '../components/CardNews';
+import Advertisement from '../components/Advertisement';
+import CardNews from '../components/CardNews';
 import DeathReportCard from '../components/DeathReport';
-import { LastPosts } from '../components/LastPosts';
+import LastPosts from '../components/LastPosts';
 import { useTheme } from '../hooks/useTheme';
 import { api } from '../services/api';
 import {
@@ -80,20 +80,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
       data: { docs },
     } = await api.get(`/news?page=${nextPage}`);
 
-    const loadedNews = docs.map((newsItem: serverNewsProps) => {
-      return {
-        id: newsItem._id,
-        title: newsItem.title,
-        description: newsItem.description,
-        date: format(parseISO(newsItem.createdAt), 'd MMM yy', {
-          locale: ptBr,
-        }),
-        imageURL: newsItem.imageURL,
-        author: newsItem.author,
-        source: newsItem.source,
-        summary: newsItem.summary,
-      };
-    });
+    const loadedNews = formatNews(docs);
     setCurrentPage(nextPage);
     return loadedNews;
   }

@@ -6,15 +6,23 @@ export const PartnersContainer = styled.section`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+
+  color: ${(props) => props.theme.colors.title};
+
+  margin-top: 2rem;
 `;
 
 export const ListImages = styled(motion.ul)`
   list-style: none;
+
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  gap: 3rem;
-  border-radius: 10px;
   justify-content: center;
   align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 3rem;
+
+  border-radius: 10px;
 `;

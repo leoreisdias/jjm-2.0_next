@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -18,7 +20,7 @@ interface LastPostsProps {
   lastestNews: NewsProps[];
 }
 
-export function LastPosts({ lastestNews }: LastPostsProps) {
+const LastPosts = ({ lastestNews }: LastPostsProps) => {
   return (
     <LastPostsWrapper>
       <legend>Últimas postagens</legend>
@@ -54,4 +56,6 @@ export function LastPosts({ lastestNews }: LastPostsProps) {
       </ul>
     </LastPostsWrapper>
   );
-}
+};
+
+export default memo(LastPosts);

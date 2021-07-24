@@ -83,7 +83,7 @@ export default function BigAd({ highlight }: BigAdProps) {
                   >
                     <span>
                       <FaEdit size={25} color={colors.jjmPallete_1} className="icon" />
-                      Editar
+                      EDITAR
                     </span>
                   </Link>
                 </>

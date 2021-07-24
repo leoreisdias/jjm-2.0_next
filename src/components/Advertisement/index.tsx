@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, memo } from 'react';
 
 import { Dialog } from '@material-ui/core';
 import { getDate } from 'date-fns';
@@ -20,8 +20,8 @@ interface AdvertisementProps {
   showSmallPartners: boolean;
 }
 
-export function Advertisement({ reverse, showSmallPartners }: AdvertisementProps) {
-  const { isAuthenticated } = useAuth();
+const Advertisement = ({ reverse, showSmallPartners }: AdvertisementProps) => {
+  const { isAuthenticated, username } = useAuth();
 
   const [partners, setPartners] = useState<PartnersProps[]>();
 
@@ -48,7 +48,7 @@ export function Advertisement({ reverse, showSmallPartners }: AdvertisementProps
         if (dueDate.length) setHasPartnersExpired(true);
       }
     } catch (err) {
-      console.log(err);
+      //..
     }
   }, [isAuthenticated]);
 
@@ -117,7 +117,7 @@ export function Advertisement({ reverse, showSmallPartners }: AdvertisementProps
       >
         <CustomDialogContent>
           <ExpiredPartners>
-            <h4>Atenção!</h4>
+            <h4>Atenção {username}!</h4>
             <p>
               Esses patrocinios vencem hoje:
               <ul>
@@ -136,4 +136,6 @@ export function Advertisement({ reverse, showSmallPartners }: AdvertisementProps
       </Dialog>
     </AdvertisementContainer>
   );
-}
+};
+
+export default memo(Advertisement);

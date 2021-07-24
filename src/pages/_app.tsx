@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useMediaQuery } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
@@ -10,9 +10,9 @@ import { Parallax } from 'react-parallax';
 import { ThemeProvider } from 'styled-components';
 
 import {
-  EaseFadeSlideDownToUp,
   FadeRightToLeft,
-  FadeSlideDownToUpSlow,
+  BigFadeSlideDownToUp,
+  SlowFadeInOut,
 } from '../assets/motion/Variants';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
@@ -26,12 +26,29 @@ import light from '../styles/themes/light';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
+
+  const minimumHeight = pathname == '/' ? 100 : 0;
+
   const [theme, setTheme] = useState(light);
   const matches = useMediaQuery('(max-width:720px)');
+
+  const [scrollY, setScrollY] = useState(0);
 
   const toggleTheme = () => {
     setTheme(theme.title === 'light' ? dark : light);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <StylesProvider injectFirst>
@@ -49,7 +66,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <ParallaxPageOne
                   style={{ height: '100vh' }}
                   initial="enter"
-                  animate="animate"
                   exit="exit"
                   variants={{
                     enter: {
@@ -67,12 +83,12 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <motion.span
                     whileHover={{
                       scale: 1.1,
-                      rotate: [1, 2, 5, -6.2, -4, 0],
-                      transition: { duration: 0.4 },
+                      rotate: [1, 10, -16.2, -20.2, -4, 1],
+                      transition: { duration: 0.3 },
                     }}
                     initial="begin"
                     animate="animate"
-                    variants={FadeSlideDownToUpSlow}
+                    variants={BigFadeSlideDownToUp}
                   >
                     <Image
                       src={'/logo.png'}
@@ -92,18 +108,23 @@ function MyApp({ Component, pageProps }: AppProps) {
               </Parallax>
             )}
             <Parallax>
-              {pathname !== '/login' && (
-                <>
+              {pathname !== '/login' && scrollY >= minimumHeight && (
+                <motion.span
+                  initial="begin"
+                  animate="animate"
+                  exit="exit"
+                  variants={SlowFadeInOut}
+                >
                   <Header toggleTheme={toggleTheme} />
                   <Topics />
-                </>
+                </motion.span>
               )}
               <Main
                 login={pathname === '/login'}
                 initial="begin"
                 animate="animate"
                 exit="exit"
-                variants={EaseFadeSlideDownToUp}
+                variants={SlowFadeInOut}
               >
                 <Component {...pageProps} />
               </Main>

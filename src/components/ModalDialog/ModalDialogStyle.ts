@@ -1,4 +1,5 @@
 import { DialogContent } from '@material-ui/core';
+import { lighten } from 'polished';
 import styled from 'styled-components';
 
 export const CustomDialogContent = styled(DialogContent)`
@@ -7,7 +8,7 @@ export const CustomDialogContent = styled(DialogContent)`
   gap: 2rem;
   align-items: center;
 
-  background: #f5fbff;
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
   font-family: 'Nunito';
 
   strong {

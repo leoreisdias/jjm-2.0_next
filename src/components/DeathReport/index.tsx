@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 
 import { Dialog, useMediaQuery } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
@@ -37,7 +37,7 @@ interface DeathReportsProps {
   docs: Reports[];
 }
 
-export default function DeathReportCard() {
+const DeathReportCard = () => {
   const { colors } = useTheme();
   const { isAuthenticated } = useAuth();
 
@@ -125,4 +125,6 @@ export default function DeathReportCard() {
       </Dialog>
     </CardAd>
   );
-}
+};
+
+export default memo(DeathReportCard);

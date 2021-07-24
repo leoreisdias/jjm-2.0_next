@@ -1,4 +1,5 @@
 import { Card, DialogContent } from '@material-ui/core';
+import { lighten } from 'polished';
 import styled from 'styled-components';
 
 export const AdImage = styled.div`
@@ -16,6 +17,9 @@ export const AdImage = styled.div`
 export const CardAd = styled(Card)`
   max-width: 345px;
   margin: 30px auto;
+
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
+
   h3 {
     font-family: 'Nunito';
     margin-bottom: 1rem;
@@ -29,7 +33,7 @@ export const CardAd = styled(Card)`
 `;
 
 export const CustomDialogContent = styled(DialogContent)`
-  background: #f5fbff;
+  background: ${(props) => lighten(0.75, props.theme.colors.background)};
 `;
 
 export const DetailReportModal = styled.div`
