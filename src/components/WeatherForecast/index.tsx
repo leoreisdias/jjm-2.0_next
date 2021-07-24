@@ -4,6 +4,7 @@ import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { FiWind } from 'react-icons/fi';
 import { GiWaterDrop } from 'react-icons/gi';
 
+import { SlowFadeInOut } from '../../assets/motion/Variants';
 import { useWeather } from '../../hooks/useWeather';
 import { LoadingBird } from '../LoadingBird';
 import {
@@ -43,21 +44,6 @@ interface WeatherProps {
   temp: number;
 }
 
-const Variant = {
-  begin: {
-    scale: 0.2,
-    opacity: 0,
-  },
-  animate: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      duration: 1,
-      ease: [0.48, 0.15, 0.25, 0.96],
-    },
-  },
-};
-
 export const WeatherForecast = () => {
   const { data } = useWeather<WeatherProps>('/');
 
@@ -66,7 +52,7 @@ export const WeatherForecast = () => {
   }
 
   return (
-    <WeatherForecastContainer initial="begin" animate="animate" variants={Variant}>
+    <WeatherForecastContainer initial="begin" animate="animate" variants={SlowFadeInOut}>
       <Today>
         <CityMaxMin>
           <strong>{data?.city_name}</strong>

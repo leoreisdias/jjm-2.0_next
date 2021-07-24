@@ -57,7 +57,7 @@ export function Advertisement({ reverse, showSmallPartners }: AdvertisementProps
       const { data } = await api.get('/partnershighlight');
       setLastTwoHighlights(data.slice(0, 2));
     } catch (err) {
-      console.log(err);
+      //..
     }
   }, []);
 

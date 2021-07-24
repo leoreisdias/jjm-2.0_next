@@ -5,25 +5,8 @@ import { useRouter } from 'next/router';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { ThemeContext } from 'styled-components';
 
+import { SlowFadeInOut } from '../../assets/motion/Variants';
 import { CustomBackdrop } from './LoadingRouteChangeStyle';
-
-const PageLoadingVariant = {
-  begin: {
-    opacity: 0,
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      duration: 0.4,
-    },
-  },
-  exit: {
-    opacity: 0,
-    transition: {
-      duration: 1,
-    },
-  },
-};
 
 export const LoadingRouteChange = () => {
   const router = useRouter();
@@ -50,7 +33,7 @@ export const LoadingRouteChange = () => {
     loading && (
       <AnimatePresence exitBeforeEnter>
         <CustomBackdrop
-          variants={PageLoadingVariant}
+          variants={SlowFadeInOut}
           initial="begin"
           animate="animate"
           exit="exit"

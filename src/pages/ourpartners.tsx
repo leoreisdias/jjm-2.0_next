@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 
+import { SlowFadeDownToUp_RightToLeft } from '../assets/motion/Variants';
 import { api } from '../services/api';
 import { ListImages, PartnersContainer } from '../styles/pages/Ourpartners';
 import { PartnersProps } from '../types/interfaces/Partners';
@@ -11,33 +12,6 @@ interface OurPartnersServerProps {
   partners: PartnersProps[];
 }
 const wppMsg = 'Olá! Vi vocês pelo JJM.';
-
-const PartnerItemVariant = {
-  initial: {
-    scale: 0.8,
-    y: 50,
-    x: 10,
-    opacity: 0,
-  },
-  enter: {
-    scale: 1,
-    y: 0,
-    x: 0,
-    opacity: 1,
-    transition: {
-      duration: 1,
-    },
-  },
-  exit: {
-    scale: 0.6,
-    y: 100,
-    x: 50,
-    opacity: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
 
 export default function OurPartners({ partners }: OurPartnersServerProps) {
   return (
@@ -69,10 +43,10 @@ export default function OurPartners({ partners }: OurPartnersServerProps) {
               <>
                 <motion.li
                   key={item._id}
-                  initial="initial"
-                  animate="enter"
+                  initial="begin"
+                  animate="animate"
                   exit="exit"
-                  variants={PartnerItemVariant}
+                  variants={SlowFadeDownToUp_RightToLeft}
                   whileHover={{
                     scale: 1.1,
                     rotate: [0, 2.1, 3.1, -3.1, -2.1, -1.1, 0],

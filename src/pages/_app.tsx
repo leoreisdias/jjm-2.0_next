@@ -9,6 +9,11 @@ import { useRouter } from 'next/router';
 import { Parallax } from 'react-parallax';
 import { ThemeProvider } from 'styled-components';
 
+import {
+  EaseFadeSlideDownToUp,
+  FadeRightToLeft,
+  FadeSlideDownToUpSlow,
+} from '../assets/motion/Variants';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { LoadingRouteChange } from '../components/LoadingRouteChange';
@@ -18,47 +23,6 @@ import GlobalStyle from '../styles/global';
 import { Main, ParallaxPageOne } from '../styles/pages/App';
 import dark from '../styles/themes/dark';
 import light from '../styles/themes/light';
-
-const Variant = {
-  begin: {
-    scale: 2,
-    y: 30,
-    opacity: 0,
-  },
-  animate: {
-    scale: 1,
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 1,
-      ease: [0.48, 0.15, 0.25, 0.96],
-    },
-  },
-};
-
-const MainVariant = {
-  begin: {
-    scale: 0.8,
-    y: 30,
-    opacity: 0,
-  },
-  animate: {
-    scale: 1,
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 1,
-    },
-  },
-  exit: {
-    scale: 0.6,
-    y: 100,
-    opacity: 0,
-    transition: {
-      duration: 0.5,
-    },
-  },
-};
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
@@ -84,16 +48,31 @@ function MyApp({ Component, pageProps }: AppProps) {
               >
                 <ParallaxPageOne
                   style={{ height: '100vh' }}
-                  initial="begin"
+                  initial="enter"
                   animate="animate"
-                  variants={Variant}
+                  exit="exit"
+                  variants={{
+                    enter: {
+                      transition: {
+                        staggerChildren: 1,
+                      },
+                    },
+                    exit: {
+                      transition: {
+                        staggerChildren: 0.2,
+                      },
+                    },
+                  }}
                 >
                   <motion.span
                     whileHover={{
                       scale: 1.1,
                       rotate: [1, 2, 5, -6.2, -4, 0],
-                      transition: { duration: 0.8 },
+                      transition: { duration: 0.4 },
                     }}
+                    initial="begin"
+                    animate="animate"
+                    variants={FadeSlideDownToUpSlow}
                   >
                     <Image
                       src={'/logo.png'}
@@ -102,7 +81,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                       objectFit="contain"
                     />
                   </motion.span>
-                  <strong>Na Pura Verdade Junto de Você!</strong>
+                  <motion.strong
+                    initial="begin"
+                    animate="animate"
+                    variants={FadeRightToLeft}
+                  >
+                    Na Pura Verdade Junto de Você!
+                  </motion.strong>
                 </ParallaxPageOne>
               </Parallax>
             )}
@@ -118,7 +103,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 initial="begin"
                 animate="animate"
                 exit="exit"
-                variants={MainVariant}
+                variants={EaseFadeSlideDownToUp}
               >
                 <Component {...pageProps} />
               </Main>

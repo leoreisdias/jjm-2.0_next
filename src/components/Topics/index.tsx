@@ -5,57 +5,9 @@ import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { SlowFadeInOut, slowFadeInOut_SlideDownToUp } from '../../assets/motion/Variants';
 import { WeatherForecast } from '../WeatherForecast';
 import { TopicsContainer, ButtonTopic, CustomDialogContent } from './TopicsStyle';
-
-const TopicsVariant = {
-  begin: {
-    scale: 0.96,
-    y: 30,
-    opacity: 0,
-  },
-  animate: {
-    scale: 1,
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 1,
-      ease: [0.48, 0.15, 0.25, 0.96],
-    },
-  },
-  exit: {
-    scale: 0.6,
-    y: 100,
-    opacity: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.48, 0.15, 0.25, 0.96],
-    },
-  },
-};
-
-const TopicsContainerVariant = {
-  begin: {
-    scale: 0.96,
-    opacity: 0,
-  },
-  animate: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      duration: 1,
-      ease: [0.48, 0.15, 0.25, 0.96],
-    },
-  },
-  exit: {
-    scale: 0.6,
-    opacity: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.48, 0.15, 0.25, 0.96],
-    },
-  },
-};
 
 export function Topics() {
   const { pathname } = useRouter();
@@ -76,7 +28,7 @@ export function Topics() {
           initial="begin"
           animate="animate"
           exit="exit"
-          variants={TopicsContainerVariant}
+          variants={SlowFadeInOut}
         >
           <Link href="/">
             <ButtonTopic
@@ -89,7 +41,7 @@ export function Topics() {
               initial="begin"
               animate="animate"
               exit="exit"
-              variants={TopicsVariant}
+              variants={slowFadeInOut_SlideDownToUp}
             >
               Notícias
             </ButtonTopic>
@@ -101,7 +53,7 @@ export function Topics() {
             initial="begin"
             animate="animate"
             exit="exit"
-            variants={TopicsVariant}
+            variants={slowFadeInOut_SlideDownToUp}
             onClick={handleWeatherModal}
           >
             Previsão do Tempo
@@ -113,7 +65,7 @@ export function Topics() {
               initial="begin"
               animate="animate"
               exit="exit"
-              variants={TopicsVariant}
+              variants={slowFadeInOut_SlideDownToUp}
             >
               Notas de Falecimento
             </ButtonTopic>
@@ -126,7 +78,7 @@ export function Topics() {
               initial="begin"
               animate="animate"
               exit="exit"
-              variants={TopicsVariant}
+              variants={slowFadeInOut_SlideDownToUp}
             >
               Nossos Parceiros
             </ButtonTopic>
@@ -138,7 +90,7 @@ export function Topics() {
             initial="begin"
             animate="animate"
             exit="exit"
-            variants={TopicsVariant}
+            variants={slowFadeInOut_SlideDownToUp}
             onClick={handleFacebookPage}
           >
             Visite nossa Página
