@@ -1,9 +1,9 @@
-import { FaFacebook } from 'react-icons/fa';
+import { FaFacebook, FaGithub, FaLinkedin } from 'react-icons/fa';
 
 import { useJJM } from '../../hooks/useJJM';
 import { PartnersProps } from '../../types/interfaces/Partners';
 import { Copyright } from '../Copyright';
-import { FooterContainer, AboutJJM, ParternsTags } from './FooterStyle';
+import { FooterContainer, AboutJJM, ParternsTags, DevelopedBy } from './FooterStyle';
 
 export function Footer() {
   const { data: partners } = useJJM<PartnersProps[]>('/partners');
@@ -41,6 +41,21 @@ export function Footer() {
           )}
         </ul>
       </ParternsTags>
+      <DevelopedBy>
+        <span>
+          <a href="https://github.com/leoreisdias" target="_blank" rel="noreferrer">
+            <FaGithub size={20} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/leonardord99/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaLinkedin size={20} />
+          </a>
+        </span>
+        Desenvolvido por Leonardo R Dias
+      </DevelopedBy>
     </FooterContainer>
   );
 }

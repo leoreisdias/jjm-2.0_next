@@ -5,6 +5,7 @@ import Switch from '@material-ui/core/Switch';
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FaHandshake } from 'react-icons/fa';
 import { GiExitDoor } from 'react-icons/gi';
@@ -38,13 +39,16 @@ export function Header({ toggleTheme }: HeaderProps) {
 
   return (
     <HeaderContainer>
-      {/* <div>
-        <Image src="/logo.png" alt="GoCast" width={80} height={80} objectFit="contain" />
-      </div> */}
-
       <div>
         <div>
           <span className="date">{currentDate}</span>
+          <Image
+            src="/logo.png"
+            alt="GoCast"
+            width={30}
+            height={30}
+            objectFit="contain"
+          />
           <NoSsr>
             <Switch
               checked={switchState}

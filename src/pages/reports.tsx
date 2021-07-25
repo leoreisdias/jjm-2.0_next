@@ -103,6 +103,11 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
             currentReportList.map((item) => {
               return (
                 <ListItem key={item.id}>
+                  <GiPeaceDove
+                    color={lighten(0.1, colors.jjmPallete_1)}
+                    size={60}
+                    className="davePeace"
+                  />
                   <Person>
                     <Image
                       src={item.imageURL}
@@ -113,11 +118,6 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
                       objectFit="contain"
                     />
                     <strong>{item.name}</strong>
-                    <GiPeaceDove
-                      color={lighten(0.1, colors.jjmPallete_1)}
-                      size={60}
-                      className="davePeace"
-                    />
                   </Person>
                   <NoteInfo>
                     <strong>{item.date}</strong>

@@ -5,7 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { FadeRightToLeft } from '../../assets/motion/Variants';
+import { SlowFadeInOut } from '../../assets/motion/Variants';
 import { WeatherForecast } from '../WeatherForecast';
 import { TopicsContainer, ButtonTopic, CustomDialogContent } from './TopicsStyle';
 
@@ -28,7 +28,7 @@ export function Topics() {
           initial="begin"
           animate="animate"
           exit="exit"
-          variants={FadeRightToLeft}
+          variants={SlowFadeInOut}
         >
           <Link href="/">
             <ButtonTopic

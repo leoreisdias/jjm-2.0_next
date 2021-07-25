@@ -36,6 +36,8 @@ export const List = styled(motion.ul)`
 `;
 
 export const ListItem = styled(motion.li)`
+  position: relative;
+
   width: 100%;
   max-width: 800px;
 
@@ -60,6 +62,12 @@ export const ListItem = styled(motion.li)`
       scale: 1.1;
     }
   }
+  .davePeace {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
 
   @media (max-width: 680px) {
     flex-direction: column;
@@ -72,8 +80,6 @@ export const ListItem = styled(motion.li)`
 `;
 
 export const Person = styled.div`
-  position: relative;
-
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -88,13 +94,6 @@ export const Person = styled.div`
     font-size: 1.25rem;
     text-transform: capitalize;
     text-align: center;
-  }
-
-  .davePeace {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%);
   }
 
   @media (max-width: 680px) {

@@ -56,3 +56,24 @@ export const ParternsTags = styled.div`
     background: ${(props) => props.theme.colors.gray900};
   }
 `;
+
+export const DevelopedBy = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 0.875rem;
+
+  span {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+`;

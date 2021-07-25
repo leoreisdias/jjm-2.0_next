@@ -124,9 +124,6 @@ export const SmallDetails = styled.div`
   @media (max-width: 400px) {
     p:last-child {
       max-width: 70%;
-      & span:first-child {
-        max-width: 80%;
-      }
     }
   }
 `;
@@ -349,9 +346,9 @@ export const RelatedNewsSection = styled.section`
 
       span {
         align-self: flex-start;
-
+        font-size: 0.75rem;
         color: ${(props) => shade(0.1, props.theme.colors.text)};
-        margin-top: 0.875rem;
+        margin-top: 0.25rem;
         text-transform: uppercase;
       }
     }
@@ -366,6 +363,12 @@ export const RelatedNewsSection = styled.section`
   @media (max-width: 720px) {
     ul {
       grid-template-columns: 1fr;
+
+      li {
+        span {
+          margin-bottom: 0.875rem;
+        }
+      }
     }
   }
 `;
