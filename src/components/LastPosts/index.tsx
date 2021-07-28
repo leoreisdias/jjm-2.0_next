@@ -32,7 +32,7 @@ const LastPosts = ({ lastestNews }: LastPostsProps) => {
                 <LastPostsContainer
                   whileHover={{
                     scale: 1.05,
-                    transition: { duration: 0.4 },
+                    transition: { duration: 0.2 },
                   }}
                 >
                   <Image

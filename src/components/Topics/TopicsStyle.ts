@@ -27,7 +27,10 @@ export const TopicsContainer = styled(motion.main)`
   }
 
   @media (max-width: 780px) {
-    top: 10rem;
+    top: 11rem;
+  }
+  @media (max-width: 300px) {
+    top: 12rem;
   }
 `;
 

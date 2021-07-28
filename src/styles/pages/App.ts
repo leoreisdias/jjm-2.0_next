@@ -21,10 +21,10 @@ export const Main = styled(motion.main)<{ login: boolean }>`
     padding-top: ${(props) => (!props.login ? '20rem' : '0')};
   }
   @media (max-width: 420px) {
-    padding-top: ${(props) => (!props.login ? '22rem' : '0')};
+    padding-top: ${(props) => (!props.login ? '24rem' : '0')};
   }
   @media (max-width: 300px) {
-    padding-top: ${(props) => (!props.login ? '26rem' : '0')};
+    padding-top: ${(props) => (!props.login ? '28rem' : '0')};
   }
 `;
 

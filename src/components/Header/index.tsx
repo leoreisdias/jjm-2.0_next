@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 
+import { useMediaQuery } from '@material-ui/core';
 import NoSsr from '@material-ui/core/NoSsr';
 import Switch from '@material-ui/core/Switch';
 import format from 'date-fns/format';
@@ -28,6 +29,9 @@ export function Header({ toggleTheme }: HeaderProps) {
   const { isAuthenticated, handleLogout } = useAuth();
 
   const [switchState, setSwitchState] = useState(true);
+
+  const matches = useMediaQuery('(max-width:720px)');
+
   const currentDate = format(new Date(), 'EEEEEE, d MMM', {
     locale: ptBR,
   });
@@ -35,6 +39,10 @@ export function Header({ toggleTheme }: HeaderProps) {
   function handleThemeSwitch() {
     setSwitchState(!switchState);
     toggleTheme();
+  }
+
+  function goToLogin() {
+    matches && push('/login');
   }
 
   return (
@@ -48,6 +56,7 @@ export function Header({ toggleTheme }: HeaderProps) {
             width={30}
             height={30}
             objectFit="contain"
+            onClick={goToLogin}
           />
           <NoSsr>
             <Switch

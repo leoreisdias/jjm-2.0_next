@@ -10,14 +10,14 @@ export const LastPostsWrapper = styled.section`
     color: ${(props) => props.theme.colors.title};
     font-size: 1.25rem;
 
-    margin-bottom: 1rem;
+    margin: 0.875rem 0 0.5rem;
   }
 
   @media (max-width: 768px) {
-    padding: 1rem 2rem;
+    padding: 0rem 2rem;
   }
   @media (max-width: 320px) {
-    margin-top: 2rem;
+    margin-top: 1rem;
   }
 `;
 
@@ -52,6 +52,11 @@ export const LastPostsContainer = styled(motion.li)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-transform: lowercase;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 
   p span {
@@ -65,7 +70,7 @@ export const LastPostsContainer = styled(motion.li)`
   p strong {
     font-size: 0.9rem;
 
-    transition: 0.25s;
+    transition: 0.3s;
     color: ${(props) => props.theme.colors.jjmPallete_1};
 
     &:hover {

@@ -98,6 +98,14 @@ export const HeaderContainer = styled.header`
       max-width: 4rem;
     }
   }
+
+  @media (max-width: 300px) {
+    & div:nth-child(1) {
+      span:not(:last-child) {
+        font-size: 1.5rem;
+      }
+    }
+  }
 `;
 
 export const SpanExit = styled.span`

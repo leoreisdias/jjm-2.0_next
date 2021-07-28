@@ -14,6 +14,6 @@ export const CustomBackdrop = styled(motion.div)`
   justify-content: center;
   align-items: center;
 
-  background: ${(props) => rgba(props.theme.colors.transitionBackground, 0.95)};
+  background: ${(props) => rgba(props.theme.colors.transitionBackground, 0.99)};
   color: #fff;
 `;

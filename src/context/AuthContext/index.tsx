@@ -56,8 +56,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUsername(response.data.user.name);
         setToken(response.data.token);
         setIsAuthenticated(true);
-        setIsLoading(false);
         replace('/writer-area');
+        setIsLoading(false);
       } catch (err) {
         setIsLoading(false);
         setHasLoginFailed(true);

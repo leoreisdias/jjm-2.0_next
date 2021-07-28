@@ -26,13 +26,12 @@ import light from '../styles/themes/light';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
-
-  const minimumHeight = pathname == '/' ? 100 : 0;
-
   const [theme, setTheme] = useState(light);
-  const matches = useMediaQuery('(max-width:720px)');
-
   const [scrollY, setScrollY] = useState(0);
+
+  const minimumHeight = pathname == '/' ? 200 : 0;
+
+  const matches = useMediaQuery('(max-width:720px)');
 
   const toggleTheme = () => {
     setTheme(theme.title === 'light' ? dark : light);

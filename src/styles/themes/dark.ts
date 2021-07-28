@@ -19,7 +19,7 @@ export default {
     title: '#f7f8fa',
 
     green500: '#04d361',
-    borderColor: '#A3A3A3',
+    borderColor: '#808080',
 
     purple300: '#9f75ff',
     purple400: '#9164fa',
