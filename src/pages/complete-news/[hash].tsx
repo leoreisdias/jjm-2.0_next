@@ -208,7 +208,9 @@ export default function CompleteNews({
             </p>
           </SmallDetails>
           <NewsContent>
-            <p dangerouslySetInnerHTML={{ __html: news.description }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: '<p>' + news.description + '</p>' }}
+            ></div>
 
             {news.video_url && (
               <Video>
@@ -217,8 +219,7 @@ export default function CompleteNews({
                 <div>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html:
-                        '<iframe width="560" height="315" src="https://www.youtube.com/embed/YdGSgocDR1E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+                      __html: news.video_url,
                     }}
                   />
                 </div>

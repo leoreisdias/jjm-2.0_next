@@ -44,7 +44,7 @@ export default function BigAd({ highlight }: BigAdProps) {
         )}
         <CardContent>
           <h2>{highlight.title}</h2>
-          <p>{highlight.text}</p>
+          <p>{highlight.summary}</p>
         </CardContent>
       </CardActionArea>
       <CardActions
@@ -64,6 +64,11 @@ export default function BigAd({ highlight }: BigAdProps) {
           <DetailHighlightModal>
             <h2>{highlight.title}</h2>
             <p>{highlight.text}</p>
+            {highlight.videoURL && (
+              <Link href={highlight.videoURL} passHref>
+                Veja o vídeo!
+              </Link>
+            )}
             <Image
               src={highlight.imageURL}
               width={200}

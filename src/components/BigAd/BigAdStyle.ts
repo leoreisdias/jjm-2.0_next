@@ -48,6 +48,14 @@ export const DetailHighlightModal = styled.div`
     margin: 1rem 0;
   }
 
+  a {
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme.colors.jjmPallete_1};
+    font-weight: 600;
+  }
+
   img {
     border-radius: 5px;
   }

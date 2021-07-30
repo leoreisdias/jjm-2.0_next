@@ -7,6 +7,7 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import Select from 'react-select';
@@ -14,7 +15,13 @@ import * as Yup from 'yup';
 
 import { useAuth } from '../../../hooks/useAuth';
 import { api } from '../../../services/api';
-import { Form, LabelEditor, LabelImageFile, SubmitButton } from './NewsFormStyle';
+import {
+  Form,
+  LabelEditor,
+  LabelImageFile,
+  SubmitButton,
+  CurrentImageLabel,
+} from './NewsFormStyle';
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
   ssr: false,
@@ -93,6 +100,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState('');
+  const [currentImageUrl, setCurrentImageUrl] = useState('');
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
@@ -206,14 +214,14 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     const description = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     const subjectsString = subjects.map((item) => item.value).join(', ');
 
-    const data = {
-      title,
-      description,
-      subjects: subjectsString,
-      summary,
-      video_url: video,
-      source: source ?? 'JJM',
-    };
+    const data = new FormData();
+    data.append('image', image);
+    data.append('title', title);
+    data.append('description', description);
+    data.append('subjects', subjectsString);
+    data.append('summary', summary);
+    data.append('video_url', video);
+    data.append('source', source ?? 'JJM');
 
     try {
       await api.patch(`/news/${id}`, data, {
@@ -250,6 +258,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           setSummary(data.news.summary);
           setSource(data.news.source);
           setVideo(data.news.video_url ?? '');
+          setCurrentImageUrl(data.news.imageURL);
           const blocksFromHTML = convertFromHTML(data.news.description);
           const stateEditor = ContentState.createFromBlockArray(
             blocksFromHTML.contentBlocks,
@@ -335,21 +344,36 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           onChange={(e) => setSource(e.target.value)}
           helperText="Se houver (OPCIONAL)"
         />
-        {!isUpdating && (
-          <LabelImageFile
-            // id={styles.image}
-            style={{
-              backgroundImage: `url(${preview})`,
-              backgroundSize: '100% 100%',
-              backgroundRepeat: 'no-repeat',
-            }}
-            // className={image ? styles.hasImage : styles.noImage}
-            hasImage={!!image}
-          >
-            <input type="file" onChange={handleChange} />
-            <img src="/camera.svg" alt="Select" />
-          </LabelImageFile>
-        )}
+        <LabelImageFile
+          // id={styles.image}
+          style={{
+            backgroundImage: `url(${preview})`,
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+          }}
+          // className={image ? styles.hasImage : styles.noImage}
+          hasImage={!!image}
+        >
+          <input type="file" onChange={handleChange} />
+          <img src="/camera.svg" alt="Select" />
+        </LabelImageFile>
+
+        <CurrentImageLabel>
+          {isUpdating && currentImageUrl.length && (
+            <>
+              <strong>Imagem Atual do Destaque</strong>
+              <Image
+                width={200}
+                height={200}
+                placeholder="blur"
+                blurDataURL={currentImageUrl}
+                objectFit="contain"
+                src={currentImageUrl}
+                alt="Imagem da Noticia"
+              />
+            </>
+          )}
+        </CurrentImageLabel>
         <TextField
           error={false}
           variant="outlined"

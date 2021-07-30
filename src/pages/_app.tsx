@@ -51,17 +51,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <StylesProvider injectFirst>
-      <AnimatePresence exitBeforeEnter>
-        <ThemeProvider theme={theme}>
-          <AuthProvider>
-            {pathname == '/' && (
-              <Parallax
-                blur={{ min: -15, max: 15 }}
-                bgImage={'/bgJJM.png'}
-                bgImageAlt="the dog"
-                strength={100}
-                bgImageStyle={{ opacity: 0.9 }}
-              >
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          {pathname == '/' && (
+            <Parallax
+              blur={{ min: -15, max: 15 }}
+              bgImage={'/bgJJM.png'}
+              bgImageAlt="the dog"
+              strength={100}
+              bgImageStyle={{ opacity: 0.9 }}
+            >
+              <AnimatePresence exitBeforeEnter>
                 <ParallaxPageOne
                   style={{ height: '100vh' }}
                   initial="enter"
@@ -104,10 +104,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                     Na Pura Verdade Junto de Você!
                   </motion.strong>
                 </ParallaxPageOne>
-              </Parallax>
-            )}
-            <Parallax>
-              {pathname !== '/login' && scrollY >= minimumHeight && (
+              </AnimatePresence>
+            </Parallax>
+          )}
+
+          <Parallax>
+            {pathname !== '/login' && scrollY >= minimumHeight && (
+              <AnimatePresence exitBeforeEnter>
                 <motion.span
                   initial="begin"
                   animate="animate"
@@ -117,7 +120,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Header toggleTheme={toggleTheme} />
                   <Topics />
                 </motion.span>
-              )}
+              </AnimatePresence>
+            )}
+            <AnimatePresence exitBeforeEnter>
               <Main
                 login={pathname === '/login'}
                 initial="begin"
@@ -127,13 +132,14 @@ function MyApp({ Component, pageProps }: AppProps) {
               >
                 <Component {...pageProps} />
               </Main>
-              <LoadingRouteChange />
-              {pathname !== '/login' && !matches && <Footer />}
-            </Parallax>
-          </AuthProvider>
-          <GlobalStyle />
-        </ThemeProvider>
-      </AnimatePresence>
+            </AnimatePresence>
+
+            <LoadingRouteChange />
+            {pathname !== '/login' && !matches && <Footer />}
+          </Parallax>
+        </AuthProvider>
+        <GlobalStyle />
+      </ThemeProvider>
     </StylesProvider>
   );
 }

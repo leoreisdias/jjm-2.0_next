@@ -159,7 +159,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       setIsError(false);
       setAlertMessage('Destaque Atualizado com Sucesso');
       setShowAlert(true);
-      push('/');
+      // push('/');
       handleLoading(false);
     } catch (err) {
       handleLoading(false);
@@ -220,17 +220,22 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
   return (
     <NoSsr>
       <Form onSubmit={handleSubmit}>
-        {!isUpdating && (
-          <Select
-            id="optionSelect"
-            instanceId="options"
-            className="basic-single"
-            classNamePrefix="select"
-            options={partnerOptions}
-            isLoading={isLoading}
-            onChange={(e) => setPartner(e.value)}
-          />
-        )}
+        <p>
+          O atual limite de destaques exibidos é de 2. <br />
+          Sendo assim, criar um novo removerá um dos existentes.
+          <br />É preferivel que você EDITE um dos atuais ao invés de criar um novo! Para
+          que tenha maior controle. <br /> (Pelo menos enquanto o limite for 2)
+        </p>
+        <Select
+          id="optionSelect"
+          instanceId="options"
+          className="basic-single"
+          classNamePrefix="select"
+          options={partnerOptions}
+          isLoading={isLoading}
+          onChange={(e) => setPartner(e.value)}
+        />
+
         <TextField
           error={false}
           variant="outlined"
@@ -284,7 +289,6 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           value={videoURL}
           onChange={(e) => setVideoURL(e.target.value)}
           helperText="Se houver, poste primeiro no Facebook e cole o link aqui"
-          required
         />
 
         <LabelImageFile

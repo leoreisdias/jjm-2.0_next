@@ -18,4 +18,6 @@ export interface PartnerHighlightProps {
   partner: string;
   text: string;
   title: string;
+  summary: string;
+  videoURL: string;
 }

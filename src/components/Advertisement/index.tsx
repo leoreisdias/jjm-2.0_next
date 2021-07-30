@@ -55,6 +55,8 @@ const Advertisement = ({ reverse, showSmallPartners }: AdvertisementProps) => {
   const loadLastTwoHighlights = useCallback(async () => {
     try {
       const { data } = await api.get('/partnershighlight');
+      console.log(data);
+
       setLastTwoHighlights(data.slice(0, 2));
     } catch (err) {
       //..

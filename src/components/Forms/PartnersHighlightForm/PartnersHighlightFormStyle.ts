@@ -20,6 +20,13 @@ export const Form = styled.form`
   label {
     z-index: 0;
   }
+
+  p {
+    text-align: center;
+    color: ${(props) => props.theme.colors.jjmPallete_1};
+    font-weight: 600;
+    line-height: 1.25rem;
+  }
 `;
 
 export const LabelEditor = styled.label`

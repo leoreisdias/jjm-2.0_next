@@ -95,3 +95,16 @@ export const SubmitButton = styled.button`
     filter: brightness(0.9);
   }
 `;
+
+export const CurrentImageLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 1rem;
+
+  strong {
+    color: ${(props) => props.theme.colors.jjmPallete_1};
+    font-size: 1.2rem;
+  }
+`;
