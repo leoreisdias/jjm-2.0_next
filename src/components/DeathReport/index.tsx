@@ -107,17 +107,17 @@ const DeathReportCard = () => {
             <p>{data.docs[0].description}</p>
             <span>
               {isAuthenticated && (
-                <>
-                  <Link
-                    href={{
-                      pathname: `/writer-area`,
-                      query: { update: formOptions.deathReport, id: data.docs[0]._id },
-                    }}
-                    as={'/writer-area'}
-                  >
+                <Link
+                  href={{
+                    pathname: `/writer-area`,
+                    query: { update: formOptions.deathReport, id: data.docs[0]._id },
+                  }}
+                  as={'/writer-area'}
+                >
+                  <div>
                     <FaEdit size={25} color={colors.jjmPallete_1} className="icon" />
-                  </Link>
-                </>
+                  </div>
+                </Link>
               )}
             </span>
           </DetailReportModal>

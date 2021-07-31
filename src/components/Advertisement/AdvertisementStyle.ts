@@ -85,7 +85,6 @@ export const ExpiredPartners = styled.div`
     font-size: 1.2rem;
     ul {
       margin-top: 1rem;
-      list-style: symbols('💵');
       li {
         margin-bottom: 0.2rem;
         font-size: 1.1rem;

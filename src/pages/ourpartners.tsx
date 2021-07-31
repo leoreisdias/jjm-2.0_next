@@ -40,36 +40,34 @@ export default function OurPartners({ partners }: OurPartnersServerProps) {
         {partners &&
           partners.map((item) => {
             return (
-              <>
-                <motion.li
-                  key={item._id}
-                  initial="begin"
-                  animate="animate"
-                  exit="exit"
-                  variants={slowFadeInOutWithSlideDownUp}
-                  whileHover={{
-                    scale: 1.02,
-                    rotate: [0, 2.1, 3.1, -3.1, -2.1, -1.1, 0],
-                    transition: { duration: 0 },
-                  }}
+              <motion.li
+                key={item._id}
+                initial="begin"
+                animate="animate"
+                exit="exit"
+                variants={slowFadeInOutWithSlideDownUp}
+                whileHover={{
+                  scale: 1.02,
+                  rotate: [0, 2.1, 3.1, -3.1, -2.1, -1.1, 0],
+                  transition: { duration: 0 },
+                }}
+              >
+                <a
+                  href={
+                    item.facebook_url ??
+                    `https://api.whatsapp.com/send?phone=55${item.whatsapp_url}&text=${wppMsg}`
+                  }
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  <a
-                    href={
-                      item.facebook_url ??
-                      `https://api.whatsapp.com/send?phone=55${item.whatsapp_url}&text=${wppMsg}`
-                    }
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Image
-                      src={item.imageURL}
-                      width={200}
-                      height={200}
-                      objectFit="contain"
-                    />
-                  </a>
-                </motion.li>
-              </>
+                  <Image
+                    src={item.imageURL}
+                    width={200}
+                    height={200}
+                    objectFit="contain"
+                  />
+                </a>
+              </motion.li>
             );
           })}
       </ListImages>

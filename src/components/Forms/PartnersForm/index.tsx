@@ -121,7 +121,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
     data.append('text', text);
     data.append('name', name);
     data.append('facebook_url', facebook_url);
-    data.append('whatsapp_url', whatsapp_url);
+    data.append('whatsapp_url', whatsapp_url.replaceAll(/[^\d]/g, ''));
     data.append('telefone', telefone);
     data.append('endereco', endereco);
 
@@ -268,7 +268,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           value={facebook_url}
           onChange={(e) => setFacebookUrl(e.target.value)}
           helperText="A URL"
-          required
         />
         <TextField
           error={false}
@@ -279,7 +278,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           value={whatsapp_url}
           onChange={(e) => setWhatsappUrl(e.target.value)}
           helperText="Incluindo o DDD"
-          required
         />
 
         <LabelEditor htmlFor="Editor">

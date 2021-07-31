@@ -12,6 +12,7 @@ import { lighten } from 'polished';
 import { BiMessageSquareDetail } from 'react-icons/bi';
 import { GiPeaceDove } from 'react-icons/gi';
 
+import { SlowFadeInOut } from '../assets/motion/Variants';
 import { useTheme } from '../hooks/useTheme';
 import { api } from '../services/api';
 import {
@@ -92,7 +93,13 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
 
   return (
     <AnimatePresence exitBeforeEnter>
-      <Container onTouchMove={handleSlideDown}>
+      <Container
+        onTouchMove={handleSlideDown}
+        initial="begin"
+        animate="animate"
+        exit="exit"
+        variants={SlowFadeInOut}
+      >
         <Head>
           <title>Notas de Falecimento | JJM</title>
         </Head>

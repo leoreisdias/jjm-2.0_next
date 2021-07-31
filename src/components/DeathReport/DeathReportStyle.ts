@@ -71,6 +71,15 @@ export const DetailReportModal = styled.div`
     padding-bottom: 0.4rem;
   }
 
+  span {
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.25rem 0;
+    }
+  }
+
   .icon {
     cursor: pointer;
     transition: 0.2s;

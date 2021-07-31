@@ -67,7 +67,7 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
   async function handleChangePage(event: React.ChangeEvent<unknown>, value: number) {
     setCurrentPage(value);
     window.scrollTo({
-      top: 0,
+      top: 850,
       left: 0,
       behavior: 'smooth',
     });

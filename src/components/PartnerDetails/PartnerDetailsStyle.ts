@@ -27,7 +27,10 @@ export const Title = styled.h3`
 
 export const Content = styled.div`
   line-height: 1.75rem;
-  text-align: justify;
+  text-align: left;
+  padding: 0 2rem;
+  max-width: 100%;
+  word-wrap: break-word;
 
   span {
     margin-top: 0.5rem;

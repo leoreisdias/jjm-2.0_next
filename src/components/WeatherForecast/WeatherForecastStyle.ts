@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { darken, complement } from 'polished';
+import { darken, complement, lighten } from 'polished';
 import styled from 'styled-components';
 
 export const WeatherForecastContainer = styled(motion.article)`
@@ -29,9 +29,9 @@ export const Today = styled.div`
   border-radius: 10px;
 
   background: linear-gradient(
-    250deg,
-    ${(props) => props.theme.colors.jjmPallete_1},
-    ${(props) => complement(props.theme.colors.jjmPallete_1)}
+    180deg,
+    ${(props) => lighten(0.4, props.theme.colors.jjmPallete_1)},
+    ${(props) => lighten(0.0, props.theme.colors.jjmPallete_1)}
   );
 
   @media (max-width: 400px) {
@@ -182,9 +182,9 @@ export const EachDay = styled.div`
   border-radius: 10px;
 
   background: linear-gradient(
-    250deg,
-    ${(props) => props.theme.colors.jjmPallete_1},
-    ${(props) => complement(props.theme.colors.jjmPallete_1)}
+    180deg,
+    ${(props) => lighten(0.4, props.theme.colors.jjmPallete_1)},
+    ${(props) => lighten(0.0, props.theme.colors.jjmPallete_1)}
   );
 
   strong {
