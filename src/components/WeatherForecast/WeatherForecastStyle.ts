@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { darken, complement, lighten } from 'polished';
+import { darken, lighten } from 'polished';
 import styled from 'styled-components';
 
 export const WeatherForecastContainer = styled(motion.article)`

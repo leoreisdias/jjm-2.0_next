@@ -1,6 +1,8 @@
 import { useCallback, useState, ReactNode, createContext, useEffect } from 'react';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { useRouter } from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
@@ -16,10 +18,16 @@ interface AuthContextProps {
   handleLogout: () => void;
   handleLoginFailed: () => void;
   handleLoading: (active: boolean) => void;
+  callAlert: () => void;
+  handleAlertMessage: (text: string, isError: boolean) => void;
 }
 
 interface AuthProviderProps {
   children: ReactNode;
+}
+
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -33,6 +41,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasLoginFailed, setHasLoginFailed] = useState(false);
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [isError, setIsError] = useState(false);
+
+  const callAlert = useCallback(() => {
+    setShowAlert((oldShow) => !oldShow);
+  }, []);
+
+  const handleAlertMessage = useCallback((text: string, isError: boolean) => {
+    setAlertMessage(text);
+    setIsError(isError);
+  }, []);
 
   const handleLoginFailed = useCallback(() => {
     setHasLoginFailed(false);
@@ -100,6 +121,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         handleLogout,
         hasLoginFailed,
         handleLoading,
+        callAlert,
+        handleAlertMessage,
         username,
         token,
       }}
@@ -108,6 +131,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         <CircularProgress color="inherit" />
       </CustomBackdrop>
       {children}
+      <Snackbar open={showAlert} autoHideDuration={6000} onClose={callAlert}>
+        <Alert severity={isError ? 'error' : 'success'}>
+          {alertMessage}
+          {/* Alguns dados estão faltando ou estão em formato errado! */}
+        </Alert>
+      </Snackbar>
     </AuthContext.Provider>
   );
 };

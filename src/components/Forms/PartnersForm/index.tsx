@@ -1,9 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState, useCallback } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
-import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
@@ -20,20 +18,16 @@ const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Edi
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }) as any;
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 interface PartnersFormPros {
   id?: string;
 }
 
 export const PartnersForm = ({ id }: PartnersFormPros) => {
-  const { handleLoading } = useAuth();
+  const { handleLoading, handleAlertMessage, callAlert } = useAuth();
 
   const isUpdating = useMemo(() => id && id.length, [id]);
 
-  const { push } = useRouter();
+  const { push, back } = useRouter();
 
   const { token } = useAuth();
 
@@ -46,14 +40,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
   const [paymentDay, setPaymentDay] = useState(0);
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
-
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [isError, setIsError] = useState(false);
-
-  function handleFailedSubmitAlert() {
-    setShowAlert(false);
-  }
 
   function onEditorStateChange(editorState: EditorState) {
     setEditorState(editorState);
@@ -104,11 +90,10 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       if (err instanceof Yup.ValidationError) {
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
-          setAlertMessage(error.message);
+          handleAlertMessage(error.message, true);
         });
       }
-      setIsError(true);
-      setShowAlert(true);
+      callAlert();
     }
     //..
   }
@@ -131,16 +116,17 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           authorization: 'Bearer ' + token,
         },
       });
-      setIsError(false);
-      setAlertMessage('Parceiro Adicionado com Sucesso');
-      setShowAlert(true);
+      handleAlertMessage('Parceiro Adicionado com Sucesso', false);
+      callAlert();
       push('/');
       handleLoading(false);
     } catch (err) {
       handleLoading(false);
-      setIsError(true);
-      setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
-      setShowAlert(true);
+      handleAlertMessage(
+        'Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!',
+        true
+      );
+      callAlert();
     }
   }
 
@@ -164,16 +150,17 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
         },
       });
 
-      setIsError(false);
-      setAlertMessage('Parceiro Atualizado com Sucesso');
-      setShowAlert(true);
-      push('/');
+      handleAlertMessage('Parceiro Atualizado com Sucesso', false);
+      callAlert();
+      back();
       handleLoading(false);
     } catch (err) {
       handleLoading(false);
-      setIsError(true);
-      setAlertMessage('Erro ao tentar atualizar! Tente novamente daqui 5 minutos!');
-      setShowAlert(true);
+      handleAlertMessage(
+        'Erro ao tentar atualizar! Tente novamente daqui 5 minutos!',
+        true
+      );
+      callAlert();
     }
   }
 
@@ -318,16 +305,6 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           {isUpdating ? 'Atualizar Parceiro' : 'Salvar Novo Parceiro'}
         </SubmitButton>
       </Form>
-      <Snackbar
-        open={showAlert}
-        autoHideDuration={6000}
-        onClose={handleFailedSubmitAlert}
-      >
-        <Alert severity={isError ? 'error' : 'success'}>
-          {alertMessage}
-          {/* Alguns dados estão faltando ou estão em formato errado! */}
-        </Alert>
-      </Snackbar>
     </NoSsr>
   );
 };

@@ -1,9 +1,7 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
-import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
@@ -31,10 +29,6 @@ const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Edi
 interface SubjectsSelect {
   value: string;
   label: string;
-}
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 const options = [
@@ -84,11 +78,11 @@ interface NewsFormProps {
 }
 
 export const NewsForm = ({ id }: NewsFormProps) => {
-  const { handleLoading } = useAuth();
+  const { handleLoading, handleAlertMessage, callAlert } = useAuth();
 
   const isUpdating = id && id.length;
 
-  const { push } = useRouter();
+  const { push, back } = useRouter();
 
   const { username, token } = useAuth();
 
@@ -101,14 +95,6 @@ export const NewsForm = ({ id }: NewsFormProps) => {
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState('');
   const [currentImageUrl, setCurrentImageUrl] = useState('');
-
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [isError, setIsError] = useState(false);
-
-  function handleFailedSubmitAlert() {
-    setShowAlert(false);
-  }
 
   function onEditorStateChange(editorState: EditorState) {
     setEditorState(editorState);
@@ -167,11 +153,10 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       if (err instanceof Yup.ValidationError) {
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
-          setAlertMessage(error.message);
+          handleAlertMessage(error.message, true);
         });
       }
-      setIsError(true);
-      setShowAlert(true);
+      callAlert();
     }
     //..
   }
@@ -197,16 +182,17 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           authorization: 'Bearer ' + token,
         },
       });
-      setIsError(false);
-      setAlertMessage('Notícia Postada com Sucesso');
-      setShowAlert(true);
+      handleAlertMessage('Notícia Postada com Sucesso', false);
+      callAlert();
       push('/');
       handleLoading(false);
     } catch (err) {
       handleLoading(false);
-      setIsError(true);
-      setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
-      setShowAlert(true);
+      handleAlertMessage(
+        'Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!',
+        true
+      );
+      callAlert();
     }
   }
 
@@ -229,16 +215,17 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           authorization: 'Bearer ' + token,
         },
       });
-      setIsError(false);
-      setAlertMessage('Notícia Atualizada com Sucesso');
-      setShowAlert(true);
-      push('/');
+      handleAlertMessage('Notícia Atualizada com Sucesso', false);
+      callAlert();
+      back();
       handleLoading(false);
     } catch (err) {
       handleLoading(false);
-      setIsError(true);
-      setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
-      setShowAlert(true);
+      handleAlertMessage(
+        'Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!',
+        true
+      );
+      callAlert();
     }
   }
 
@@ -389,16 +376,6 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           Salvar Postagem
         </SubmitButton>
       </Form>
-      <Snackbar
-        open={showAlert}
-        autoHideDuration={6000}
-        onClose={handleFailedSubmitAlert}
-      >
-        <Alert severity={isError ? 'error' : 'success'}>
-          {alertMessage}
-          {/* Alguns dados estão faltando ou estão em formato errado! */}
-        </Alert>
-      </Snackbar>
     </NoSsr>
   );
 };

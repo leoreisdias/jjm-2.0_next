@@ -1,9 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState, useCallback } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
-import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Select from 'react-select';
@@ -18,10 +16,6 @@ import {
   SubmitButton,
 } from './PartnersHighlightFormStyle';
 
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
 interface PartnersHighlightFormPros {
   id?: string;
 }
@@ -32,11 +26,11 @@ interface SelectOptions {
 }
 
 export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
-  const { handleLoading } = useAuth();
+  const { handleLoading, handleAlertMessage, callAlert } = useAuth();
 
   const isUpdating = useMemo(() => id && id.length, [id]);
 
-  const { push } = useRouter();
+  const { push, back } = useRouter();
 
   const { token } = useAuth();
 
@@ -51,15 +45,6 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
   const [videoURL, setVideoURL] = useState('');
 
   const [currentImageUrl, setCurrentImageUrl] = useState('');
-
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [isError, setIsError] = useState(false);
-
-  function handleFailedSubmitAlert() {
-    setShowAlert(false);
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: any) => {
     setImage(event.currentTarget.files[0]);
@@ -103,11 +88,10 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       if (err instanceof Yup.ValidationError) {
         err.inner.forEach((error) => {
           validationErrors[error.path] = error.message;
-          setAlertMessage(error.message);
+          handleAlertMessage(error.message, true);
         });
       }
-      setIsError(true);
-      setShowAlert(true);
+      callAlert();
     }
     //..
   }
@@ -127,16 +111,17 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           authorization: 'Bearer ' + token,
         },
       });
-      setIsError(false);
-      setAlertMessage('Destaque Adicionado com Sucesso');
-      setShowAlert(true);
+      handleAlertMessage('Destaque Adicionado com Sucesso', false);
+      callAlert();
       push('/');
       handleLoading(false);
     } catch (err) {
       handleLoading(false);
-      setIsError(true);
-      setAlertMessage('Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!');
-      setShowAlert(true);
+      handleAlertMessage(
+        'Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!',
+        true
+      );
+      callAlert();
     }
   }
 
@@ -156,16 +141,18 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
         },
       });
 
-      setIsError(false);
-      setAlertMessage('Destaque Atualizado com Sucesso');
-      setShowAlert(true);
-      // push('/');
+      handleAlertMessage('Destaque Atualizado com Sucesso', false);
+      callAlert();
+      back();
       handleLoading(false);
     } catch (err) {
       handleLoading(false);
-      setIsError(true);
-      setAlertMessage('Erro ao tentar atualizar! Tente novamente daqui 5 minutos!');
-      setShowAlert(true);
+
+      handleAlertMessage(
+        'Erro ao tentar atualizar! Tente novamente daqui 5 minutos!',
+        true
+      );
+      callAlert();
     }
   }
 
@@ -326,16 +313,6 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
           {isUpdating ? 'Atualizar Destaque' : 'Salvar Novo Destaque'}
         </SubmitButton>
       </Form>
-      <Snackbar
-        open={showAlert}
-        autoHideDuration={6000}
-        onClose={handleFailedSubmitAlert}
-      >
-        <Alert severity={isError ? 'error' : 'success'}>
-          {alertMessage}
-          {/* Alguns dados estão faltando ou estão em formato errado! */}
-        </Alert>
-      </Snackbar>
     </NoSsr>
   );
 };
