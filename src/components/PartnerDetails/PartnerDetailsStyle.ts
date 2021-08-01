@@ -28,10 +28,12 @@ export const Title = styled.h3`
 export const Content = styled.div`
   line-height: 1.75rem;
   text-align: left;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   max-width: 100%;
-  word-wrap: break-word;
 
+  p {
+    /* white-space: pre-wrap; */
+  }
   span {
     margin-top: 0.5rem;
     display: flex;
@@ -40,6 +42,14 @@ export const Content = styled.div`
     strong {
       display: inline;
     }
+  }
+
+  @media (max-width: 380px) {
+    padding: 0 1rem;
+  }
+  @media (max-width: 300px) {
+    padding: 0 0rem;
+    text-align: center;
   }
 `;
 

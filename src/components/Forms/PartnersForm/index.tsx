@@ -11,7 +11,13 @@ import * as Yup from 'yup';
 
 import { useAuth } from '../../../hooks/useAuth';
 import { api } from '../../../services/api';
-import { Form, LabelImageFile, LabelEditor, SubmitButton } from './PartnersFormStyle';
+import {
+  Form,
+  LabelImageFile,
+  LabelEditor,
+  SubmitButton,
+  WarningBorders,
+} from './PartnersFormStyle';
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
   ssr: false,
@@ -47,7 +53,14 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: any) => {
-    setImage(event.currentTarget.files[0]);
+    if (event.currentTarget.files[0].size >= 5000000) {
+      handleAlertMessage(
+        'Imagem grande demais! Escolha uma de até no máximo 5 MB!',
+        true
+      );
+      callAlert();
+      setImage('');
+    } else setImage(event.currentTarget.files[0]);
   };
 
   const preview = useMemo(() => {
@@ -106,7 +119,10 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
     data.append('text', text);
     data.append('name', name);
     data.append('facebook_url', facebook_url);
-    data.append('whatsapp_url', whatsapp_url.replaceAll(/[^\d]/g, ''));
+    data.append(
+      'whatsapp_url',
+      whatsapp_url.replaceAll(/[^\d]/g, '').replaceAll(' ', '')
+    );
     data.append('telefone', telefone);
     data.append('endereco', endereco);
 
@@ -137,7 +153,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
       text,
       name,
       facebook_url,
-      whatsapp_url,
+      whatsapp_url: whatsapp_url.replaceAll(/[^\d]/g, '').replaceAll(' ', ''),
       telefone,
       endereco,
       paymentDay,
@@ -261,7 +277,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           variant="outlined"
           id="whatsapp"
           name="whatsapp"
-          label="Link do WhatsApp do Parceiro"
+          label="WhatsApp do Parceiro"
           value={whatsapp_url}
           onChange={(e) => setWhatsappUrl(e.target.value)}
           helperText="Incluindo o DDD"
@@ -277,7 +293,10 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
             onEditorStateChange={onEditorStateChange}
           />
         </LabelEditor>
-        <details>
+        <WarningBorders>
+          Certifique-se do texto estar dentro das bordas pretas abaixo!
+        </WarningBorders>
+        <details open>
           <summary>Veja como será exibido o seu texto:</summary>
           <p
             dangerouslySetInnerHTML={{

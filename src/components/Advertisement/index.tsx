@@ -119,19 +119,17 @@ const Advertisement = ({ reverse, showSmallPartners }: AdvertisementProps) => {
         <CustomDialogContent>
           <ExpiredPartners>
             <h4>Atenção {username}!</h4>
-            <p>
-              Esses patrocinios vencem hoje:
-              <ul>
-                {dueDatePartners &&
-                  dueDatePartners.map((item) => {
-                    return (
-                      <li key={item._id}>
-                        {item.name} / Dia {item.paymentDay}
-                      </li>
-                    );
-                  })}
-              </ul>
-            </p>
+            <p>Esses patrocinios vencem hoje:</p>
+            <ul>
+              {dueDatePartners &&
+                dueDatePartners.map((item) => {
+                  return (
+                    <li key={item._id}>
+                      <strong>{item.name}</strong> - Dia {item.paymentDay}
+                    </li>
+                  );
+                })}
+            </ul>
           </ExpiredPartners>
         </CustomDialogContent>
       </Dialog>

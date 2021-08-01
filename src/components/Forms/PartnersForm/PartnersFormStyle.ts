@@ -20,6 +20,13 @@ export const Form = styled.form`
   label {
     z-index: 0;
   }
+
+  details {
+    max-width: 500px;
+    border: 2px dotted red;
+    word-break: keep-all;
+    white-space: nowrap;
+  }
 `;
 
 export const LabelEditor = styled.label`
@@ -83,4 +90,10 @@ export const SubmitButton = styled.button`
   &:hover {
     filter: brightness(0.9);
   }
+`;
+
+export const WarningBorders = styled.strong`
+  font-size: 1.2rem;
+  color: ${(props) => props.theme.colors.jjmRed};
+  text-align: center;
 `;

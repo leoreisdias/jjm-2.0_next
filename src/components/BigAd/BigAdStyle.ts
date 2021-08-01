@@ -46,8 +46,10 @@ export const DetailHighlightModal = styled.div`
   }
 
   p {
-    font-size: 1.1rem;
+    line-height: 1.75rem;
+    font-size: 1rem;
     margin: 1rem 0;
+    white-space: pre-wrap;
   }
 
   a {
@@ -65,6 +67,7 @@ export const DetailHighlightModal = styled.div`
   strong {
     margin-top: 1rem;
     color: ${(props) => shade(0.1, props.theme.colors.jjmPallete_1)};
+    text-align: center;
   }
 
   span {
@@ -91,7 +94,16 @@ export const DetailHighlightModal = styled.div`
   }
   @media (max-width: 380px) {
     h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+    }
+  }
+  @media (max-width: 300px) {
+    h2 {
+      font-size: 1rem;
+    }
+    p {
+      font-size: 1rem;
+      text-align: center;
     }
   }
 `;

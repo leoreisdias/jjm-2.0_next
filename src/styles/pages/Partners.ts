@@ -8,6 +8,8 @@ export const Container = styled.section`
 
   max-width: 90%;
 
+  margin-bottom: 2rem;
+
   & h3:first-child {
     color: ${(props) => props.theme.colors.title};
   }

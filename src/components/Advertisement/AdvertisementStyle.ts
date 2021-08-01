@@ -83,13 +83,13 @@ export const ExpiredPartners = styled.div`
 
   p {
     font-size: 1.2rem;
-    ul {
-      margin-top: 1rem;
-      li {
-        margin-bottom: 0.2rem;
-        font-size: 1.1rem;
-        color: ${(props) => shade(0.2, props.theme.colors.jjmGreen)};
-      }
+  }
+  ul {
+    margin: 1rem 0;
+    line-height: 2rem;
+    li {
+      font-size: 1.1rem;
+      color: ${(props) => shade(0.2, props.theme.colors.jjmGreen)};
     }
   }
 `;

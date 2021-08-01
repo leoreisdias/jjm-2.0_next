@@ -102,7 +102,14 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: any) => {
-    setImage(event.currentTarget.files[0]);
+    if (event.currentTarget.files[0].size >= 5000000) {
+      handleAlertMessage(
+        'Imagem grande demais! Escolha uma de até no máximo 5 MB!',
+        true
+      );
+      callAlert();
+      setImage('');
+    } else setImage(event.currentTarget.files[0]);
   };
 
   const preview = useMemo(() => {
