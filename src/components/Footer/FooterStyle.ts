@@ -5,7 +5,7 @@ export const FooterContainer = styled.footer`
   background: #000;
   color: ${(props) => props.theme.colors.white};
 
-  padding: 2rem 0;
+  padding: 2rem 0 6rem 0;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
