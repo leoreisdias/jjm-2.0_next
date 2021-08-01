@@ -153,10 +153,7 @@ export default function CompleteNews({
     <Wrapper>
       <Head>
         <title>[JJM] {news.title}</title>
-        <meta
-          property="og:url"
-          content={`www.jornaljotamaria.com.br/complete-news/${news.id}`}
-        />
+        <meta property="og:url" content={currentUrl} />
         <meta property="og:title" content={news.title} />
         <meta property="og:description" content={news.summary} />
         <meta property="og:image" content={`${news.mainImage}?fit=1280%2C720&ssl=1`} />
@@ -377,7 +374,7 @@ export const getStaticProps: GetStaticProps = async ({
         title: news.title,
         mainImage: news.imageURL,
         source: news.source ? news.source.toLowerCase() : '',
-        url: `www.jornaljotamaria.com.br/complete-news/${news._id}`,
+        url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
       };
     });
 
@@ -385,7 +382,7 @@ export const getStaticProps: GetStaticProps = async ({
       props: {
         news: formatNews,
         formatedRelatedNews,
-        currentUrl: `www.jornaljotamaria.com.br/complete-news/${hash}`,
+        currentUrl: `https://www.jornaljm.com.br/complete-news/${hash}`,
       },
       revalidate: 60 * 60 * 24, // 24 hours
     };

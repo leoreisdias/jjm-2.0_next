@@ -60,7 +60,7 @@ const CardNews = ({ news }: CardNewsProps) => {
         {news.source}
         <CardActions disableSpacing>
           <a
-            href={`https://www.facebook.com/sharer/sharer.php?u=www.jornaljotamaria.com.br/complete-news/${news.id}`}
+            href={`https://www.facebook.com/sharer/sharer.php?u=https://www.jornaljm.com.br/complete-news/${news.id}`}
             target="_blank"
             rel="noreferrer"
           >

@@ -241,7 +241,7 @@ export const getStaticProps: GetStaticProps = async ({
     return {
       props: {
         report: formatedReport,
-        currentUrl: `www.jornaljotamaria.com.br/report-detail/${id}`,
+        currentUrl: `https://www.jornaljm.com.br/report-detail/${id}`,
       },
       revalidate: 60 * 60 * 24, // 24 hours
     };
