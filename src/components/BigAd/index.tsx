@@ -50,7 +50,7 @@ export default function BigAd({ highlight }: BigAdProps) {
       <CardActions
         style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" style={{ fontSize: '0.75rem' }}>
           {highlight.partner}
         </Button>
       </CardActions>
