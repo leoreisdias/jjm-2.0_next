@@ -68,7 +68,7 @@ export const LastPostsContainer = styled(motion.li)`
   }
 
   p strong {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
 
     transition: 0.3s;
     color: ${(props) => props.theme.colors.jjmPallete_1};

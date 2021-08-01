@@ -27,15 +27,6 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
 
   @media (max-width: 1020px) {
     span {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-  }
-
-  @media (max-width: 720px) {
-    span {
       flex-direction: column;
       gap: 0;
     }
@@ -58,6 +49,8 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
       align-items: center;
 
       li {
+        display: flex;
+        justify-content: center;
         margin: auto;
         width: 75%;
       }
