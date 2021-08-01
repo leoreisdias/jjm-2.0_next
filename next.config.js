@@ -1,4 +1,9 @@
-module.exports = {
+const withPWA = require('next-pwa');
+
+module.exports = withPWA({
+  pwa: {
+    dest: 'public'
+  },
   async redirects(){
 		return [
 			{
@@ -17,4 +22,4 @@ module.exports = {
     COFFEE_API_KEY: process.env.COFFEE_API,
     WEATHER_API_KEY: process.env.WEATHER_API
   },
-}
+})

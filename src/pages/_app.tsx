@@ -4,6 +4,7 @@ import { useMediaQuery } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { Parallax } from 'react-parallax';
@@ -51,6 +52,23 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <StylesProvider injectFirst>
+      <Head>
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
+        <meta name="description" content="JJM - Notícias" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="nightmode" content="enable/disable" />
+        <meta name="screen-orientation" content="portrait" />
+        <meta name="theme-color" content="#1D75A5" />
+        <link rel="manifest" href="/manifest.json" />
+        <link href="/favicon.ico" rel="icon" type="image/png" sizes="16x16" />
+        <link href="/favicon.ico" rel="icon" type="image/png" sizes="32x32" />
+        <link rel="/icons/apple-touch-icon" href="/icon-192x192.png"></link>
+        <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+      </Head>
       <ThemeProvider theme={theme}>
         <AuthProvider>
           {pathname == '/' && (

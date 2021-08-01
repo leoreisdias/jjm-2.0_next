@@ -93,6 +93,18 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
 
   return (
     <AnimatePresence exitBeforeEnter>
+      <Head>
+        <title>Jornal JM</title>
+        <meta name="description" content="Jornal JM - Fique informado!" />
+        <meta property="og:url" content="www.jornaljotamaria.com.br" />
+        <meta property="og:title" content="JJM - Notas de Falecimento" />
+        <meta property="og:description" content="Notas de Falecimento" />
+        <meta property="og:image" content="https://i.imgur.com/Me9liRf.png" />
+        <meta property="og:image:alt" content="JJM" />
+        <meta property="og:image:width" content="900" />
+        <meta property="og:image:height" content="800" />
+        <meta property="og:site_name" content="Jornal JM" />
+      </Head>
       <Container
         onTouchMove={handleSlideDown}
         initial="begin"

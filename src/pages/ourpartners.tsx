@@ -18,6 +18,15 @@ export default function OurPartners({ partners }: OurPartnersServerProps) {
     <PartnersContainer>
       <Head>
         <title>Nossos Parceiros | JJM</title>
+        <meta name="description" content="JJM - Fique informado!" />
+        <meta property="og:url" content="www.jornaljotamaria.com.br" />
+        <meta property="og:title" content="JJM" />
+        <meta property="og:description" content="O seu lugar para ficar informado" />
+        <meta property="og:image" content="https://i.imgur.com/Me9liRf.png" />
+        <meta property="og:image:alt" content="JJM" />
+        <meta property="og:image:width" content="900" />
+        <meta property="og:image:height" content="800" />
+        <meta property="og:site_name" content="Jornal JM" />
       </Head>
       <h1>Nossos Parceiros</h1>
       <ListImages

@@ -125,15 +125,12 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
     <Wrapper>
       <Head>
         <title>Jornal JM</title>
-        <meta name="description" content="Jornal JM - Fique informado!" />
+        <meta name="description" content="JJM - Fique informado!" />
         <meta property="og:url" content="www.jornaljotamaria.com.br" />
-        <meta property="og:title" content="Jornal JM" />
+        <meta property="og:title" content="JJM" />
         <meta property="og:description" content="O seu lugar para ficar informado" />
-        <meta
-          property="og:image"
-          content="https://i.imgur.com/Wi5Czwx.png?fit=1280%2C720&ssl=1"
-        />
-        <meta property="og:image:alt" content="Jornal JM" />
+        <meta property="og:image" content="https://i.imgur.com/Me9liRf.png" />
+        <meta property="og:image:alt" content="JJM" />
         <meta property="og:image:width" content="900" />
         <meta property="og:image:height" content="800" />
         <meta property="og:site_name" content="Jornal JM" />
