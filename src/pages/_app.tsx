@@ -63,81 +63,57 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Parallax
               blur={{ min: -15, max: 15 }}
               bgImage={'/bgJJM.png'}
-              bgImageAlt="the dog"
+              bgImageAlt="JJM"
               strength={100}
               bgImageStyle={{ opacity: 0.9 }}
             >
-              <AnimatePresence exitBeforeEnter>
-                <ParallaxPageOne
-                  style={{ height: '100vh' }}
-                  initial="enter"
-                  exit="exit"
-                  variants={{
-                    enter: {
-                      transition: {
-                        staggerChildren: 1,
-                      },
-                    },
-                    exit: {
-                      transition: {
-                        staggerChildren: 0.2,
-                      },
-                    },
+              <ParallaxPageOne
+                style={{ height: '100vh' }}
+              >
+                <motion.span
+                  whileHover={{
+                    rotate: [1, 10, 20, 60, 80, 100, 0],
+                    transition: { duration: 0.4 },
                   }}
+                  initial="begin"
+                  animate="animate"
+                  variants={BigFadeSlideDownToUp}
                 >
-                  <motion.span
-                    whileHover={{
-                      rotate: [1, 10, 20, 50, 60, 80, 100, 0],
-                      transition: { duration: 0.4 },
-                    }}
-                    initial="begin"
-                    animate="animate"
-                    variants={BigFadeSlideDownToUp}
-                  >
-                    <Image
-                      src={'/logo.png'}
-                      width={150}
-                      height={150}
-                      objectFit="contain"
-                    />
-                  </motion.span>
-                  <motion.strong
-                    initial="begin"
-                    animate="animate"
-                    variants={FadeRightToLeft}
-                  >
-                    Na Pura Verdade Junto de Você!
-                  </motion.strong>
-                </ParallaxPageOne>
-              </AnimatePresence>
+                  <Image
+                    src={'/logo.png'}
+                    width={150}
+                    height={150}
+                    objectFit="contain"
+                  />
+                </motion.span>
+                <motion.strong
+                  initial="begin"
+                  animate="animate"
+                  variants={FadeRightToLeft}
+                >
+                  Na Pura Verdade Junto de Você!
+                </motion.strong>
+              </ParallaxPageOne>
             </Parallax>
           )}
 
           <Parallax>
             {pathname !== '/login' && (
-              <AnimatePresence exitBeforeEnter>
-                <motion.span
-                  initial="begin"
-                  animate="animate"
-                  exit="exit"
-                  variants={SlowFadeInOut}
-                >
-                  <Header toggleTheme={toggleTheme} />
-                  <Topics />
-                </motion.span>
-              </AnimatePresence>
-            )}
-            <AnimatePresence exitBeforeEnter>
-              <Main
-                login={pathname === '/login'}
+              <motion.span
                 initial="begin"
                 animate="animate"
                 exit="exit"
                 variants={SlowFadeInOut}
               >
-                <Component {...pageProps} />
-              </Main>
-            </AnimatePresence>
+                <Header toggleTheme={toggleTheme} />
+                <Topics />
+              </motion.span>
+            )}
+            <Main
+              login={pathname === '/login'}
+            >
+              <Component {...pageProps} />
+            </Main>
 
             <LoadingRouteChange />
             {pathname !== '/login' && !matches && <Footer />}

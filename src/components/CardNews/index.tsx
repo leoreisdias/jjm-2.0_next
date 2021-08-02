@@ -67,30 +67,21 @@ const CardNews = ({ news }: CardNewsProps) => {
               <MdShare color={'#3291a7'} />
             </IconButton>
           </a>
-          <IconButtonExpand
+          {/* <IconButtonExpand
             style={expanded ? { transform: 'rotate(180deg)' } : {}}
             onClick={handleExpandClick}
             aria-expanded={expanded}
             aria-label="show more"
           >
             <MdExpandMore />
-          </IconButtonExpand>
+          </IconButtonExpand> */}
         </CardActions>
       </span>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {news.description.split('##').map((item, index) => {
-            return (
-              <p
-                key={index}
-                dangerouslySetInnerHTML={{
-                  __html: item,
-                }}
-              />
-            );
-          })}
+          {news.}
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   );
 };

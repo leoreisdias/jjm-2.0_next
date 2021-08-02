@@ -134,13 +134,13 @@ export const NewsContent = styled.main`
   justify-content: center;
   align-items: center;
 
-  text-align: justify;
   padding-top: 1rem;
   color: ${(props) => shade(0.2, props.theme.colors.text)};
 
   p {
     line-height: 1.75rem;
     white-space: pre-wrap;
+    text-align: justify;
   }
 
   img{

@@ -1,8 +1,7 @@
-import { motion } from 'framer-motion';
 import { rgba } from 'polished';
 import styled from 'styled-components';
 
-export const Main = styled(motion.main)<{ login: boolean }>`
+export const Main = styled.main <{ login: boolean }>`
   margin: ${(props) => (!props.login ? '2rem' : '0')} auto 0 auto;
   display: flex;
   padding-top: ${(props) => (!props.login ? '17rem' : '0')};
@@ -13,7 +12,7 @@ export const Main = styled(motion.main)<{ login: boolean }>`
 
   .MuiPaginationItem-root {
     color: ${(props) =>
-      props.theme.title == 'dark' ? props.theme.colors.white : '#000'};
+    props.theme.title == 'dark' ? props.theme.colors.white : '#000'};
     border-color: ${(props) => props.theme.colors.jjmPallete_1};
   }
 
@@ -28,7 +27,7 @@ export const Main = styled(motion.main)<{ login: boolean }>`
   }
 `;
 
-export const ParallaxPageOne = styled(motion.div)`
+export const ParallaxPageOne = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
