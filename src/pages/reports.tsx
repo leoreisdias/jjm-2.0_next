@@ -181,6 +181,7 @@ export const getStaticProps: GetStaticProps = async () => {
         reports: formattedReports,
         totalPages,
       },
+      revalidate: 60 * 30, // 30 minutes
     };
   } catch (err) {
     return {

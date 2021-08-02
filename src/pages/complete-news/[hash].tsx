@@ -389,7 +389,7 @@ export const getStaticProps: GetStaticProps = async ({
         formatedRelatedNews,
         currentUrl: `https://www.jornaljm.com.br/complete-news/${hash}`,
       },
-      revalidate: 60 * 60 * 24, // 24 hours
+      revalidate: 60 * 45, // 45 minutes
     };
   } catch (error) {
     return {
