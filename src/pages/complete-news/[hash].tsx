@@ -160,6 +160,11 @@ export default function CompleteNews({
         <meta property="og:image:alt" content="Matéria JM" />
         <meta property="og:image:width" content="900" />
         <meta property="og:image:height" content="800" />
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_CLIENT}`}
+          crossOrigin="anonymous"
+        ></script>
       </Head>
       <Container>
         <Main>
