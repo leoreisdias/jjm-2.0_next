@@ -160,11 +160,6 @@ export default function CompleteNews({
         <meta property="og:image:alt" content="Matéria JM" />
         <meta property="og:image:width" content="900" />
         <meta property="og:image:height" content="800" />
-        <script
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_CLIENT}`}
-          crossOrigin="anonymous"
-        ></script>
       </Head>
       <Container>
         <Main>
@@ -179,7 +174,7 @@ export default function CompleteNews({
           <NewsTitle>{news.title}</NewsTitle>
           <SmallDetails>
             <p>
-              <span>Por {news.author ?? 'JJM'}</span>
+              <span>Por {news.author}</span>
               <span>{news.date}</span>
             </p>
             <p>
@@ -360,7 +355,7 @@ export const getStaticProps: GetStaticProps = async ({
         locale: ptBR,
       }),
       mainImage: news.imageURL,
-      author: news.author.toLowerCase(),
+      author: news.author ? news.author.toLowerCase() : 'JJM',
       source: news.source ? news.source.toUpperCase() : '',
       summary: news.summary,
       video_url: news.video_url ?? '',
