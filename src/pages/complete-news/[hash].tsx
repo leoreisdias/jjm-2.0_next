@@ -222,7 +222,7 @@ export default function CompleteNews({
                 </div>
               </Video>
             )}
-            {randomPartner && (
+            {randomPartner && randomPartner?.partner.length && (
               <OfferedBy>
                 <h5>Oferecido por:</h5>
                 <span>
