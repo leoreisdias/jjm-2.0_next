@@ -92,6 +92,7 @@ export const getStaticProps: GetStaticProps = async () => {
       props: {
         partners: data,
       },
+      revalidate: 60 * 60 * 24, //24 hours
     };
   } catch (err) {
     return {
