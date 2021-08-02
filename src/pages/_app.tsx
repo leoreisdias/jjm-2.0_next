@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useMediaQuery } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
@@ -28,9 +28,7 @@ import light from '../styles/themes/light';
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
   const [theme, setTheme] = useState(light);
-  const [scrollY, setScrollY] = useState(0);
 
-  const minimumHeight = pathname == '/' ? 200 : 0;
 
   const matches = useMediaQuery('(max-width:720px)');
 
@@ -38,17 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     setTheme(theme.title === 'light' ? dark : light);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
 
   return (
     <StylesProvider injectFirst>
@@ -127,7 +115,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           )}
 
           <Parallax>
-            {pathname !== '/login' && scrollY >= minimumHeight && (
+            {pathname !== '/login' && (
               <AnimatePresence exitBeforeEnter>
                 <motion.span
                   initial="begin"

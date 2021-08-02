@@ -71,9 +71,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         setCookie(null, 'token', response.data.token, {
           maxAge: 30 * 24 * 60 * 60, // 30 Days
+          secure: true
         });
-        setCookie(null, 'userId', response.data.user._id);
-        setCookie(null, 'name', response.data.user.name);
+        setCookie(null, 'userId', response.data.user._id, {
+          secure: true
+        });
+        setCookie(null, 'name', response.data.user.name, {
+          secure: true
+        });
         setUsername(response.data.user.name);
         setToken(response.data.token);
         setIsAuthenticated(true);
