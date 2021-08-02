@@ -87,8 +87,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                 >
                   <motion.span
                     whileHover={{
-                      rotate: [1, 10, -16.2, -20.2, -4, 1],
-                      transition: { duration: 0.3 },
+                      rotate: [1, 10, 20, 50, 60, 80, 100, 0],
+                      transition: { duration: 0.4 },
                     }}
                     initial="begin"
                     animate="animate"
