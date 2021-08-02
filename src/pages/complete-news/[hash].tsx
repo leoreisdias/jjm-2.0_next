@@ -179,7 +179,7 @@ export default function CompleteNews({
           <NewsTitle>{news.title}</NewsTitle>
           <SmallDetails>
             <p>
-              <span>Por {news.author}</span>
+              <span>Por {news.author ?? 'JJM'}</span>
               <span>{news.date}</span>
             </p>
             <p>
