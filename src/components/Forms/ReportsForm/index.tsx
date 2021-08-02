@@ -91,7 +91,7 @@ export const ReportsForm = ({ id }: ReportFormPros) => {
     data.append('date', String(new Date()));
 
     try {
-      await api.post('/news', data, {
+      await api.post('/deathreports', data, {
         headers: {
           authorization: 'Bearer ' + token,
         },
