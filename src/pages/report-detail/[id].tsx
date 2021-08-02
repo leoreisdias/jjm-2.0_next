@@ -243,7 +243,7 @@ export const getStaticProps: GetStaticProps = async ({
         report: formatedReport,
         currentUrl: `https://www.jornaljm.com.br/report-detail/${id}`,
       },
-      revalidate: 60 * 40, // 40 minutes
+      revalidate: 60 * 30, // 30 minutes
     };
   } catch (err) {
     return {
