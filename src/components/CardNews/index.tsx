@@ -82,9 +82,12 @@ const CardNews = ({ news }: CardNewsProps) => {
         <CardContent>
           {news.description.split('##').map((item, index) => {
             return (
-              <Typography paragraph key={index}>
-                {item}
-              </Typography>
+              <p
+                key={index}
+                dangerouslySetInnerHTML={{
+                  __html: item,
+                }}
+              />
             );
           })}
         </CardContent>
