@@ -12,6 +12,7 @@ import { ReportsForm } from '../components/Forms/ReportsForm';
 import { useAuth } from '../hooks/useAuth';
 import { WriterSection } from '../styles/pages/WriterArea';
 import { formOptions } from '../types/formOptions';
+import { parseCookies } from 'nookies';
 
 type FormType = '' | 'news' | 'deathReport' | 'partners' | 'partnersHighlight';
 
@@ -91,6 +92,17 @@ export const getServerSideProps: GetServerSideProps = async (
   ctx: GetServerSidePropsContext
 ) => {
   const query = ctx.query;
+
+  const { token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
 
   const isValidUpdate =
     query.update == 'news' ||

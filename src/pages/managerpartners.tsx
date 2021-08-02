@@ -146,6 +146,15 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   const { token } = parseCookies(ctx);
 
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+
   try {
     const { data } = await api.get('/fullpartners', {
       headers: {
