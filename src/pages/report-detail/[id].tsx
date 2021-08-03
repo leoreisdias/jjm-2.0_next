@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { Dialog } from '@material-ui/core';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,8 +10,6 @@ import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
 
-import Advertisement from '../../components/Advertisement';
-import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
 import { api } from '../../services/api';
@@ -27,6 +25,10 @@ import {
   ShareSocialMedia,
 } from '../../styles/pages/DeathReport';
 import { formOptions } from '../../types/formOptions';
+
+const Advertisement = dynamic(() => import('../../components/Advertisement'));
+const ModalDialog = dynamic(() => import('../../components/ModalDialog'));
+const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
 
 interface ReportProps {
   _id: string;
@@ -129,6 +131,7 @@ export default function ReportDetail({ report, currentUrl }: CompleteReportProps
               src={report.mainImage}
               placeholder="blur"
               blurDataURL={report.mainImage}
+              alt="Foto da Nota"
             />
           </span>
           <ReportTitle>{report.title}</ReportTitle>
@@ -232,7 +235,7 @@ export const getStaticProps: GetStaticProps = async ({
       name: reports.name,
       mainImage:
         reports.imageURL ??
-        'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png',
+        'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp',
       date: format(parseISO(reports.createdAt), 'dd/MM/yyyy', {
         locale: ptBR,
       }),

@@ -1,15 +1,15 @@
-import { useState, memo } from 'react';
+import { memo } from 'react';
 
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MdExpandMore, MdShare } from 'react-icons/md';
+import { MdShare } from 'react-icons/md';
 
-import { Card, IconButtonExpand } from './CardNewsStyle';
+import { Card } from './CardNewsStyle';
+
+const IconButton = dynamic(() => import('@material-ui/core/IconButton'));
+const CardActions = dynamic(() => import('@material-ui/core/CardActions'));
+const CardActionArea = dynamic(() => import('@material-ui/core/CardActionArea'));
 
 interface NewsProps {
   id: string;
@@ -27,18 +27,18 @@ interface CardNewsProps {
 }
 
 const CardNews = ({ news }: CardNewsProps) => {
-  const [expanded, setExpanded] = useState(false);
+  // const [expanded, setExpanded] = useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+  // const handleExpandClick = () => {
+  //   setExpanded(!expanded);
+  // };
   return (
     <Card whileHover={{ scale: 0.99, transition: { duration: 0.1 } }}>
       <Link href={`/complete-news/${news.id}`}>
         <CardActionArea>
           <Image
-            width={720}
-            height={600}
+            width={400}
+            height={340}
             placeholder="blur"
             blurDataURL={news.imageURL}
             objectFit="cover"

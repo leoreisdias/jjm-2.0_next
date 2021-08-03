@@ -5,7 +5,7 @@ import { PartnersProps } from '../../types/interfaces/Partners';
 import { Copyright } from '../Copyright';
 import { FooterContainer, AboutJJM, ParternsTags, DevelopedBy } from './FooterStyle';
 
-export function Footer() {
+export default function Footer() {
   const { data: partners } = useJJM<PartnersProps[]>('/partners');
 
   return (

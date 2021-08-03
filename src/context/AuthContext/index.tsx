@@ -1,13 +1,15 @@
 import { useCallback, useState, ReactNode, createContext, useEffect } from 'react';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 import { api } from '../../services/api';
 import { CustomBackdrop } from '../ContextStyle';
+
+const CircularProgress = dynamic(() => import('@material-ui/core/CircularProgress'));
+const Snackbar = dynamic(() => import('@material-ui/core/Snackbar'));
 
 interface AuthContextProps {
   isAuthenticated: boolean;
@@ -71,13 +73,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         setCookie(null, 'token', response.data.token, {
           maxAge: 30 * 24 * 60 * 60, // 30 Days
-          secure: true
+          secure: true,
         });
         setCookie(null, 'userId', response.data.user._id, {
-          secure: true
+          secure: true,
         });
         setCookie(null, 'name', response.data.user.name, {
-          secure: true
+          secure: true,
         });
         setUsername(response.data.user.name);
         setToken(response.data.token);

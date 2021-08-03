@@ -1,13 +1,10 @@
 import React, { useState, memo } from 'react';
 
-import { Dialog, useMediaQuery } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import format from 'date-fns/format';
 import ptBR from 'date-fns/locale/pt-BR';
 import parseISO from 'date-fns/parseISO';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
@@ -22,6 +19,12 @@ import {
   CustomDialogContent,
   DetailReportModal,
 } from './DeathReportStyle';
+
+const CardContent = dynamic(() => import('@material-ui/core/CardContent'));
+const CardActions = dynamic(() => import('@material-ui/core/CardActions'));
+const CardActionArea = dynamic(() => import('@material-ui/core/CardActionArea'));
+const Button = dynamic(() => import('@material-ui/core/Button'));
+const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
 
 interface Reports {
   _id: string;
@@ -51,7 +54,7 @@ const DeathReportCard = () => {
   }
 
   const pombinhaBrancaUrl =
-    'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png';
+    'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp';
 
   return (
     <CardAd>
@@ -62,9 +65,13 @@ const DeathReportCard = () => {
               width={150}
               height={150}
               objectFit="contain"
-              blurDataURL={data.docs[0].imageURL ?? pombinhaBrancaUrl}
+              blurDataURL={
+                data.docs[0].imageURL !== '' ? data.docs[0].imageURL : pombinhaBrancaUrl
+              }
               placeholder="blur"
-              src={data.docs[0].imageURL ?? pombinhaBrancaUrl}
+              src={
+                data.docs[0].imageURL !== '' ? data.docs[0].imageURL : pombinhaBrancaUrl
+              }
               alt="Advertise"
             />
           </AdImage>
@@ -93,10 +100,13 @@ const DeathReportCard = () => {
           <DetailReportModal>
             <h3>Funerária São Dimas Informa</h3>
             <Image
-              src={data.docs[0].imageURL}
+              src={
+                data.docs[0].imageURL !== '' ? data.docs[0].imageURL : pombinhaBrancaUrl
+              }
               width={200}
               height={200}
               objectFit="contain"
+              alt="Nota de Falecimento"
             />
             <strong>{data.docs[0].name}</strong>
             <span>

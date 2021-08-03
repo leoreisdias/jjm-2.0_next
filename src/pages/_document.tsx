@@ -36,7 +36,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html lang="pt-br">
         <Head>
           {/* <script
             data-ad-client="ca-pub-7971374443804277"
@@ -48,7 +48,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Archivo:wght@200;400;500;600;700&family=Nunito:wght@400;600;700&Montserrat:wght@300;400;600;700&Merriweather:wght@300;400;700&display=swap"
             rel="stylesheet"
           />
-
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>

@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 
-import { Dialog, useMediaQuery } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaEdit } from 'react-icons/fa';
@@ -14,6 +11,12 @@ import { useTheme } from '../../hooks/useTheme';
 import { formOptions } from '../../types/formOptions';
 import { PartnerHighlightProps } from '../../types/interfaces/Partners';
 import { AdImage, CardAd, CustomDialogContent, DetailHighlightModal } from './BigAdStyle';
+
+const CardContent = dynamic(() => import('@material-ui/core/CardContent'));
+const CardActions = dynamic(() => import('@material-ui/core/CardActions'));
+const CardActionArea = dynamic(() => import('@material-ui/core/CardActionArea'));
+const Button = dynamic(() => import('@material-ui/core/Button'));
+const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
 
 interface BigAdProps {
   highlight: PartnerHighlightProps;
@@ -74,6 +77,7 @@ export default function BigAd({ highlight }: BigAdProps) {
               width={200}
               height={200}
               objectFit="contain"
+              alt="Destaque de Patronicio"
             />
             <strong>{highlight.partner}</strong>
             <span>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { Dialog } from '@material-ui/core';
 import { AnimatePresence } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -9,7 +9,9 @@ import { SlowFadeInOut } from '../../assets/motion/Variants';
 import { WeatherForecast } from '../WeatherForecast';
 import { TopicsContainer, ButtonTopic, CustomDialogContent } from './TopicsStyle';
 
-export function Topics() {
+const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
+
+export default function Topics() {
   const { pathname } = useRouter();
   const [openWeatherModal, setOpenWeatherModal] = useState(false);
 

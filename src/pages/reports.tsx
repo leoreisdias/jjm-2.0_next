@@ -1,10 +1,9 @@
 import { useState } from 'react';
 
-import { useMediaQuery } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
-import Skeleton from '@material-ui/lab/Skeleton';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { AnimatePresence } from 'framer-motion';
 import { GetStaticProps } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -25,6 +24,9 @@ import {
 } from '../styles/pages/ReportsList';
 import { formatReport } from '../utils/formatReport';
 
+const Pagination = dynamic(() => import('@material-ui/lab/Pagination'));
+const Skeleton = dynamic(() => import('@material-ui/lab/Skeleton'));
+
 interface Report {
   id: string;
   title: string;
@@ -38,6 +40,9 @@ interface ReportsProps {
   reports: Report[];
   totalPages: number;
 }
+
+const pombinhaBrancaUrl =
+  'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp';
 
 export default function Reports({ reports, totalPages }: ReportsProps) {
   const { colors } = useTheme();
@@ -94,7 +99,7 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
   return (
     <AnimatePresence exitBeforeEnter>
       <Head>
-        <title>Jornal JM</title>
+        <title>Notas de Falecimento | JJM</title>
         <meta name="description" content="Jornal JM - Fique informado!" />
         <meta property="og:url" content="www.jornaljotamaria.com.br" />
         <meta property="og:title" content="JJM - Notas de Falecimento" />
@@ -112,9 +117,6 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
         exit="exit"
         variants={SlowFadeInOut}
       >
-        <Head>
-          <title>Notas de Falecimento | JJM</title>
-        </Head>
         <h1>Notas de Falecimento</h1>
         <h3>Funerária São Dimas</h3>
         <List>
@@ -129,12 +131,15 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
                   />
                   <Person>
                     <Image
-                      src={item.imageURL}
+                      src={item.imageURL !== '' ? item.imageURL : pombinhaBrancaUrl}
                       placeholder="blur"
-                      blurDataURL={item.imageURL}
+                      blurDataURL={
+                        item.imageURL !== '' ? item.imageURL : pombinhaBrancaUrl
+                      }
                       width={110}
                       height={120}
                       objectFit="contain"
+                      alt="Nota de Falecimento"
                     />
                     <strong>{item.name}</strong>
                   </Person>

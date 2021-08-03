@@ -78,6 +78,68 @@ export const CityMaxMin = styled.div`
   }
 `;
 
+export const CurrentDayInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  p {
+    margin-bottom: 0.875rem;
+
+    strong {
+      display: block;
+      font-size: 2rem;
+    }
+
+    & strong:last-child {
+      font-size: 1.6rem;
+    }
+  }
+
+  p + span {
+    margin-bottom: 0.25rem;
+  }
+
+  span {
+    font-size: 1.3rem;
+  }
+`;
+
+export const WeatherImage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    max-width: 200px;
+    width: 100%;
+    margin-bottom: -2rem;
+  }
+
+  strong {
+    display: block;
+    font-size: 4.5rem;
+    font-family: 'Archivo';
+  }
+
+  & strong:last-child {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 400px) {
+    img {
+      margin-left: 2.5rem;
+    }
+
+    strong {
+      font-size: 3.5rem;
+    }
+
+    text-align: center;
+  }
+`;
+
 export const TodayWeatherDetail = styled.div`
   grid-row: 2 / x span;
 
@@ -88,72 +150,10 @@ export const TodayWeatherDetail = styled.div`
 
   font-family: Archivo;
 
-  & div:nth-child(1) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    p {
-      margin-bottom: 0.875rem;
-
-      strong {
-        display: block;
-        font-size: 2rem;
-      }
-
-      & strong:last-child {
-        font-size: 1.6rem;
-      }
-    }
-
-    p + span {
-      margin-bottom: 0.25rem;
-    }
-
-    span {
-      font-size: 1.3rem;
-    }
-  }
-
-  & div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    img {
-      max-width: 200px;
-      width: 100%;
-      margin-bottom: -2rem;
-    }
-
-    strong {
-      display: block;
-      font-size: 4.5rem;
-      font-family: 'Archivo';
-    }
-
-    & strong:last-child {
-      font-size: 1.4rem;
-    }
-  }
-
   @media (max-width: 400px) {
     grid-template-columns: 1fr;
     justify-items: center;
     text-align: center;
-
-    & div:nth-child(2) {
-      img {
-        margin-left: 2.5rem;
-      }
-
-      strong {
-        font-size: 3.5rem;
-      }
-
-      text-align: center;
-    }
   }
 `;
 

@@ -204,15 +204,16 @@ export const ReportsForm = ({ id }: ReportFormPros) => {
               pombo!
               <Image
                 src={
-                  'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png'
+                  'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp'
                 }
                 width={150}
                 height={150}
                 blurDataURL={
-                  'https://jjm-upload.s3.amazonaws.com/Parceiros/BannerMetaTagsNotasFalecimento.png'
+                  'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp'
                 }
                 placeholder="blur"
                 objectFit="contain"
+                alt="Example"
               />
             </Warning>
             <LabelImageFile

@@ -15,11 +15,39 @@ export const HeaderContainer = styled.header`
 
   padding: 2rem 3rem;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-
   color: ${(props) => props.theme.colors.title};
+
+  /* margin-left: auto; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  gap: 0.5rem;
+
+  font-weight: 700;
+
+  & div:first-child {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  a {
+    transition: 0.5s;
+    text-decoration: none;
+    font-size: 1.2rem;
+    &:hover {
+      color: ${(props) => props.theme.colors.jjmPallete_1};
+    }
+  }
+
+  img {
+    max-width: 8rem;
+  }
 
   p {
     font-size: 1.2rem;
@@ -27,60 +55,19 @@ export const HeaderContainer = styled.header`
     font-weight: 700;
   }
 
-  div:nth-child(1) {
-    /* margin-left: auto; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    gap: 0.5rem;
-
-    font-weight: 700;
-
-    & div:first-child {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }
-
-    a {
-      transition: 0.5s;
-      text-decoration: none;
-      font-size: 1.2rem;
-      &:hover {
-        color: ${(props) => props.theme.colors.jjmPallete_1};
-      }
-    }
-
-    span:not(:last-child) {
-      text-transform: capitalize;
-      font-size: 2rem;
-    }
-
-    img {
-      max-width: 8rem;
-    }
-  }
-
   @media (max-width: 720px) {
     flex-direction: column;
     padding: 2rem 2rem;
 
-    div:first-child {
-      margin: 1rem auto 0 auto;
-      flex-direction: column;
+    margin: 1rem auto 0 auto;
 
-      a {
-        border-right: none;
-        padding-right: 0;
-      }
+    a {
+      border-right: none;
+      padding-right: 0;
+    }
 
-      span {
-        margin: 0 auto;
-      }
+    span {
+      margin: 0 auto;
     }
 
     p {
@@ -98,13 +85,14 @@ export const HeaderContainer = styled.header`
       max-width: 4rem;
     }
   }
+`;
+
+export const DateInfo = styled.span`
+  text-transform: capitalize;
+  font-size: 2rem;
 
   @media (max-width: 300px) {
-    & div:nth-child(1) {
-      span:not(:last-child) {
-        font-size: 1.5rem;
-      }
-    }
+    font-size: 1.5rem;
   }
 `;
 

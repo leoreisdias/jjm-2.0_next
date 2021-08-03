@@ -87,9 +87,9 @@ export const SmallDetails = styled.div`
 
   border-bottom: 1px solid
     ${(props) =>
-    props.theme.title == 'dark'
-      ? props.theme.colors.gray200
-      : props.theme.colors.gray500};
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray200
+        : props.theme.colors.gray500};
 
   transition: 0.5s;
 
@@ -143,11 +143,11 @@ export const NewsContent = styled.main`
     text-align: justify;
   }
 
-  img{
+  img {
     max-width: 200px;
   }
 
-  ul{
+  ul {
     padding-left: 1rem;
   }
 `;
@@ -200,9 +200,9 @@ export const OfferedBy = styled.div`
     font-size: 1.1rem;
     font-weight: 600;
     color: ${(props) =>
-    props.theme.title == 'dark'
-      ? shade(0.1, props.theme.colors.text)
-      : shade(0.5, props.theme.colors.text)};
+      props.theme.title == 'dark'
+        ? shade(0.1, props.theme.colors.text)
+        : shade(0.5, props.theme.colors.text)};
   }
 
   span {
@@ -239,9 +239,9 @@ export const Subjects = styled.div`
   padding-bottom: 2rem;
   border-bottom: 1px solid
     ${(props) =>
-    props.theme.title == 'dark'
-      ? props.theme.colors.gray300
-      : props.theme.colors.gray800};
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray300
+        : props.theme.colors.gray800};
 
   color: ${(props) => props.theme.colors.title};
 
@@ -280,9 +280,9 @@ export const ShareSocialMedia = styled.div`
 
   border-bottom: 1px solid
     ${(props) =>
-    props.theme.title == 'dark'
-      ? props.theme.colors.gray300
-      : props.theme.colors.gray800};
+      props.theme.title == 'dark'
+        ? props.theme.colors.gray300
+        : props.theme.colors.gray800};
 
   span {
     display: flex;
@@ -347,9 +347,9 @@ export const RelatedNewsSection = styled.section`
         padding-bottom: 0.875rem;
         border-bottom: 1px solid
           ${(props) =>
-    props.theme.title == 'dark'
-      ? props.theme.colors.gray300
-      : props.theme.colors.gray800};
+            props.theme.title == 'dark'
+              ? props.theme.colors.gray300
+              : props.theme.colors.gray800};
       }
 
       span {

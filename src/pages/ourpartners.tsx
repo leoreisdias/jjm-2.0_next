@@ -74,6 +74,7 @@ export default function OurPartners({ partners }: OurPartnersServerProps) {
                     width={200}
                     height={200}
                     objectFit="contain"
+                    alt="Logo Parceiro"
                   />
                 </a>
               </motion.li>

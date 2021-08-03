@@ -1,8 +1,9 @@
 import { useState, useMemo, useCallback } from 'react';
 
-import { Dialog, useMediaQuery } from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { motion } from 'framer-motion';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,8 +12,6 @@ import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
 
-import Advertisement from '../../components/Advertisement';
-import { ModalDialog } from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { useJJM } from '../../hooks/useJJM';
 import { useTheme } from '../../hooks/useTheme';
@@ -34,6 +33,10 @@ import {
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
 import { PartnersProps } from '../../types/interfaces/Partners';
+
+const Advertisement = dynamic(() => import('../../components/Advertisement'));
+const ModalDialog = dynamic(() => import('../../components/ModalDialog'));
+const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
 
 interface NewsProps {
   subjects: string[];
@@ -99,8 +102,6 @@ export default function CompleteNews({
   const { isAuthenticated } = useAuth();
 
   const [openDeleteModel, setOpenDeleteModal] = useState(false);
-
-  // const [randomPartner, setRandomPartner] = useState<PartnersProps>();
 
   function handleDeleteModal() {
     setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
@@ -170,6 +171,7 @@ export default function CompleteNews({
             objectFit="contain"
             placeholder="blur"
             blurDataURL={news.mainImage}
+            alt="Foto da Notícia"
           />
           <NewsTitle>{news.title}</NewsTitle>
           <SmallDetails>
@@ -233,6 +235,7 @@ export default function CompleteNews({
                     height={100}
                     width={100}
                     objectFit="contain"
+                    alt="Parceiro de destaque"
                   />
                   <p>{randomPartner.partner[0].name}</p>
                 </span>
@@ -277,6 +280,7 @@ export default function CompleteNews({
                             src={news.mainImage}
                             placeholder="blur"
                             blurDataURL={news.mainImage}
+                            alt="Noticias Relacionadas"
                           />
 
                           <strong>{news.title.toLowerCase()}</strong>

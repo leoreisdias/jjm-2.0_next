@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 
-import { Dialog } from '@material-ui/core';
+import dynamic from 'next/dynamic';
 
 import { CustomDialogContent } from './ModalDialogStyle';
+const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
 
 interface ModalDialogProps {
   isOpen: boolean;
@@ -10,7 +11,7 @@ interface ModalDialogProps {
   modalContent: ReactNode;
 }
 
-export const ModalDialog = ({ isOpen, close, modalContent }: ModalDialogProps) => {
+const ModalDialog = ({ isOpen, close, modalContent }: ModalDialogProps) => {
   return (
     <Dialog
       open={isOpen}
@@ -22,3 +23,5 @@ export const ModalDialog = ({ isOpen, close, modalContent }: ModalDialogProps) =
     </Dialog>
   );
 };
+
+export default ModalDialog;

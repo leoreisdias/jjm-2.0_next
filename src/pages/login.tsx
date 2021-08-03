@@ -1,21 +1,12 @@
 import { FormEvent, useState } from 'react';
 
-import Box from '@material-ui/core/Box';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
+import { Grid, Typography } from '@material-ui/core';
 import NoSsr from '@material-ui/core/NoSsr';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Paper from '@material-ui/core/Paper';
-import Snackbar from '@material-ui/core/Snackbar';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import Image from 'next/image';
 import { parseCookies } from 'nookies';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
@@ -29,6 +20,17 @@ import {
   GridImageUI,
   PaperDiv,
 } from '../styles/pages/Login';
+
+const Box = dynamic(() => import('@material-ui/core/Box'));
+const CssBaseline = dynamic(() => import('@material-ui/core/CssBaseline'));
+const FormControl = dynamic(() => import('@material-ui/core/FormControl'));
+const IconButton = dynamic(() => import('@material-ui/core/IconButton'));
+const InputAdornment = dynamic(() => import('@material-ui/core/InputAdornment'));
+const InputLabel = dynamic(() => import('@material-ui/core/InputLabel'));
+const OutlinedInput = dynamic(() => import('@material-ui/core/OutlinedInput'));
+const Paper = dynamic(() => import('@material-ui/core/Paper'));
+const Snackbar = dynamic(() => import('@material-ui/core/Snackbar'));
+const TextField = dynamic(() => import('@material-ui/core/TextField'));
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -59,7 +61,13 @@ export default function Login() {
           <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <PaperDiv>
               <AvatarUI>
-                <img src="./logo.png" alt="JJM" />
+                <Image
+                  src="/pwa_icon.webp"
+                  alt="JJM"
+                  width={120}
+                  height={120}
+                  objectFit="contain"
+                />
               </AvatarUI>
               <Typography component="h1" variant="h5">
                 Bem vindo Redator

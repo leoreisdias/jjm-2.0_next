@@ -21,14 +21,8 @@ export const PaperDiv = styled.div`
 `;
 
 export const AvatarUI = styled(Avatar)`
-  margin: 1rem;
-  width: 1rem;
-  padding: 2rem;
-
   img {
-    padding: 2rem;
-    width: 8.5rem;
-    height: 8.5rem;
+    z-index: 1;
   }
 `;
 

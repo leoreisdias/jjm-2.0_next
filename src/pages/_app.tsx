@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { useMediaQuery } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { AppProps } from 'next/app';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -15,20 +16,20 @@ import {
   BigFadeSlideDownToUp,
   SlowFadeInOut,
 } from '../assets/motion/Variants';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
 import { LoadingRouteChange } from '../components/LoadingRouteChange';
-import { Topics } from '../components/Topics';
 import { AuthProvider } from '../context/AuthContext';
 import GlobalStyle from '../styles/global';
 import { Main, ParallaxPageOne } from '../styles/pages/App';
 import dark from '../styles/themes/dark';
 import light from '../styles/themes/light';
 
+const Header = dynamic(() => import('../components/Header'));
+const Footer = dynamic(() => import('../components/Footer'));
+const Topics = dynamic(() => import('../components/Topics'));
+
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
   const [theme, setTheme] = useState(light);
-
 
   const matches = useMediaQuery('(max-width:720px)');
 
@@ -36,15 +37,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     setTheme(theme.title === 'light' ? dark : light);
   };
 
-
-
   return (
     <StylesProvider injectFirst>
       <Head>
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta
           name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=5"
         />
         <meta name="description" content="JJM - Notícias" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -54,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/manifest.json" />
         <link href="/favicon.ico" rel="icon" type="image/png" sizes="16x16" />
         <link href="/favicon.ico" rel="icon" type="image/png" sizes="32x32" />
-        <link rel="/icons/apple-touch-icon" href="/icon-192x192.png"></link>
+        <link rel="/apple-touch-icon" href="/apple-icon.png"></link>
         <link rel="shortcut icon" href="/favicon.png" type="image/png" />
       </Head>
       <ThemeProvider theme={theme}>
@@ -62,14 +61,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           {pathname == '/' && (
             <Parallax
               blur={{ min: -15, max: 15 }}
-              bgImage={'/bgJJM.png'}
+              bgImage={'/bgJJM.webp'}
               bgImageAlt="JJM"
               strength={100}
               bgImageStyle={{ opacity: 0.9 }}
             >
-              <ParallaxPageOne
-                style={{ height: '100vh' }}
-              >
+              <ParallaxPageOne style={{ height: '100vh' }}>
                 <motion.span
                   whileHover={{
                     rotate: [1, 10, 20, 60, 80, 100, 0],
@@ -80,10 +77,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                   variants={BigFadeSlideDownToUp}
                 >
                   <Image
-                    src={'/logo.png'}
+                    src={'/pwa_icon.webp'}
                     width={150}
                     height={150}
                     objectFit="contain"
+                    alt="Logo JJM"
                   />
                 </motion.span>
                 <motion.strong
@@ -109,9 +107,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Topics />
               </motion.span>
             )}
-            <Main
-              login={pathname === '/login'}
-            >
+            <Main login={pathname === '/login'}>
               <Component {...pageProps} />
             </Main>
 

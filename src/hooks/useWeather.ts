@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSWR from 'swr';
 
 import { weatherApi } from '../services/weatherApi';

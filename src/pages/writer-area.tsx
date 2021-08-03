@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import NoSsr from '@material-ui/core/NoSsr';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import { parseCookies } from 'nookies';
 import Select from 'react-select';
 
 import { NewsForm } from '../components/Forms/NewsForm';
@@ -12,7 +13,6 @@ import { ReportsForm } from '../components/Forms/ReportsForm';
 import { useAuth } from '../hooks/useAuth';
 import { WriterSection } from '../styles/pages/WriterArea';
 import { formOptions } from '../types/formOptions';
-import { parseCookies } from 'nookies';
 
 type FormType = '' | 'news' | 'deathReport' | 'partners' | 'partnersHighlight';
 
@@ -58,13 +58,10 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
   return (
     <NoSsr>
       <Head>
-        <title>Cadastros e Edições - JJM</title>
+        <title>Area do Redator | JJM</title>
+        <meta charSet="utf-8" />{' '}
       </Head>
       <WriterSection>
-        <Head>
-          <title>Area do Redator | JJM</title>
-          <meta charSet="utf-8" />
-        </Head>
         <h3>Bem vindo {username}</h3>
         {!isUpdating && (
           <Select
@@ -99,9 +96,9 @@ export const getServerSideProps: GetServerSideProps = async (
     return {
       redirect: {
         destination: '/login',
-        permanent: false
-      }
-    }
+        permanent: false,
+      },
+    };
   }
 
   const isValidUpdate =

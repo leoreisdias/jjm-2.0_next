@@ -40,7 +40,7 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
   border-radius: 10px;
 
   font-size: 1rem;
-  font-weight: ${(props) => (props.theme.title == 'dark' ? 600 : 400)};
+  font-weight: 600;
   color: ${(props) =>
     props.active
       ? props.theme.colors.white

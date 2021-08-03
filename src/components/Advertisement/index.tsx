@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useState, memo } from 'react';
 
-import { Dialog } from '@material-ui/core';
-import { getDate } from 'date-fns';
+import getDate from 'date-fns/getDate';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
 import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
 import { PartnerHighlightProps, PartnersProps } from '../../types/interfaces/Partners';
-import BigAd from '../BigAd';
 import { PartnerDetails } from '../PartnerDetails';
 import {
   AdvertisementContainer,
   CustomDialogContent,
   ExpiredPartners,
 } from './AdvertisementStyle';
+
+const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
+const BigAd = dynamic(() => import('../BigAd'));
 
 interface AdvertisementProps {
   reverse?: boolean;

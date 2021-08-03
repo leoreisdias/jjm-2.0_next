@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Link from 'next/link';
 import { parseCookies } from 'nookies';
@@ -12,6 +12,8 @@ import { api } from '../services/api';
 import { Container, ListItem, ListItemButtonContainer } from '../styles/pages/Partners';
 import { formOptions } from '../types/formOptions';
 import { PartnersProps } from '../types/interfaces/Partners';
+
+const Snackbar = dynamic(() => import('@material-ui/core/Snackbar'));
 
 interface PartnersServer {
   partnersList: PartnersProps[];
@@ -150,9 +152,9 @@ export const getServerSideProps: GetServerSideProps = async (
     return {
       redirect: {
         destination: '/login',
-        permanent: false
-      }
-    }
+        permanent: false,
+      },
+    };
   }
 
   try {

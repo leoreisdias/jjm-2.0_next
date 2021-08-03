@@ -40,7 +40,7 @@ const LastPosts = ({ lastestNews }: LastPostsProps) => {
                     height={100}
                     objectFit="cover"
                     src={newsItem.imageURL}
-                    alt=""
+                    alt="Noticia"
                   />
                   <p>
                     <strong>{newsItem.title}</strong>

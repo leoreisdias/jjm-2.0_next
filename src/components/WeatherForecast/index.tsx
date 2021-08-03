@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { FiWind } from 'react-icons/fi';
 import { GiWaterDrop } from 'react-icons/gi';
@@ -14,6 +15,8 @@ import {
   CityMaxMin,
   TodayWeatherDetail,
   EachDay,
+  CurrentDayInfo,
+  WeatherImage,
 } from './WeatherForecastStyle';
 
 interface WeatherForecast {
@@ -69,7 +72,7 @@ export const WeatherForecast = () => {
         </CityMaxMin>
 
         <TodayWeatherDetail>
-          <div>
+          <CurrentDayInfo>
             <p lang="pt-br">
               <strong>{data?.forecast[0].weekday}</strong>
               <strong>{data?.date}</strong>
@@ -80,16 +83,19 @@ export const WeatherForecast = () => {
             <span>
               <GiWaterDrop />: {data?.humidity}
             </span>
-          </div>
+          </CurrentDayInfo>
 
-          <div>
-            <img
+          <WeatherImage>
+            <Image
               src={`https://assets.hgbrasil.com/weather/images/${data?.img_id}.png`}
+              width={200}
+              height={100}
+              objectFit="contain"
               alt="Weather Icon"
             />
             <strong>{data?.temp}º</strong>
             <strong>{data?.description}</strong>
-          </div>
+          </WeatherImage>
         </TodayWeatherDetail>
       </Today>
 
