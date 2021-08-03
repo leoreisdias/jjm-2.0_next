@@ -52,8 +52,8 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
 
   background: ${(props) =>
     props.active
-      ? lighten(0.1, props.theme.colors.jjmPallete_1)
-      : lighten(0.75, props.theme.colors.background)};
+      ? lighten(0.04, props.theme.colors.jjmPallete_1)
+      : lighten(0.8, props.theme.colors.background)};
 
   transition: 0.2s;
 
@@ -61,8 +61,10 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
     color: ${(props) => props.theme.colors.white};
     background: ${(props) =>
       props.active
-        ? complement(lighten(0.1, props.theme.colors.jjmPallete_1))
-        : lighten(0.05, props.theme.colors.jjmPallete_1)};
+        ? props.theme.title == 'dark'
+          ? complement(shade(0.05, props.theme.colors.jjmPallete_1))
+          : complement(lighten(0.1, props.theme.colors.jjmPallete_1))
+        : lighten(0.04, props.theme.colors.jjmPallete_1)};
   }
 
   @media (max-width: 768px) {

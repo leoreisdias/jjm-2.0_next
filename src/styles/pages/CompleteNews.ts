@@ -135,7 +135,10 @@ export const NewsContent = styled.main`
   align-items: center;
 
   padding-top: 1rem;
-  color: ${(props) => shade(0.2, props.theme.colors.text)};
+  color: ${(props) =>
+    props.theme.title == 'dark'
+      ? shade(0.1, props.theme.colors.text)
+      : shade(0.5, props.theme.colors.text)};
 
   p {
     line-height: 1.75rem;
@@ -259,7 +262,7 @@ export const Subjects = styled.div`
       justify-content: center;
       align-items: center;
 
-      color: ${(props) => props.theme.colors.gray500};
+      color: ${(props) => props.theme.colors.gray800};
       font-size: 0.75rem;
       text-align: center;
 
@@ -301,7 +304,7 @@ export const ShareSocialMedia = styled.div`
 
     gap: 1rem;
 
-    color: ${(props) => props.theme.colors.gray800};
+    color: ${(props) => props.theme.colors.gray900};
   }
 `;
 

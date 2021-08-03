@@ -53,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/manifest.json" />
         <link href="/favicon.ico" rel="icon" type="image/png" sizes="16x16" />
         <link href="/favicon.ico" rel="icon" type="image/png" sizes="32x32" />
-        <link rel="/apple-touch-icon" href="/apple-icon.png"></link>
+        <link rel="apple-touch-icon" href="/apple-icon.png"></link>
         <link rel="shortcut icon" href="/favicon.png" type="image/png" />
       </Head>
       <ThemeProvider theme={theme}>

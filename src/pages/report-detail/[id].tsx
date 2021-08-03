@@ -131,6 +131,7 @@ export default function ReportDetail({ report, currentUrl }: CompleteReportProps
               src={report.mainImage}
               placeholder="blur"
               blurDataURL={report.mainImage}
+              objectFit="contain"
               alt="Foto da Nota"
             />
           </span>
@@ -234,8 +235,9 @@ export const getStaticProps: GetStaticProps = async ({
       description: reports.description ?? '',
       name: reports.name,
       mainImage:
-        reports.imageURL ??
-        'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp',
+        reports.imageURL !== ''
+          ? reports.imageURL
+          : 'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp',
       date: format(parseISO(reports.createdAt), 'dd/MM/yyyy', {
         locale: ptBR,
       }),

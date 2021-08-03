@@ -33,7 +33,7 @@ const CardNews = ({ news }: CardNewsProps) => {
   //   setExpanded(!expanded);
   // };
   return (
-    <Card whileHover={{ scale: 0.99, transition: { duration: 0.1 } }}>
+    <Card>
       <Link href={`/complete-news/${news.id}`}>
         <CardActionArea>
           <Image

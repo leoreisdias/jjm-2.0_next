@@ -41,7 +41,7 @@ export const DetailHighlightModal = styled.div`
 
   h2 {
     text-align: center;
-    color: ${(props) => props.theme.colors.gray800};
+    color: ${(props) => props.theme.colors.gray900};
     font-size: 1.25rem;
   }
 
@@ -50,6 +50,7 @@ export const DetailHighlightModal = styled.div`
     font-size: 1rem;
     margin: 1rem 0;
     white-space: pre-wrap;
+    color: ${(props) => props.theme.colors.gray900};
   }
 
   a {

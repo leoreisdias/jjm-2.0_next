@@ -1,9 +1,8 @@
 import IconButton from '@material-ui/core/IconButton';
-import { motion } from 'framer-motion';
 import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 
-export const Card = styled(motion.div)`
+export const Card = styled.div`
   display: table;
   flex-direction: column;
 
@@ -75,6 +74,10 @@ export const Card = styled(motion.div)`
   h3 + p {
     padding: 1rem 2rem;
     text-align: center;
+    color: ${(props) =>
+      props.theme.title == 'dark'
+        ? shade(1, props.theme.colors.text)
+        : shade(0.8, props.theme.colors.text)};
   }
 
   hr {

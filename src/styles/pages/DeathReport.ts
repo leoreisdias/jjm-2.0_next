@@ -131,7 +131,10 @@ export const ReportContent = styled.main`
   p {
     line-height: 1.5rem;
     white-space: pre-wrap;
-    color: ${(props) => shade(0.1, props.theme.colors.text)};
+    color: ${(props) =>
+      props.theme.title == 'dark'
+        ? shade(0.1, props.theme.colors.text)
+        : shade(0.5, props.theme.colors.text)};
   }
 
   & p + div {
@@ -202,7 +205,7 @@ export const ShareSocialMedia = styled.div`
 
     gap: 1rem;
 
-    color: ${(props) => props.theme.colors.gray800};
+    color: ${(props) => props.theme.colors.gray900};
 
     &:hover {
       background: ${(props) => complement(lighten(0.1, props.theme.colors.jjmPallete_1))};
