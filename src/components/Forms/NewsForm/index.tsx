@@ -257,7 +257,13 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           setSource(data.news.source);
           setVideo(data.news.video_url ?? '');
           setCurrentImageUrl(data.news.imageURL);
-          setAuthor(data.news.author == 'undefined' ? '' : data.news.author);
+          setAuthor(
+            data.news.author != 'undefined'
+              ? data.news.author
+              : username && username != 'undefined'
+              ? username
+              : ''
+          );
           const blocksFromHTML = convertFromHTML(data.news.description);
           const stateEditor = ContentState.createFromBlockArray(
             blocksFromHTML.contentBlocks,
@@ -279,7 +285,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
         handleLoading(false);
       }
     },
-    [handleLoading]
+    [handleLoading, username]
   );
 
   useEffect(() => {

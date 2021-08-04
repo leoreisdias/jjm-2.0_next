@@ -91,7 +91,6 @@ export default function CompleteNews({
 }: CompleteNewsProps) {
   const { data: randomPartner } = useJJM<RandomPartners>('/getrandompartner');
   const matches = useMediaQuery('(max-width:720px)');
-  console.log(news);
 
   const { colors } = useTheme();
   const { token } = useAuth();
