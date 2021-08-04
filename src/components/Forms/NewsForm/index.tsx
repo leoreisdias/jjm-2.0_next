@@ -78,19 +78,18 @@ interface NewsFormProps {
 }
 
 export const NewsForm = ({ id }: NewsFormProps) => {
-  const { handleLoading, handleAlertMessage, callAlert } = useAuth();
+  const { handleLoading, handleAlertMessage, callAlert, username, token } = useAuth();
 
   const isUpdating = id && id.length;
 
   const { push, back } = useRouter();
-
-  const { username, token } = useAuth();
 
   const [title, setTitle] = useState<string>('');
   const [summary, setSummary] = useState<string>('');
   const [source, setSource] = useState<string>('');
   const [video, setVideo] = useState<string>('');
   const [subjects, setSubjects] = useState<SubjectsSelect[]>();
+  const [author, setAuthor] = useState<string>(username ?? '');
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState('');
@@ -127,6 +126,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       subjects: subjects ? subjects.map((item) => item.value) : [],
       source,
       video,
+      author,
     };
 
     try {
@@ -146,6 +146,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
         summary: Yup.string().required('Um resumo da notícia é necessário!'),
         source: Yup.string(),
         video: Yup.string(),
+        author: Yup.string().required('Confirme seu nome como Autor!'),
       });
       await schema.validate(data, {
         abortEarly: false,
@@ -178,9 +179,9 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     data.append('description', description);
     data.append('date', String(new Date()));
     data.append('subjects', subjectsString);
-    data.append('author', username);
     data.append('summary', summary);
     data.append('video_url', video);
+    data.append('author', author);
     data.append('source', source ?? 'JJM');
 
     try {
@@ -214,6 +215,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     data.append('subjects', subjectsString);
     data.append('summary', summary);
     data.append('video_url', video);
+    data.append('author', author);
     data.append('source', source ?? 'JJM');
 
     try {
@@ -377,6 +379,17 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           value={video}
           onChange={(e) => setVideo(e.target.value)}
           helperText="Se houver (OPCIONAL)"
+        />
+        <TextField
+          error={false}
+          variant="outlined"
+          id="Author"
+          name="author"
+          label="Seu Nome (Redator)"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          required
+          helperText="Confira seu nome se está aqui e correto"
         />
 
         <SubmitButton type="submit" onSubmit={handleSubmit}>

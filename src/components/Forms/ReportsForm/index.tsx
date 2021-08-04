@@ -16,13 +16,11 @@ interface ReportFormPros {
 }
 
 export const ReportsForm = ({ id }: ReportFormPros) => {
-  const { handleLoading, handleAlertMessage, callAlert } = useAuth();
+  const { handleLoading, handleAlertMessage, callAlert, token } = useAuth();
 
   const isUpdating = useMemo(() => id && id.length, [id]);
 
   const { push, back } = useRouter();
-
-  const { token } = useAuth();
 
   const [title, setTitle] = useState<string>('');
   const [name, setName] = useState<string>('');

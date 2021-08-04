@@ -29,13 +29,11 @@ interface PartnersFormPros {
 }
 
 export const PartnersForm = ({ id }: PartnersFormPros) => {
-  const { handleLoading, handleAlertMessage, callAlert } = useAuth();
+  const { handleLoading, handleAlertMessage, callAlert, token } = useAuth();
 
   const isUpdating = useMemo(() => id && id.length, [id]);
 
   const { push, back } = useRouter();
-
-  const { token } = useAuth();
 
   const [name, setName] = useState<string>('');
   const [facebook_url, setFacebookUrl] = useState<string>('');

@@ -26,13 +26,11 @@ interface SelectOptions {
 }
 
 export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
-  const { handleLoading, handleAlertMessage, callAlert } = useAuth();
+  const { handleLoading, handleAlertMessage, callAlert, token } = useAuth();
 
   const isUpdating = useMemo(() => id && id.length, [id]);
 
   const { push, back } = useRouter();
-
-  const { token } = useAuth();
 
   const [partnerOptions, setPartnerOptions] = useState<SelectOptions[]>();
   const [isLoading, setIsLoading] = useState(false);
