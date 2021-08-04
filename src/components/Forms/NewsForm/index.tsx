@@ -89,7 +89,9 @@ export const NewsForm = ({ id }: NewsFormProps) => {
   const [source, setSource] = useState<string>('');
   const [video, setVideo] = useState<string>('');
   const [subjects, setSubjects] = useState<SubjectsSelect[]>();
-  const [author, setAuthor] = useState<string>(username ?? '');
+  const [author, setAuthor] = useState<string>(
+    username && username != 'undefined' ? username : ''
+  );
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState('');
@@ -255,6 +257,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           setSource(data.news.source);
           setVideo(data.news.video_url ?? '');
           setCurrentImageUrl(data.news.imageURL);
+          setAuthor(data.news.author == 'undefined' ? '' : data.news.author);
           const blocksFromHTML = convertFromHTML(data.news.description);
           const stateEditor = ContentState.createFromBlockArray(
             blocksFromHTML.contentBlocks,
