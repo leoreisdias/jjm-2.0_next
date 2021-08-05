@@ -77,12 +77,14 @@ export const HeaderContainer = styled.header`
       border-top: 1px solid ${(props) => props.theme.colors.gray100};
     }
 
-    span {
-      font-size: 1rem;
-    }
-
     img {
       max-width: 4rem;
+    }
+  }
+
+  @media (max-width: 260px) {
+    span {
+      font-size: 1rem;
     }
   }
 `;
