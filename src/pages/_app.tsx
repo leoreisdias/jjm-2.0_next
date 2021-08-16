@@ -74,7 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   }}
                   initial="begin"
                   animate="animate"
-                  variants={BigFadeSlideDownToUp}
+                  variants={SlowFadeInOut}
                 >
                   <Image
                     src={'/pwa_icon.webp'}
@@ -87,7 +87,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <motion.strong
                   initial="begin"
                   animate="animate"
-                  variants={FadeRightToLeft}
+                  variants={SlowFadeInOut}
                 >
                   Na Pura Verdade Junto de Você!
                 </motion.strong>
