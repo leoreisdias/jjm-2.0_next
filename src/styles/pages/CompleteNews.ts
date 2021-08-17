@@ -384,6 +384,14 @@ export const RelatedNewsSection = styled.section`
   }
 `;
 
+export const LoadingRelatedNews = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`;
+
 export const Aside = styled.aside`
   max-width: 100%;
 

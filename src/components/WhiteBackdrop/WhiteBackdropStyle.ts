@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { rgba } from 'polished';
 import styled from 'styled-components';
 
-export const CustomBackdrop = styled(motion.div)`
+export const WhiteBackdropWrapper = styled(motion.div)`
   position: fixed;
   top: 0;
   left: 0;

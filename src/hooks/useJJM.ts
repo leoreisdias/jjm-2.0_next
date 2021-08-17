@@ -9,7 +9,10 @@ export function useJJM<Data = any>(url: string) {
       const response = await api.get(url);
       return response.data;
     },
-    { revalidateOnFocus: true }
+    {
+      errorRetryInterval: 10000,
+      refreshInterval: 60000 * 5, // 5 minutes
+    }
   );
 
   return { data, error };

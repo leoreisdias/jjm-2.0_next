@@ -1,8 +1,10 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import format from 'date-fns/format';
+import ptBR from 'date-fns/locale/pt-BR';
+import parseISO from 'date-fns/parseISO';
 import { motion } from 'framer-motion';
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -11,7 +13,9 @@ import { useRouter } from 'next/router';
 import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
+import ScaleLoader from 'react-spinners/ScaleLoader';
 
+import { WhiteBackdrop } from '../../components/WhiteBackdrop';
 import { useAuth } from '../../hooks/useAuth';
 import { useJJM } from '../../hooks/useJJM';
 import { useTheme } from '../../hooks/useTheme';
@@ -29,6 +33,7 @@ import {
   Subjects,
   ShareSocialMedia,
   OfferedBy,
+  LoadingRelatedNews,
   Video,
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
@@ -53,7 +58,7 @@ interface NewsProps {
   video_url?: string;
 }
 
-interface NewsPropsFromServer {
+interface NewsPropsFormatted {
   subjects: string[];
   id: string;
   title: string;
@@ -66,6 +71,10 @@ interface NewsPropsFromServer {
   video_url?: string;
 }
 
+interface NewsPropsFromServer {
+  news: NewsProps;
+}
+
 interface RelatedNewsProps {
   id: string;
   title: string;
@@ -74,22 +83,18 @@ interface RelatedNewsProps {
   url: string;
 }
 
-interface CompleteNewsProps {
-  news: NewsPropsFromServer;
-  formatedRelatedNews: RelatedNewsProps[];
-  currentUrl: string;
-}
-
 interface RandomPartners {
   partner: PartnersProps[];
 }
 
-export default function CompleteNews({
-  news,
-  currentUrl,
-  formatedRelatedNews,
-}: CompleteNewsProps) {
+export default function CompleteNews() {
+  const { replace, query } = useRouter();
+
   const { data: randomPartner } = useJJM<RandomPartners>('/getrandompartner');
+  const { data: newsFromServer } = useJJM<NewsPropsFromServer>(
+    query.hash ? `/detail?id=${query.hash}` : null
+  );
+
   const matches = useMediaQuery('(max-width:720px)');
 
   const { colors } = useTheme();
@@ -97,11 +102,13 @@ export default function CompleteNews({
 
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const { replace } = useRouter();
-
   const { isAuthenticated } = useAuth();
 
   const [openDeleteModel, setOpenDeleteModal] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState('');
+
+  const [news, setNews] = useState<NewsPropsFormatted>();
+  const [formatedRelatedNews, setFormatedRelatedNews] = useState<RelatedNewsProps[]>();
 
   function handleDeleteModal() {
     setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
@@ -124,7 +131,7 @@ export default function CompleteNews({
     } catch (err) {
       setIsDeleting(false);
     }
-  }, [news.id, replace, token]);
+  }, [news?.id, replace, token]);
 
   const ExcludeNewsModalContent = useMemo(() => {
     return (
@@ -149,6 +156,60 @@ export default function CompleteNews({
       </>
     );
   }, [deleteNewsById, isDeleting]);
+
+  const searchRelatedNews = useCallback(async (formattedNews: NewsPropsFormatted) => {
+    const relatedNews = await api.get('/search', {
+      params: {
+        subjects: formattedNews.subjects.join(', '),
+      },
+    });
+    const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
+    const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
+      return {
+        id: news._id,
+        title: news.title,
+        mainImage: news.imageURL,
+        source: news.source ? news.source.toLowerCase() : '',
+        url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
+      };
+    });
+    setFormatedRelatedNews(formatedRelatedNews);
+  }, []);
+
+  const formatNews = useCallback(() => {
+    if (newsFromServer?.news) {
+      const formattedNews = {
+        subjects: newsFromServer.news.subjects,
+        id: newsFromServer.news._id,
+        title: newsFromServer.news.title,
+        description: newsFromServer.news.description.split('##').join('\n'),
+        date: format(parseISO(newsFromServer.news.createdAt), 'dd/MM/yyyy', {
+          locale: ptBR,
+        }),
+        mainImage: newsFromServer.news.imageURL,
+        author: newsFromServer.news.author
+          ? newsFromServer.news.author.toLowerCase()
+          : 'JJM',
+        source: newsFromServer.news.source
+          ? newsFromServer.news.source.toUpperCase()
+          : '',
+        summary: newsFromServer.news.summary,
+        video_url: newsFromServer.news.video_url ?? '',
+      };
+
+      setNews(formattedNews);
+      searchRelatedNews(formattedNews);
+      setCurrentUrl(`https://www.jornaljm.com.br/complete-news/${formattedNews.id}`);
+    }
+  }, [newsFromServer, searchRelatedNews]);
+
+  useEffect(() => {
+    newsFromServer?.news && formatNews();
+  }, [formatNews, newsFromServer]);
+
+  if (!news) {
+    return <WhiteBackdrop />;
+  }
 
   return (
     <Wrapper>
@@ -224,23 +285,25 @@ export default function CompleteNews({
                 </div>
               </Video>
             )}
-            {randomPartner && randomPartner?.partner.length && (
-              <OfferedBy>
-                <h5>Oferecido por:</h5>
-                <span>
-                  <Image
-                    src={randomPartner.partner[0].imageURL}
-                    blurDataURL={randomPartner.partner[0].imageURL}
-                    placeholder="blur"
-                    height={100}
-                    width={100}
-                    objectFit="contain"
-                    alt="Parceiro de destaque"
-                  />
-                  <p>{randomPartner.partner[0].name}</p>
-                </span>
-              </OfferedBy>
-            )}
+            {randomPartner &&
+              randomPartner?.partner.length &&
+              randomPartner.partner[0].imageURL && (
+                <OfferedBy>
+                  <h5>Oferecido por:</h5>
+                  <span>
+                    <Image
+                      src={randomPartner.partner[0].imageURL}
+                      blurDataURL={randomPartner.partner[0].imageURL}
+                      placeholder="blur"
+                      height={100}
+                      width={100}
+                      objectFit="contain"
+                      alt="Parceiro de destaque"
+                    />
+                    <p>{randomPartner.partner[0].name}</p>
+                  </span>
+                </OfferedBy>
+              )}
             <Subjects>
               <h4>Assuntos</h4>
               <ul>
@@ -267,7 +330,7 @@ export default function CompleteNews({
             <h4>Notícias Relacionadas</h4>
             <div>
               <ul>
-                {formatedRelatedNews &&
+                {formatedRelatedNews ? (
                   formatedRelatedNews.map((news) => {
                     return (
                       <Link href={`/complete-news/${news.id}`} key={news.id}>
@@ -288,7 +351,13 @@ export default function CompleteNews({
                         </motion.li>
                       </Link>
                     );
-                  })}
+                  })
+                ) : (
+                  <LoadingRelatedNews>
+                    <strong>Carregando... Por favor, aguarde</strong>
+                    <ScaleLoader color={colors.jjmPallete_1} />
+                  </LoadingRelatedNews>
+                )}
               </ul>
             </div>
           </RelatedNewsSection>
@@ -314,88 +383,69 @@ export default function CompleteNews({
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const {
-    data: { docs },
-  } = await api.get('/news?page=1');
+// export const getServerSideProps: GetServerSideProps = async ({
+//   params,
+// }: GetServerSidePropsContext) => {
+//   const format = (await import('date-fns/format')).default;
+//   const parseISO = (await import('date-fns/parseISO')).default;
+//   const ptBR = (await import('date-fns/locale/pt-BR')).default;
+//   try {
+//     const { hash } = params;
 
-  const paths = docs.map((news: NewsProps) => {
-    return {
-      params: {
-        hash: news._id,
-      },
-    };
-  });
+//     const {
+//       data: { news },
+//     } = await api.get<{ news: NewsProps }>('/detail', {
+//       params: {
+//         id: hash,
+//       },
+//     });
 
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-};
+//     const formatNews = {
+//       subjects: news.subjects,
+//       id: news._id,
+//       title: news.title,
+//       description: news.description.split('##').join('\n'),
+//       date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
+//         locale: ptBR,
+//       }),
+//       mainImage: news.imageURL,
+//       author: news.author ? news.author.toLowerCase() : 'JJM',
+//       source: news.source ? news.source.toUpperCase() : '',
+//       summary: news.summary,
+//       video_url: news.video_url ?? '',
+//     };
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext) => {
-  const format = (await import('date-fns/format')).default;
-  const parseISO = (await import('date-fns/parseISO')).default;
-  const ptBR = (await import('date-fns/locale/pt-BR')).default;
-  try {
-    const { hash } = params;
+//     const relatedNews = await api.get('/search', {
+//       params: {
+//         subjects: formatNews.subjects.join(', '),
+//       },
+//     });
+//     const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
 
-    const {
-      data: { news },
-    } = await api.get<{ news: NewsProps }>('/detail', {
-      params: {
-        id: hash,
-      },
-    });
+//     const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
+//       return {
+//         id: news._id,
+//         title: news.title,
+//         mainImage: news.imageURL,
+//         source: news.source ? news.source.toLowerCase() : '',
+//         url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
+//       };
+//     });
 
-    const formatNews = {
-      subjects: news.subjects,
-      id: news._id,
-      title: news.title,
-      description: news.description.split('##').join('\n'),
-      date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
-        locale: ptBR,
-      }),
-      mainImage: news.imageURL,
-      author: news.author ? news.author.toLowerCase() : 'JJM',
-      source: news.source ? news.source.toUpperCase() : '',
-      summary: news.summary,
-      video_url: news.video_url ?? '',
-    };
-
-    const relatedNews = await api.get('/search', {
-      params: {
-        subjects: formatNews.subjects.join(', '),
-      },
-    });
-    const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
-
-    const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
-      return {
-        id: news._id,
-        title: news.title,
-        mainImage: news.imageURL,
-        source: news.source ? news.source.toLowerCase() : '',
-        url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
-      };
-    });
-
-    return {
-      props: {
-        news: formatNews,
-        formatedRelatedNews,
-        currentUrl: `https://www.jornaljm.com.br/complete-news/${hash}`,
-      },
-      revalidate: 60 * 15, // 15 minutes
-    };
-  } catch (error) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-};
+//     return {
+//       props: {
+//         news: formatNews,
+//         formatedRelatedNews,
+//         currentUrl: `https://www.jornaljm.com.br/complete-news/${hash}`,
+//       },
+//       revalidate: 60 * 15, // 15 minutes
+//     };
+//   } catch (error) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false,
+//       },
+//     };
+//   }
+// };

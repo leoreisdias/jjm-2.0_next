@@ -84,11 +84,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     alt="Logo JJM"
                   />
                 </motion.span>
-                <motion.strong
-                  initial="begin"
-                  animate="animate"
-                  variants={SlowFadeInOut}
-                >
+                <motion.strong initial="begin" animate="animate" variants={SlowFadeInOut}>
                   Na Pura Verdade Junto de Você!
                 </motion.strong>
               </ParallaxPageOne>
@@ -107,6 +103,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Topics />
               </motion.span>
             )}
+
             <Main login={pathname === '/login'}>
               <Component {...pageProps} />
             </Main>
