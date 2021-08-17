@@ -157,10 +157,10 @@ export default function CompleteNews() {
     );
   }, [deleteNewsById, isDeleting]);
 
-  const searchRelatedNews = useCallback(async (formattedNews: NewsPropsFormatted) => {
+  const searchRelatedNews = useCallback(async (subjects: string[]) => {
     const relatedNews = await api.get('/search', {
       params: {
-        subjects: formattedNews.subjects.join(', '),
+        subjects: subjects.join(', '),
       },
     });
     const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
@@ -198,14 +198,14 @@ export default function CompleteNews() {
       };
 
       setNews(formattedNews);
-      searchRelatedNews(formattedNews);
       setCurrentUrl(`https://www.jornaljm.com.br/complete-news/${formattedNews.id}`);
     }
-  }, [newsFromServer, searchRelatedNews]);
+  }, [newsFromServer]);
 
   useEffect(() => {
     newsFromServer?.news && formatNews();
-  }, [formatNews, newsFromServer]);
+    newsFromServer?.news && searchRelatedNews(newsFromServer?.news.subjects);
+  }, [formatNews, newsFromServer, searchRelatedNews]);
 
   if (!news) {
     return <WhiteBackdrop />;
@@ -285,25 +285,25 @@ export default function CompleteNews() {
                 </div>
               </Video>
             )}
-            {randomPartner &&
-              randomPartner?.partner.length &&
-              randomPartner.partner[0].imageURL && (
-                <OfferedBy>
-                  <h5>Oferecido por:</h5>
-                  <span>
-                    <Image
-                      src={randomPartner.partner[0].imageURL}
-                      blurDataURL={randomPartner.partner[0].imageURL}
-                      placeholder="blur"
-                      height={100}
-                      width={100}
-                      objectFit="contain"
-                      alt="Parceiro de destaque"
-                    />
-                    <p>{randomPartner.partner[0].name}</p>
-                  </span>
-                </OfferedBy>
+            <OfferedBy>
+              <h5>Oferecido por:</h5>
+              {randomPartner && randomPartner?.partner.length ? (
+                <span>
+                  <Image
+                    src={randomPartner.partner[0].imageURL}
+                    blurDataURL={randomPartner.partner[0].imageURL}
+                    placeholder="blur"
+                    height={100}
+                    width={100}
+                    objectFit="contain"
+                    alt="Parceiro de destaque"
+                  />
+                  <p>{randomPartner.partner[0].name}</p>
+                </span>
+              ) : (
+                <p>Seu negócio pode estar aqui!</p>
               )}
+            </OfferedBy>
             <Subjects>
               <h4>Assuntos</h4>
               <ul>
