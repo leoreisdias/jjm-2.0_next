@@ -365,7 +365,7 @@ export const getStaticProps: GetStaticProps = async ({
       video_url: news.video_url ?? '',
     };
 
-    const relatedNews = await api.get('/search', {
+    const relatedNews = await api.get('/searchrelated', {
       params: {
         subjects: formatNews.subjects.join(', '),
       },
