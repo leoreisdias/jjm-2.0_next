@@ -38,6 +38,7 @@ import {
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
 import { PartnersProps } from '../../types/interfaces/Partners';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 
 const Advertisement = dynamic(() => import('../../components/Advertisement'));
 const ModalDialog = dynamic(() => import('../../components/ModalDialog'));
@@ -58,7 +59,7 @@ interface NewsProps {
   video_url?: string;
 }
 
-interface NewsPropsFormatted {
+interface NewsPropsFromServer {
   subjects: string[];
   id: string;
   title: string;
@@ -71,8 +72,10 @@ interface NewsPropsFormatted {
   video_url?: string;
 }
 
-interface NewsPropsFromServer {
-  news: NewsProps;
+interface CompleteNewsProps {
+  news: NewsPropsFromServer;
+  formatedRelatedNews: RelatedNewsProps[];
+  currentUrl: string;
 }
 
 interface RelatedNewsProps {
@@ -86,14 +89,17 @@ interface RelatedNewsProps {
 interface RandomPartners {
   partner: PartnersProps[];
 }
-
-export default function CompleteNews() {
-  const { replace, query } = useRouter();
+export default function CompleteNews({
+  news,
+  currentUrl,
+  formatedRelatedNews,
+}: CompleteNewsProps) {
+  const { replace } = useRouter();
 
   const { data: randomPartner } = useJJM<RandomPartners>('/getrandompartner');
-  const { data: newsFromServer } = useJJM<NewsPropsFromServer>(
-    query.hash ? `/detail?id=${query.hash}` : null
-  );
+  // const { data: newsFromServer } = useJJM<NewsPropsFromServer>(
+  //   query.hash ? `/detail?id=${query.hash}` : null
+  // );
 
   const matches = useMediaQuery('(max-width:720px)');
 
@@ -105,10 +111,10 @@ export default function CompleteNews() {
   const { isAuthenticated } = useAuth();
 
   const [openDeleteModel, setOpenDeleteModal] = useState(false);
-  const [currentUrl, setCurrentUrl] = useState('');
+  // const [currentUrl, setCurrentUrl] = useState('');
 
-  const [news, setNews] = useState<NewsPropsFormatted>();
-  const [formatedRelatedNews, setFormatedRelatedNews] = useState<RelatedNewsProps[]>();
+  // const [news, setNews] = useState<NewsPropsFormatted>();
+  // const [formatedRelatedNews, setFormatedRelatedNews] = useState<RelatedNewsProps[]>();
 
   function handleDeleteModal() {
     setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
@@ -157,59 +163,59 @@ export default function CompleteNews() {
     );
   }, [deleteNewsById, isDeleting]);
 
-  const searchRelatedNews = useCallback(async (subjects: string[]) => {
-    const relatedNews = await api.get('/searchrelated', {
-      params: {
-        subjects: subjects.join(', '),
-      },
-    });
-    const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
-    const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
-      return {
-        id: news._id,
-        title: news.title,
-        mainImage: news.imageURL,
-        source: news.source ? news.source.toLowerCase() : '',
-        url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
-      };
-    });
-    setFormatedRelatedNews(formatedRelatedNews);
-  }, []);
+  // const searchRelatedNews = useCallback(async (subjects: string[]) => {
+  //   const relatedNews = await api.get('/searchrelated', {
+  //     params: {
+  //       subjects: subjects.join(', '),
+  //     },
+  //   });
+  //   const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
+  //   const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
+  //     return {
+  //       id: news._id,
+  //       title: news.title,
+  //       mainImage: news.imageURL,
+  //       source: news.source ? news.source.toLowerCase() : '',
+  //       url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
+  //     };
+  //   });
+  //   setFormatedRelatedNews(formatedRelatedNews);
+  // }, []);
 
-  const formatNews = useCallback(() => {
-    if (newsFromServer?.news) {
-      const formattedNews = {
-        subjects: newsFromServer.news.subjects,
-        id: newsFromServer.news._id,
-        title: newsFromServer.news.title,
-        description: newsFromServer.news.description.split('##').join('\n'),
-        date: format(parseISO(newsFromServer.news.createdAt), 'dd/MM/yyyy', {
-          locale: ptBR,
-        }),
-        mainImage: newsFromServer.news.imageURL,
-        author: newsFromServer.news.author
-          ? newsFromServer.news.author.toLowerCase()
-          : 'JJM',
-        source: newsFromServer.news.source
-          ? newsFromServer.news.source.toUpperCase()
-          : '',
-        summary: newsFromServer.news.summary,
-        video_url: newsFromServer.news.video_url ?? '',
-      };
+  // const formatNews = useCallback(() => {
+  //   if (newsFromServer?.news) {
+  //     const formattedNews = {
+  //       subjects: newsFromServer.news.subjects,
+  //       id: newsFromServer.news._id,
+  //       title: newsFromServer.news.title,
+  //       description: newsFromServer.news.description.split('##').join('\n'),
+  //       date: format(parseISO(newsFromServer.news.createdAt), 'dd/MM/yyyy', {
+  //         locale: ptBR,
+  //       }),
+  //       mainImage: newsFromServer.news.imageURL,
+  //       author: newsFromServer.news.author
+  //         ? newsFromServer.news.author.toLowerCase()
+  //         : 'JJM',
+  //       source: newsFromServer.news.source
+  //         ? newsFromServer.news.source.toUpperCase()
+  //         : '',
+  //       summary: newsFromServer.news.summary,
+  //       video_url: newsFromServer.news.video_url ?? '',
+  //     };
 
-      setNews(formattedNews);
-      setCurrentUrl(`https://www.jornaljm.com.br/complete-news/${formattedNews.id}`);
-    }
-  }, [newsFromServer]);
+  //     setNews(formattedNews);
+  //     setCurrentUrl(`https://www.jornaljm.com.br/complete-news/${formattedNews.id}`);
+  //   }
+  // }, [newsFromServer]);
 
-  useEffect(() => {
-    newsFromServer?.news && formatNews();
-    newsFromServer?.news && searchRelatedNews(newsFromServer?.news.subjects);
-  }, [formatNews, newsFromServer, searchRelatedNews]);
+  // useEffect(() => {
+  //   newsFromServer?.news && formatNews();
+  //   newsFromServer?.news && searchRelatedNews(newsFromServer?.news.subjects);
+  // }, [formatNews, newsFromServer, searchRelatedNews]);
 
-  if (!news) {
-    return <WhiteBackdrop />;
-  }
+  // if (!news) {
+  //   return <WhiteBackdrop />;
+  // }
 
   return (
     <Wrapper>
@@ -383,69 +389,89 @@ export default function CompleteNews() {
   );
 }
 
-// export const getServerSideProps: GetServerSideProps = async ({
-//   params,
-// }: GetServerSidePropsContext) => {
-//   const format = (await import('date-fns/format')).default;
-//   const parseISO = (await import('date-fns/parseISO')).default;
-//   const ptBR = (await import('date-fns/locale/pt-BR')).default;
-//   try {
-//     const { hash } = params;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const {
+    data: { docs },
+  } = await api.get('/news?page=1');
 
-//     const {
-//       data: { news },
-//     } = await api.get<{ news: NewsProps }>('/detail', {
-//       params: {
-//         id: hash,
-//       },
-//     });
 
-//     const formatNews = {
-//       subjects: news.subjects,
-//       id: news._id,
-//       title: news.title,
-//       description: news.description.split('##').join('\n'),
-//       date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
-//         locale: ptBR,
-//       }),
-//       mainImage: news.imageURL,
-//       author: news.author ? news.author.toLowerCase() : 'JJM',
-//       source: news.source ? news.source.toUpperCase() : '',
-//       summary: news.summary,
-//       video_url: news.video_url ?? '',
-//     };
+  const paths = docs.map((news: NewsProps) => {
+    return {
+      params: {
+        hash: news._id,
+      },
+    };
+  });
 
-//     const relatedNews = await api.get('/search', {
-//       params: {
-//         subjects: formatNews.subjects.join(', '),
-//       },
-//     });
-//     const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
 
-//     const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
-//       return {
-//         id: news._id,
-//         title: news.title,
-//         mainImage: news.imageURL,
-//         source: news.source ? news.source.toLowerCase() : '',
-//         url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
-//       };
-//     });
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: GetStaticPropsContext) => {
+  const format = (await import('date-fns/format')).default;
+  const parseISO = (await import('date-fns/parseISO')).default;
+  const ptBR = (await import('date-fns/locale/pt-BR')).default;
+  try {
+    const { hash } = params;
 
-//     return {
-//       props: {
-//         news: formatNews,
-//         formatedRelatedNews,
-//         currentUrl: `https://www.jornaljm.com.br/complete-news/${hash}`,
-//       },
-//       revalidate: 60 * 15, // 15 minutes
-//     };
-//   } catch (error) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false,
-//       },
-//     };
-//   }
-// };
+    const {
+      data: { news },
+    } = await api.get<{ news: NewsProps }>('/detail', {
+      params: {
+        id: hash,
+      },
+    });
+
+    const formatNews = {
+      subjects: news.subjects,
+      id: news._id,
+      title: news.title,
+      description: news.description.split('##').join('\n'),
+      date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
+        locale: ptBR,
+      }),
+      mainImage: news.imageURL,
+      author: news.author ? news.author.toLowerCase() : 'JJM',
+      source: news.source ? news.source.toUpperCase() : '',
+      summary: news.summary,
+      video_url: news.video_url ?? '',
+    };
+
+    const relatedNews = await api.get('/searchrelated', {
+      params: {
+        subjects: formatNews.subjects.join(', '),
+      },
+    });
+    const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
+
+    const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
+      return {
+        id: news._id,
+        title: news.title,
+        mainImage: news.imageURL,
+        source: news.source ? news.source.toLowerCase() : '',
+        url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
+      };
+    });
+
+    return {
+      props: {
+        news: formatNews,
+        formatedRelatedNews,
+        currentUrl: `https://www.jornaljm.com.br/complete-news/${hash}`,
+      },
+      revalidate: 60 * 15, // 15 minutes
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+};
