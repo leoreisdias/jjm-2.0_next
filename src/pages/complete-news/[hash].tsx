@@ -158,7 +158,7 @@ export default function CompleteNews() {
   }, [deleteNewsById, isDeleting]);
 
   const searchRelatedNews = useCallback(async (subjects: string[]) => {
-    const relatedNews = await api.get('/search', {
+    const relatedNews = await api.get('/searchrelated', {
       params: {
         subjects: subjects.join(', '),
       },
