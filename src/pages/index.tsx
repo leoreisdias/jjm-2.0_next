@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Pagination from '@material-ui/lab/Pagination';
 import { format, parseISO } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
 import { GetStaticProps } from 'next';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { FaSearch } from 'react-icons/fa';
 import PuffLoader from 'react-spinners/PuffLoader';
 
+import Advertisement from '../components/Advertisement';
+import CardNews from '../components/CardNews';
+import DeathReportCard from '../components/DeathReport';
+import LastPosts from '../components/LastPosts';
 import { useTheme } from '../hooks/useTheme';
 import { api } from '../services/api';
 import {
@@ -19,12 +23,6 @@ import {
   PaginationContainer,
 } from '../styles/pages/Home';
 import { formatNews } from '../utils/formatNews';
-
-const Advertisement = dynamic(() => import('../components/Advertisement'));
-const CardNews = dynamic(() => import('../components/CardNews'));
-const DeathReportCard = dynamic(() => import('../components/DeathReport'));
-const LastPosts = dynamic(() => import('../components/LastPosts'));
-const Pagination = dynamic(() => import('@material-ui/lab/Pagination'));
 
 interface serverNewsProps {
   _id: string;

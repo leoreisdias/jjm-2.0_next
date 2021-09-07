@@ -97,7 +97,7 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
   }
 
   return (
-    <AnimatePresence exitBeforeEnter>
+    <>
       <Head>
         <title>Notas de Falecimento | JJM</title>
         <meta name="description" content="Jornal JM - Fique informado!" />
@@ -110,67 +110,69 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
         <meta property="og:image:height" content="800" />
         <meta property="og:site_name" content="Jornal JM" />
       </Head>
-      <Container
-        onTouchMove={handleSlideDown}
-        initial="begin"
-        animate="animate"
-        exit="exit"
-        variants={SlowFadeInOut}
-      >
-        <h1>Notas de Falecimento</h1>
-        <h3>Funerária São Dimas</h3>
-        <List>
-          {currentReportList &&
-            currentReportList.map((item) => {
-              return (
-                <ListItem key={item.id}>
-                  <GiPeaceDove
-                    color={lighten(0.1, colors.jjmPallete_1)}
-                    size={60}
-                    className="davePeace"
-                  />
-                  <Person>
-                    <Image
-                      src={item.imageURL !== '' ? item.imageURL : pombinhaBrancaUrl}
-                      placeholder="blur"
-                      blurDataURL={
-                        item.imageURL !== '' ? item.imageURL : pombinhaBrancaUrl
-                      }
-                      width={110}
-                      height={120}
-                      objectFit="contain"
-                      alt="Nota de Falecimento"
+      <AnimatePresence exitBeforeEnter>
+        <Container
+          onTouchMove={handleSlideDown}
+          initial="begin"
+          animate="animate"
+          exit="exit"
+          variants={SlowFadeInOut}
+        >
+          <h1>Notas de Falecimento</h1>
+          <h3>Funerária São Dimas</h3>
+          <List>
+            {currentReportList &&
+              currentReportList.map((item) => {
+                return (
+                  <ListItem key={item.id}>
+                    <GiPeaceDove
+                      color={lighten(0.1, colors.jjmPallete_1)}
+                      size={60}
+                      className="davePeace"
                     />
-                    <strong>{item.name}</strong>
-                  </Person>
-                  <NoteInfo>
-                    <strong>{item.date}</strong>
-                    <BiMessageSquareDetail
-                      size={25}
-                      color={'black'}
-                      className="icon"
-                      onClick={() => goToReportDetail(item.id)}
-                    />
-                  </NoteInfo>
-                </ListItem>
-              );
-            })}
-          {isLoading && <Skeleton animation="wave" height="100%" width="280px" />}
-        </List>
-        {!matches && currentReportList && (
-          <PaginationContainer>
-            <Pagination
-              count={totalPages}
-              variant="outlined"
-              color="primary"
-              size="large"
-              onChange={handleChangePage}
-              style={{ color: 'white' }}
-            />
-          </PaginationContainer>
-        )}
-      </Container>
-    </AnimatePresence>
+                    <Person>
+                      <Image
+                        src={item.imageURL !== '' ? item.imageURL : pombinhaBrancaUrl}
+                        placeholder="blur"
+                        blurDataURL={
+                          item.imageURL !== '' ? item.imageURL : pombinhaBrancaUrl
+                        }
+                        width={110}
+                        height={120}
+                        objectFit="contain"
+                        alt="Nota de Falecimento"
+                      />
+                      <strong>{item.name}</strong>
+                    </Person>
+                    <NoteInfo>
+                      <strong>{item.date}</strong>
+                      <BiMessageSquareDetail
+                        size={25}
+                        color={'black'}
+                        className="icon"
+                        onClick={() => goToReportDetail(item.id)}
+                      />
+                    </NoteInfo>
+                  </ListItem>
+                );
+              })}
+            {isLoading && <Skeleton animation="wave" height="100%" width="280px" />}
+          </List>
+          {!matches && currentReportList && (
+            <PaginationContainer>
+              <Pagination
+                count={totalPages}
+                variant="outlined"
+                color="primary"
+                size="large"
+                onChange={handleChangePage}
+                style={{ color: 'white' }}
+              />
+            </PaginationContainer>
+          )}
+        </Container>
+      </AnimatePresence>
+    </>
   );
 }
 

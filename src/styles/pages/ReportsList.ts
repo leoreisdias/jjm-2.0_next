@@ -93,7 +93,8 @@ export const Person = styled.div`
   strong {
     font-size: 1.25rem;
     text-transform: capitalize;
-    text-align: center;
+    text-align: left;
+    max-width: 400px;
   }
 
   @media (max-width: 680px) {
@@ -102,6 +103,7 @@ export const Person = styled.div`
 
     strong {
       font-size: 1.4rem;
+      text-align: center;
     }
   }
 `;
@@ -111,7 +113,7 @@ export const NoteInfo = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
 
   strong {
     font-size: 1.2rem;

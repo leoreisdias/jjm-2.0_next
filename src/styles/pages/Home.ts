@@ -13,13 +13,21 @@ export const Container = styled.article`
   color: black;
   word-break: break-all;
 
+  margin: 0 auto;
+
   justify-items: center;
 
   margin-bottom: 2rem;
   transition: 0.5s;
+  @media (max-width: 1180px) {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
   @media (max-width: 1024px) {
-    grid-template-columns: 1fr;
     gap: 0rem;
   }
 `;

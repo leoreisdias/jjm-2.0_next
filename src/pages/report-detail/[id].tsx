@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
+import { Dialog } from '@material-ui/core';
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,6 +10,8 @@ import { FaEdit, FaShareAlt } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
 
+import Advertisement from '../../components/Advertisement';
+import ModalDialog from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
 import { api } from '../../services/api';
@@ -25,10 +27,6 @@ import {
   ShareSocialMedia,
 } from '../../styles/pages/DeathReport';
 import { formOptions } from '../../types/formOptions';
-
-const Advertisement = dynamic(() => import('../../components/Advertisement'));
-const ModalDialog = dynamic(() => import('../../components/ModalDialog'));
-const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
 
 interface ReportProps {
   _id: string;

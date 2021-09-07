@@ -1,11 +1,9 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
+import { Dialog } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import format from 'date-fns/format';
-import ptBR from 'date-fns/locale/pt-BR';
-import parseISO from 'date-fns/parseISO';
 import { motion } from 'framer-motion';
-import dynamic from 'next/dynamic';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +13,8 @@ import { MdDelete } from 'react-icons/md';
 import CircleLoader from 'react-spinners/CircleLoader';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
-import { WhiteBackdrop } from '../../components/WhiteBackdrop';
+import Advertisement from '../../components/Advertisement';
+import ModalDialog from '../../components/ModalDialog';
 import { useAuth } from '../../hooks/useAuth';
 import { useJJM } from '../../hooks/useJJM';
 import { useTheme } from '../../hooks/useTheme';
@@ -38,11 +37,6 @@ import {
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
 import { PartnersProps } from '../../types/interfaces/Partners';
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from 'next';
-
-const Advertisement = dynamic(() => import('../../components/Advertisement'));
-const ModalDialog = dynamic(() => import('../../components/ModalDialog'));
-const Dialog = dynamic(() => import('@material-ui/core/Dialog'));
 
 interface NewsProps {
   subjects: string[];
@@ -393,7 +387,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const {
     data: { docs },
   } = await api.get('/news?page=1');
-
 
   const paths = docs.map((news: NewsProps) => {
     return {
