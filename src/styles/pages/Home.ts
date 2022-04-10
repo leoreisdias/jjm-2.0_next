@@ -98,6 +98,67 @@ export const Aside = styled.aside`
   }
 `;
 
+export const CoffeePriceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > h3 {
+    color: ${(props) => props.theme.colors.title};
+  }
+
+  & > h4 {
+    color: ${(props) => props.theme.colors.jjmPallete_1};
+    margin-bottom: 0.25rem;
+  }
+
+  & > table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+    border: 1px solid ${(props) => props.theme.colors.jjmPallete_1};
+  }
+
+  & > table :is(td, th) {
+    border-spacing: 0;
+    width: 100%;
+    color: ${(props) => props.theme.colors.title};
+    font-size: 0.875rem;
+    word-break: keep-all;
+  }
+
+  & > table th {
+    border-bottom: 1px solid ${(props) => props.theme.colors.jjmPallete_1};
+  }
+
+  & > table :is(td:first-child, td:nth-child(2)) {
+    border-right: 1px solid ${(props) => props.theme.colors.jjmPallete_1};
+  }
+
+  & > table > thead {
+    width: 100%;
+  }
+
+  & > table > thead tr {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 30%;
+  }
+
+  & > table > tbody tr {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 30%;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  }
+`;
+
 export const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;

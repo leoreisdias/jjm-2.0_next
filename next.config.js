@@ -16,8 +16,6 @@ module.exports = {
   },
   env: {
     BACKEND_API: process.env.APP_BACKEND,
-    DOLLAR_API_KEY: process.env.DOLLAR_API,
-    COFFEE_API_KEY: process.env.COFFEE_API,
     WEATHER_API_KEY: process.env.WEATHER_API,
     GOOGLE_CLIENT: process.env.CLIENT
   },
@@ -40,8 +38,6 @@ module.exports = withPWA({
   },
   env: {
     BACKEND_API: process.env.APP_BACKEND,
-    DOLLAR_API_KEY: process.env.DOLLAR_API,
-    COFFEE_API_KEY: process.env.COFFEE_API,
     WEATHER_API_KEY: process.env.WEATHER_API,
     GOOGLE_CLIENT: process.env.CLIENT
   },

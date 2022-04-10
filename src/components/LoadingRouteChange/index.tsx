@@ -12,17 +12,21 @@ export const LoadingRouteChange = () => {
   useEffect(() => {
     const handleStart = (url: string) => url !== router.asPath && setLoading(true);
     const handleComplete = () => setLoading(false);
+    const handleError = () => {
+      setLoading(false);
+      router.push('/404');
+    };
 
     router.events.on('routeChangeStart', handleStart);
     router.events.on('routeChangeComplete', handleComplete);
-    router.events.on('routeChangeError', handleComplete);
+    router.events.on('routeChangeError', handleError);
 
     return () => {
       router.events.off('routeChangeStart', handleStart);
       router.events.off('routeChangeComplete', handleComplete);
-      router.events.off('routeChangeError', handleComplete);
+      router.events.off('routeChangeError', handleError);
     };
-  }, [router.asPath, router.events]);
+  }, [router, router.asPath, router.events]);
 
   return loading && <WhiteBackdrop />;
 };

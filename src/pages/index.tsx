@@ -4,8 +4,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
 import { format, parseISO } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps, GetStaticProps, GetStaticPropsContext } from 'next';
 import Head from 'next/head';
+import { setCookie } from 'nookies';
 import { FaSearch } from 'react-icons/fa';
 import PuffLoader from 'react-spinners/PuffLoader';
 
@@ -15,12 +16,14 @@ import DeathReportCard from '../components/DeathReport';
 import LastPosts from '../components/LastPosts';
 import { useTheme } from '../hooks/useTheme';
 import { api } from '../services/api';
+import { getCoffeePrice, ICoffeePrice } from '../services/coffeeWebScrapping';
 import {
   Wrapper,
   Container,
   Main,
   Aside,
   PaginationContainer,
+  CoffeePriceContainer,
 } from '../styles/pages/Home';
 import { formatNews } from '../utils/formatNews';
 
@@ -47,12 +50,18 @@ interface News {
 }
 
 interface newsProps {
+  coffeePriceData: ICoffeePrice;
   newsList: News[];
   topFourRecentNews: News[];
   totalPages: number;
 }
 
-export default function Home({ newsList, topFourRecentNews, totalPages }: newsProps) {
+export default function Home({
+  newsList,
+  topFourRecentNews,
+  totalPages,
+  coffeePriceData,
+}: newsProps) {
   const { colors } = useTheme();
 
   const [currentNewsList, setCurrentNewsList] = useState(newsList);
@@ -93,8 +102,9 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
     }
   }
 
-  async function handleEnter(event: KeyboardEventInit) {
+  async function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
     const key = event.key;
+    console.log(key);
 
     if (key == 'Enter') {
       if (searchText !== '') {
@@ -120,6 +130,8 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
   useEffect(() => {
     searchText == '' && setCurrentNewsList(newsList);
   }, [newsList, searchText]);
+
+  console.log(coffeePriceData);
 
   return (
     <Wrapper>
@@ -153,6 +165,28 @@ export default function Home({ newsList, topFourRecentNews, totalPages }: newsPr
                 onKeyDown={handleEnter}
               />
             </label>
+            {coffeePriceData.hasData && (
+              <CoffeePriceContainer>
+                <h3>Cotação do Café</h3>
+                <h4>{coffeePriceData.closingDate}</h4>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Local</th>
+                      <th>Valor</th>
+                      <th>Variação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{coffeePriceData.city}</td>
+                      <td>{coffeePriceData.value}</td>
+                      <td>{coffeePriceData.variation}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </CoffeePriceContainer>
+            )}
 
             <LastPosts lastestNews={topFourRecentNews} />
             <DeathReportCard />
@@ -201,8 +235,12 @@ export const getStaticProps: GetStaticProps = async () => {
     });
 
     const topFourRecentNews = newsList.slice(0, 4);
+
+    const coffeePriceData = await getCoffeePrice();
+
     return {
       props: {
+        coffeePriceData,
         newsList,
         topFourRecentNews,
         totalPages,

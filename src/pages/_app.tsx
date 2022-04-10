@@ -11,11 +11,7 @@ import { useRouter } from 'next/router';
 import { Parallax } from 'react-parallax';
 import { ThemeProvider } from 'styled-components';
 
-import {
-  FadeRightToLeft,
-  BigFadeSlideDownToUp,
-  SlowFadeInOut,
-} from '../assets/motion/Variants';
+import { SlowFadeInOut } from '../assets/motion/Variants';
 import { LoadingRouteChange } from '../components/LoadingRouteChange';
 import { AuthProvider } from '../context/AuthContext';
 import GlobalStyle from '../styles/global';
@@ -93,15 +89,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
           <Parallax>
             {pathname !== '/login' && (
-              <motion.span
-                initial="begin"
-                animate="animate"
-                exit="exit"
-                variants={SlowFadeInOut}
-              >
+              <span>
                 <Header toggleTheme={toggleTheme} />
                 <Topics />
-              </motion.span>
+              </span>
             )}
 
             <Main login={pathname === '/login'}>
