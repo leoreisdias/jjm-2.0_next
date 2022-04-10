@@ -245,7 +245,7 @@ export const getStaticProps: GetStaticProps = async () => {
         topFourRecentNews,
         totalPages,
       },
-      revalidate: 60 * 15, // 15 Minutes
+      revalidate: 60 * 5, // 5 Minutes
     };
   } catch (err) {
     return {
