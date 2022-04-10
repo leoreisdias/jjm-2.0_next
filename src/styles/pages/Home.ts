@@ -123,7 +123,8 @@ export const CoffeePriceContainer = styled.div`
     border: 1px solid ${(props) => props.theme.colors.jjmPallete_1};
   }
 
-  & > table :is(td, th) {
+  & > table td,
+  & > table th {
     border-spacing: 0;
     width: 100%;
     color: ${(props) => props.theme.colors.title};
@@ -135,7 +136,8 @@ export const CoffeePriceContainer = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.colors.jjmPallete_1};
   }
 
-  & > table :is(td:first-child, td:nth-child(2)) {
+  & > table td:first-child,
+  & > table td:nth-child(2) {
     border-right: 1px solid ${(props) => props.theme.colors.jjmPallete_1};
   }
 
