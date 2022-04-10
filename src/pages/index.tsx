@@ -4,9 +4,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Pagination from '@material-ui/lab/Pagination';
 import { format, parseISO } from 'date-fns';
 import ptBr from 'date-fns/locale/pt-BR';
-import { GetServerSideProps, GetStaticProps, GetStaticPropsContext } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { setCookie } from 'nookies';
 import { FaSearch } from 'react-icons/fa';
 import PuffLoader from 'react-spinners/PuffLoader';
 

@@ -13,36 +13,46 @@ const vgmUrl =
   'https://www.noticiasagricolas.com.br/cotacoes/cafe/cafe-arabica-mercado-fisico-tipo-6-duro';
 
 export async function getCoffeePrice(): Promise<ICoffeePrice> {
-  const response = await axios(vgmUrl);
-  const $ = load(response.data);
+  try {
+    const response = await axios(vgmUrl);
+    const $ = load(response.data);
 
-  const latestClosingTable = $('.tables')
-    .first()
-    .find('tbody tr')
-    .first()
-    .find('td')
-    .contents()
-    .map(function () {
-      return this.type === 'text' ? $(this).text() + '#' : '';
-    })
-    .get()
-    .join('');
+    const latestClosingTable = $('.tables')
+      .first()
+      .find('tbody tr')
+      .first()
+      .find('td')
+      .contents()
+      .map(function () {
+        return this.type === 'text' ? $(this).text() + '#' : '';
+      })
+      .get()
+      .join('');
 
-  const latestClosingDate = $('.fechamento').first().text();
+    const latestClosingDate = $('.fechamento').first().text();
 
-  const latestClosingPrice = latestClosingTable.split('#');
+    const latestClosingPrice = latestClosingTable.split('#');
 
-  if (latestClosingPrice) {
-    const response = {
-      hasData: true,
-      closingDate: latestClosingDate,
-      city: latestClosingPrice[0],
-      value: `R$ ${latestClosingPrice[1]}`,
-      variation: `${latestClosingPrice[2]}%`,
-    };
+    if (latestClosingPrice) {
+      const response = {
+        hasData: true,
+        closingDate: latestClosingDate,
+        city: latestClosingPrice[0],
+        value: `R$ ${latestClosingPrice[1]}`,
+        variation: `${latestClosingPrice[2]}%`,
+      };
 
-    return response;
-  } else {
+      return response;
+    } else {
+      return {
+        hasData: false,
+        closingDate: '',
+        city: '',
+        value: '',
+        variation: '',
+      };
+    }
+  } catch (error) {
     return {
       hasData: false,
       closingDate: '',
