@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, memo } from 'react';
 import getDate from 'date-fns/getDate';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useTheme } from 'styled-components';
 
 import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
@@ -24,6 +25,7 @@ interface AdvertisementProps {
 
 const Advertisement = ({ reverse, showSmallPartners }: AdvertisementProps) => {
   const { isAuthenticated, username } = useAuth();
+  const { title } = useTheme();
 
   const [partners, setPartners] = useState<PartnersProps[]>();
 
@@ -75,7 +77,7 @@ const Advertisement = ({ reverse, showSmallPartners }: AdvertisementProps) => {
   }, [loadAdvertisments, loadLastTwoHighlights]);
 
   return (
-    <AdvertisementContainer reverse={reverse}>
+    <AdvertisementContainer reverse={reverse} isDarkMode={title === 'dark'}>
       {lastTwoHighlights && (
         <span>
           <BigAd highlight={lastTwoHighlights[0]} />

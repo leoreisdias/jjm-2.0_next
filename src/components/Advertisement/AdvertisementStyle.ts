@@ -2,7 +2,10 @@ import { DialogContent } from '@material-ui/core';
 import { lighten, shade } from 'polished';
 import styled from 'styled-components';
 
-export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
+export const AdvertisementContainer = styled.section<{
+  reverse: boolean;
+  isDarkMode: boolean;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,6 +20,8 @@ export const AdvertisementContainer = styled.section<{ reverse: boolean }>`
     padding-top: 1rem;
 
     li {
+      background: ${(props) =>
+        props.isDarkMode ? props.theme.colors.gray100 : props.theme.colors.gray50};
       cursor: pointer;
       transition: 0.5s;
       &:hover {
