@@ -119,7 +119,7 @@ export default function Reports({ reports, totalPages }: ReportsProps) {
           variants={SlowFadeInOut}
         >
           <h1>Notas de Falecimento</h1>
-          <h3>Funerária São Dimas</h3>
+          {/* <h3>Funerária São Dimas</h3> */}
           <List>
             {currentReportList &&
               currentReportList.map((item) => {

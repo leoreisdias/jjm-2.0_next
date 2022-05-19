@@ -165,9 +165,9 @@ export default function ReportDetail({ report, currentUrl }: CompleteReportProps
           <ReportContent>
             <p>{report.description}</p>
 
-            <div>
+            {/* <div>
               <h4>Informativo da Funerária São Dimas</h4>
-            </div>
+            </div> */}
             <ShareSocialMedia>
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`}
