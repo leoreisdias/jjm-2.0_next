@@ -26,11 +26,12 @@ import {
 } from '../styles/pages/Home';
 import { formatNews } from '../utils/formatNews';
 
-interface serverNewsProps {
+interface IServerNewsProps {
   _id: string;
   title: string;
   description: string;
   createdAt: string;
+  image: string[];
   imageURL: string;
   author: string;
   source: string;
@@ -103,7 +104,6 @@ export default function Home({
 
   async function handleEnter(event: React.KeyboardEvent<HTMLInputElement>) {
     const key = event.key;
-    console.log(key);
 
     if (key == 'Enter') {
       if (searchText !== '') {
@@ -129,8 +129,6 @@ export default function Home({
   useEffect(() => {
     searchText == '' && setCurrentNewsList(newsList);
   }, [newsList, searchText]);
-
-  console.log(coffeePriceData);
 
   return (
     <Wrapper>
@@ -164,7 +162,7 @@ export default function Home({
                 onKeyDown={handleEnter}
               />
             </label>
-            {coffeePriceData.hasData && (
+            {coffeePriceData?.hasData && (
               <CoffeePriceContainer>
                 <h3>Cotação do Café</h3>
                 <h4>{coffeePriceData.closingDate}</h4>
@@ -218,7 +216,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
     const totalPages = data.pages;
 
-    const newsList = data.docs.map((newsItem: serverNewsProps) => {
+    const newsList = data.docs.map((newsItem: IServerNewsProps) => {
       return {
         id: newsItem._id,
         title: newsItem.title,
@@ -226,7 +224,7 @@ export const getStaticProps: GetStaticProps = async () => {
         date: format(parseISO(newsItem.createdAt), 'd MMM yy', {
           locale: ptBr,
         }),
-        imageURL: newsItem.imageURL,
+        imageURL: !!newsItem.imageURL ? newsItem.imageURL : newsItem.image[0],
         author: newsItem.author,
         source: newsItem.source ?? '',
         summary: newsItem.summary,
