@@ -383,7 +383,7 @@ export const getStaticProps: GetStaticProps = async ({
       subjects: news.subjects,
       id: news._id,
       title: news.title,
-      description: news.description,
+      description: news.description ?? '',
       date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
         locale: ptBR,
       }),
