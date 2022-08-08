@@ -40,7 +40,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
   const [whatsapp_url, setWhatsappUrl] = useState<string>('');
   const [telefone, setTelefone] = useState<string>('');
   const [endereco, setEndereco] = useState<string>('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File>();
   const [paymentDay, setPaymentDay] = useState(0);
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
@@ -57,7 +57,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
         true
       );
       callAlert();
-      setImage('');
+      setImage(undefined);
     } else setImage(event.currentTarget.files[0]);
   };
 

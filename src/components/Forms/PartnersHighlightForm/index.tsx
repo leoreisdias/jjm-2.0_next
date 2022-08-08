@@ -39,7 +39,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
   const [title, setTitle] = useState<string>('');
   const [text, setText] = useState<string>('');
   const [summary, setSummary] = useState<string>('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File>();
   const [videoURL, setVideoURL] = useState('');
 
   const [currentImageUrl, setCurrentImageUrl] = useState('');
@@ -51,7 +51,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
         true
       );
       callAlert();
-      setImage('');
+      setImage(undefined);
     } else setImage(event.currentTarget.files[0]);
   };
 

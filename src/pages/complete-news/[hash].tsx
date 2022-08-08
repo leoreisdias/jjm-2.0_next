@@ -210,7 +210,7 @@ export default function CompleteNews({
           <NewsContent>
             <div
               dangerouslySetInnerHTML={{
-                __html: '<p>' + news.description.replaceAll('<p></p>', '') + '</p>',
+                __html: '<p>' + news.description?.replaceAll('<p></p>', '') + '</p>',
               }}
             ></div>
 

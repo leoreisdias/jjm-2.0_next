@@ -25,7 +25,7 @@ export const ReportsForm = ({ id }: ReportFormPros) => {
   const [title, setTitle] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File>();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (event: any) => {
@@ -35,7 +35,7 @@ export const ReportsForm = ({ id }: ReportFormPros) => {
         true
       );
       callAlert();
-      setImage('');
+      setImage(undefined);
     } else setImage(event.currentTarget.files[0]);
   };
 
