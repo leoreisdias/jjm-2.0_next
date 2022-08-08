@@ -38,7 +38,7 @@ export const Card = styled.div`
     transition: 0.5s;
 
     &:hover {
-      filter: contrast(1) brightness(0.2);
+      filter: contrast(1) brightness(0.8);
     }
   }
 

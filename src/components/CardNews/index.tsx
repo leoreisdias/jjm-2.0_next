@@ -31,8 +31,7 @@ const CardNews = ({ news }: CardNewsProps) => {
             <Image
               width={400}
               height={340}
-              placeholder="blur"
-              blurDataURL={news.imageURL}
+              placeholder="empty"
               objectFit="cover"
               src={news.imageURL}
               alt="Imagem da Noticia"
