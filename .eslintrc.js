@@ -37,6 +37,7 @@ module.exports = {
 				"react-hooks/exhaustive-deps": "warn",
         'prettier/prettier': ['warn', {}, { usePrettierrc: true }], // Includes .prettierrc.js rules
         '@typescript-eslint/no-unused-vars': ['warn'],
+        "no-extra-boolean-cast": "off",
 
         // This rule is not compatible with Next.js's <Link /> components
         'jsx-a11y/anchor-is-valid': 'off',
