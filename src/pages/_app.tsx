@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useMediaQuery } from '@material-ui/core';
 import { StylesProvider } from '@material-ui/core/styles';
 import { motion } from 'framer-motion';
-import LogRocket from 'logrocket';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
@@ -23,7 +22,6 @@ import light from '../styles/themes/light';
 const Header = dynamic(() => import('../components/Header'));
 const Footer = dynamic(() => import('../components/Footer'));
 const Topics = dynamic(() => import('../components/Topics'));
-LogRocket.init('51tpun/myproject');
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { pathname } = useRouter();
