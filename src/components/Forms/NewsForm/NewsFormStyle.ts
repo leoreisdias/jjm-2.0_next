@@ -1,5 +1,5 @@
 import { lighten } from 'polished';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Form = styled.form`
   display: flex;
@@ -49,11 +49,43 @@ export const LabelTopics = styled.label`
   cursor: context-menu;
 `;
 
-export const LabelImageFile = styled.label<{ hasImage: boolean }>`
+export const ImagesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+export const PreviewImageFile = styled.label`
+  position: relative;
+
+  .delete-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(25%, -25%);
+    cursor: pointer;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      scale: 1.2;
+    }
+  }
+
+  img {
+    height: 100px;
+    width: 100px;
+  }
+`;
+
+export const LabelImageFile = styled.label`
   margin-bottom: 20px;
   border: 1px dashed #ddd;
   cursor: pointer;
-  height: 400px;
+  height: 100px;
+  width: 100px;
 
   display: flex;
   justify-content: center;
@@ -65,15 +97,6 @@ export const LabelImageFile = styled.label<{ hasImage: boolean }>`
   img {
     width: 50px;
   }
-
-  ${(props) =>
-    props.hasImage &&
-    css`
-      border: 0;
-      img {
-        display: none;
-      }
-    `}
 `;
 
 export const SubmitButton = styled.button`

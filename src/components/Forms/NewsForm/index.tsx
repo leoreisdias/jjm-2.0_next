@@ -1,16 +1,18 @@
-import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
 import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { MdDelete } from 'react-icons/md';
 import Select from 'react-select';
+import { v4 as uuid } from 'uuid';
 import * as Yup from 'yup';
 
+import { b64toBlob } from '../../../helpers/file';
 import { useAuth } from '../../../hooks/useAuth';
 import { api } from '../../../services/api';
 import {
@@ -18,7 +20,8 @@ import {
   LabelEditor,
   LabelImageFile,
   SubmitButton,
-  CurrentImageLabel,
+  PreviewImageFile,
+  ImagesContainer,
 } from './NewsFormStyle';
 
 const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
@@ -77,10 +80,17 @@ interface NewsFormProps {
   id?: string;
 }
 
+interface IFileProp {
+  key: string;
+  file: File | Blob;
+}
+
+const MAX_IMAGE_SIZE = 5000000; // 5MB
+
 export const NewsForm = ({ id }: NewsFormProps) => {
   const { handleLoading, handleAlertMessage, callAlert, username, token } = useAuth();
 
-  const isUpdating = id && id.length;
+  const isUpdating = !!id;
 
   const { push, back } = useRouter();
 
@@ -89,32 +99,49 @@ export const NewsForm = ({ id }: NewsFormProps) => {
   const [source, setSource] = useState<string>('');
   const [video, setVideo] = useState<string>('');
   const [subjects, setSubjects] = useState<SubjectsSelect[]>();
-  const [author, setAuthor] = useState<string>(
-    username && username != 'undefined' ? username : ''
-  );
+
+  const [author, setAuthor] = useState<string>(username ?? '');
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
-  const [image, setImage] = useState('');
-  const [currentImageUrl, setCurrentImageUrl] = useState('');
+  const [image, setImage] = useState<IFileProp[]>([]);
 
   function onEditorStateChange(editorState: EditorState) {
     setEditorState(editorState);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (event: any) => {
-    if (event.currentTarget.files[0].size >= 5000000) {
+  const handleChange = (event: { currentTarget: HTMLInputElement }) => {
+    const files = Array.from(event.currentTarget.files);
+
+    if (files.some((file: File) => file.size >= MAX_IMAGE_SIZE)) {
       handleAlertMessage(
-        'Imagem grande demais! Escolha uma de até no máximo 5 MB!',
+        'Uma das imagens é grande demais! Escolha uma de até no máximo 5 MB!',
         true
       );
       callAlert();
-      setImage('');
-    } else setImage(event.currentTarget.files[0]);
+    } else {
+      const newImages = files.map((file: File) => ({
+        key: uuid(),
+        file,
+      }));
+
+      setImage((oldImages) => [...oldImages, ...newImages]);
+    }
+  };
+
+  const handleRemoveImage = (key: string) => {
+    setImage((oldImages) => oldImages.filter((image) => image.key !== key));
   };
 
   const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : '';
+    if (image?.length > 0)
+      return image.map((item) => {
+        return {
+          key: item.key,
+          src: URL.createObjectURL(item.file),
+        };
+      });
+    return [];
   }, [image]);
 
   async function handleSubmit(event: FormEvent) {
@@ -142,7 +169,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
             'IsEmpty',
             'Você não colocou nenhuma palavra chave para a notícia!',
             (value) => {
-              return value.length != 0;
+              return value?.length != 0;
             }
           ),
         summary: Yup.string().required('Um resumo da notícia é necessário!'),
@@ -168,7 +195,6 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       }
       callAlert();
     }
-    //..
   }
 
   async function storeData() {
@@ -176,7 +202,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     const subjectsString = subjects.map((item) => item.value).join(', ');
 
     const data = new FormData();
-    data.append('image', image);
+    image.forEach((item) => data.append('image', item.file));
     data.append('title', title);
     data.append('description', description);
     data.append('date', String(new Date()));
@@ -211,7 +237,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     const subjectsString = subjects.map((item) => item.value).join(', ');
 
     const data = new FormData();
-    data.append('image', image);
+    image.forEach((item) => data.append('image', item.file));
     data.append('title', title);
     data.append('description', description);
     data.append('subjects', subjectsString);
@@ -244,53 +270,50 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     setSubjects(e);
   }
 
-  const getNewsById = useCallback(
-    async (id: string) => {
+  useEffect(() => {
+    const loadData = async () => {
       handleLoading(true);
-
       try {
-        const { data } = await api.get(`/detail?id=${id}`);
+        const { data } = await api.get(`/detail-update?id=${id}`);
 
         if (data.news) {
           setTitle(data.news.title);
           setSummary(data.news.summary);
           setSource(data.news.source);
           setVideo(data.news.video_url ?? '');
-          setCurrentImageUrl(data.news.imageURL);
-          setAuthor(
-            data.news.author != 'undefined'
-              ? data.news.author
-              : username && username != 'undefined'
-              ? username
-              : ''
-          );
+          setAuthor(data.news.author ?? username ?? '');
           const blocksFromHTML = convertFromHTML(data.news.description);
           const stateEditor = ContentState.createFromBlockArray(
             blocksFromHTML.contentBlocks,
             blocksFromHTML.entityMap
           );
           setEditorState(EditorState.createWithContent(stateEditor));
-
-          const topics = data.news.subjects.map((item) => {
+          const topics = data.news.subjects.map((item: string) => {
             return {
               value: item,
               label: item,
             };
           });
-
           setSubjects(topics);
+
+          const files: IFileProp[] = data.news.image.map((item: string) => {
+            const file = b64toBlob(item);
+            return {
+              key: uuid(),
+              file,
+            };
+          });
+
+          setImage(files);
         }
         handleLoading(false);
       } catch (err) {
         handleLoading(false);
       }
-    },
-    [handleLoading, username]
-  );
+    };
 
-  useEffect(() => {
-    if (isUpdating) getNewsById(id);
-  }, [getNewsById, id, isUpdating]);
+    if (isUpdating) loadData();
+  }, [handleLoading, id, isUpdating, username]);
 
   return (
     <NoSsr>
@@ -349,36 +372,23 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           onChange={(e) => setSource(e.target.value)}
           helperText="Se houver (OPCIONAL)"
         />
-        <LabelImageFile
-          // id={styles.image}
-          style={{
-            backgroundImage: `url(${preview})`,
-            backgroundSize: '100% 100%',
-            backgroundRepeat: 'no-repeat',
-          }}
-          // className={image ? styles.hasImage : styles.noImage}
-          hasImage={!!image}
-        >
-          <input type="file" onChange={handleChange} />
-          <img src="/camera.svg" alt="Select" />
-        </LabelImageFile>
-
-        <CurrentImageLabel>
-          {isUpdating && currentImageUrl.length && (
-            <>
-              <strong>Imagem Atual do Destaque</strong>
-              <Image
-                width={200}
-                height={200}
-                placeholder="blur"
-                blurDataURL={currentImageUrl}
-                objectFit="contain"
-                src={currentImageUrl}
-                alt="Imagem da Noticia"
+        <ImagesContainer>
+          {preview.map((item) => (
+            <PreviewImageFile key={item.key}>
+              <img src={item.src} alt="preview" />
+              <MdDelete
+                color="red"
+                size={25}
+                className="delete-icon"
+                onClick={() => handleRemoveImage(item.key)}
               />
-            </>
-          )}
-        </CurrentImageLabel>
+            </PreviewImageFile>
+          ))}
+          <LabelImageFile>
+            <input type="file" onChange={handleChange} accept="image/*" multiple />
+            <img src="/camera.svg" alt="Select" />
+          </LabelImageFile>
+        </ImagesContainer>
         <TextField
           error={false}
           variant="outlined"
