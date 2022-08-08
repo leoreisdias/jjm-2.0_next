@@ -34,6 +34,7 @@ import {
   OfferedBy,
   LoadingRelatedNews,
   Video,
+  OtherImages,
 } from '../../styles/pages/CompleteNews';
 import { formOptions } from '../../types/formOptions';
 import { PartnersProps } from '../../types/interfaces/Partners';
@@ -45,7 +46,7 @@ interface NewsProps {
   description: string;
   date: string;
   createdAt: string;
-  image: string;
+  image: string[];
   imageURL: string;
   author: string;
   source: string;
@@ -60,6 +61,7 @@ interface NewsPropsFromServer {
   description: string;
   date: string;
   mainImage: string;
+  otherImages: string[];
   author: string;
   source: string;
   summary: string;
@@ -91,9 +93,6 @@ export default function CompleteNews({
   const { replace } = useRouter();
 
   const { data: randomPartner } = useJJM<RandomPartners>('/getrandompartner');
-  // const { data: newsFromServer } = useJJM<NewsPropsFromServer>(
-  //   query.hash ? `/detail?id=${query.hash}` : null
-  // );
 
   const matches = useMediaQuery('(max-width:720px)');
 
@@ -105,10 +104,6 @@ export default function CompleteNews({
   const { isAuthenticated } = useAuth();
 
   const [openDeleteModel, setOpenDeleteModal] = useState(false);
-  // const [currentUrl, setCurrentUrl] = useState('');
-
-  // const [news, setNews] = useState<NewsPropsFormatted>();
-  // const [formatedRelatedNews, setFormatedRelatedNews] = useState<RelatedNewsProps[]>();
 
   function handleDeleteModal() {
     setOpenDeleteModal((oldModalOpen) => !oldModalOpen);
@@ -157,60 +152,6 @@ export default function CompleteNews({
     );
   }, [deleteNewsById, isDeleting]);
 
-  // const searchRelatedNews = useCallback(async (subjects: string[]) => {
-  //   const relatedNews = await api.get('/searchrelated', {
-  //     params: {
-  //       subjects: subjects.join(', '),
-  //     },
-  //   });
-  //   const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
-  //   const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
-  //     return {
-  //       id: news._id,
-  //       title: news.title,
-  //       mainImage: news.imageURL,
-  //       source: news.source ? news.source.toLowerCase() : '',
-  //       url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
-  //     };
-  //   });
-  //   setFormatedRelatedNews(formatedRelatedNews);
-  // }, []);
-
-  // const formatNews = useCallback(() => {
-  //   if (newsFromServer?.news) {
-  //     const formattedNews = {
-  //       subjects: newsFromServer.news.subjects,
-  //       id: newsFromServer.news._id,
-  //       title: newsFromServer.news.title,
-  //       description: newsFromServer.news.description.split('##').join('\n'),
-  //       date: format(parseISO(newsFromServer.news.createdAt), 'dd/MM/yyyy', {
-  //         locale: ptBR,
-  //       }),
-  //       mainImage: newsFromServer.news.imageURL,
-  //       author: newsFromServer.news.author
-  //         ? newsFromServer.news.author.toLowerCase()
-  //         : 'JJM',
-  //       source: newsFromServer.news.source
-  //         ? newsFromServer.news.source.toUpperCase()
-  //         : '',
-  //       summary: newsFromServer.news.summary,
-  //       video_url: newsFromServer.news.video_url ?? '',
-  //     };
-
-  //     setNews(formattedNews);
-  //     setCurrentUrl(`https://www.jornaljm.com.br/complete-news/${formattedNews.id}`);
-  //   }
-  // }, [newsFromServer]);
-
-  // useEffect(() => {
-  //   newsFromServer?.news && formatNews();
-  //   newsFromServer?.news && searchRelatedNews(newsFromServer?.news.subjects);
-  // }, [formatNews, newsFromServer, searchRelatedNews]);
-
-  // if (!news) {
-  //   return <WhiteBackdrop />;
-  // }
-
   return (
     <Wrapper>
       <Head>
@@ -230,8 +171,7 @@ export default function CompleteNews({
             height={600}
             src={news.mainImage}
             objectFit="contain"
-            placeholder="blur"
-            blurDataURL={news.mainImage}
+            placeholder="empty"
             alt="Foto da Notícia"
           />
           <NewsTitle>{news.title}</NewsTitle>
@@ -269,8 +209,29 @@ export default function CompleteNews({
           </SmallDetails>
           <NewsContent>
             <div
-              dangerouslySetInnerHTML={{ __html: '<p>' + news.description + '</p>' }}
+              dangerouslySetInnerHTML={{
+                __html: '<p>' + news.description.replaceAll('<p></p>', '') + '</p>',
+              }}
             ></div>
+
+            {news.otherImages.length > 0 && (
+              <OtherImages>
+                <h5>Outras imagens</h5>
+                <div className="image-container">
+                  {news.otherImages.map((image) => (
+                    <Image
+                      key={image}
+                      width={250}
+                      height={250}
+                      src={image}
+                      objectFit="contain"
+                      placeholder="empty"
+                      alt="Foto da Notícia"
+                    />
+                  ))}
+                </div>
+              </OtherImages>
+            )}
 
             {news.video_url && (
               <Video>
@@ -341,8 +302,7 @@ export default function CompleteNews({
                             width={250}
                             height={150}
                             src={news.mainImage}
-                            placeholder="blur"
-                            blurDataURL={news.mainImage}
+                            placeholder="empty"
                             alt="Noticias Relacionadas"
                           />
 
@@ -427,7 +387,8 @@ export const getStaticProps: GetStaticProps = async ({
       date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
         locale: ptBR,
       }),
-      mainImage: news.imageURL,
+      mainImage: news.imageURL ? news.imageURL : news.image[0],
+      otherImages: news.image.slice(1),
       author: news.author ? news.author.toLowerCase() : 'JJM',
       source: news.source ? news.source.toUpperCase() : '',
       summary: news.summary,
@@ -437,6 +398,7 @@ export const getStaticProps: GetStaticProps = async ({
     const relatedNews = await api.get('/searchrelated', {
       params: {
         subjects: formatNews.subjects.join(', '),
+        id: news._id,
       },
     });
     const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
@@ -445,7 +407,7 @@ export const getStaticProps: GetStaticProps = async ({
       return {
         id: news._id,
         title: news.title,
-        mainImage: news.imageURL,
+        mainImage: news.imageURL ? news.imageURL : news.image[0],
         source: news.source ? news.source.toLowerCase() : '',
         url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
       };
