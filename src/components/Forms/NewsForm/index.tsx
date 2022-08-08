@@ -149,7 +149,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
     const data = {
       title,
-      image: isUpdating ? 'Updating' : image,
+      image: isUpdating ? 'Updating' : image.map((item) => item.key),
       description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
       summary,
       subjects: subjects ? subjects.map((item) => item.value) : [],
@@ -161,7 +161,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     try {
       const schema = Yup.object().shape({
         title: Yup.string().required('Faltando Título da Matéria'),
-        image: Yup.string().required('Faltando uma imagem!'),
+        image: Yup.array().required('Faltando Imagem'),
         description: Yup.string().required('Faltando a descrição da notícia!'),
         subjects: Yup.array(Yup.string())
           .required('Palavras Chaves da notícia são obrigatórios!')
