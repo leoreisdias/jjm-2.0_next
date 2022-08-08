@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
@@ -25,11 +25,7 @@ interface WriterAreaServerProps {
 export default function WriterArea({ id, isUpdating, update }: WriterAreaServerProps) {
   const { username } = useAuth();
 
-  const [formType, setFormType] = useState<FormType | string>('');
-  const [idNews, setIdNews] = useState('');
-  const [idPartners, setIdPartners] = useState('');
-  const [idPartnersHighlight, setIdPartnersHighlight] = useState('');
-  const [idReport, setIdReport] = useState('');
+  const [formType, setFormType] = useState<FormType | string>(update);
 
   const options = [
     { value: '', label: 'Escolher Opção' },
@@ -38,22 +34,6 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
     { value: formOptions.partners, label: 'Cadastrar Novo Patrocínio' },
     { value: formOptions.partnersHighlight, label: 'Cadastrar Destaque de Patrocínio' },
   ];
-
-  useEffect(() => {
-    if (isUpdating) {
-      setFormType(update);
-      if (update == 'news') setIdNews(id);
-      if (update == 'partners') setIdPartners(id);
-      if (update == 'partnersHighlight') setIdPartnersHighlight(id);
-      if (update == 'deathReport') setIdReport(id);
-    } else {
-      setFormType('');
-      setIdNews(null);
-      setIdPartners(null);
-      setIdPartnersHighlight(null);
-      setIdReport(null);
-    }
-  }, [id, isUpdating, update]);
 
   return (
     <NoSsr>
@@ -74,12 +54,10 @@ export default function WriterArea({ id, isUpdating, update }: WriterAreaServerP
             onChange={(e) => setFormType(e.value)}
           />
         )}
-        {formType == formOptions.news && <NewsForm id={idNews} />}
-        {formType == formOptions.deathReport && <ReportsForm id={idReport} />}
-        {formType == formOptions.partners && <PartnersForm id={idPartners} />}
-        {formType == formOptions.partnersHighlight && (
-          <PartnersHightlightForm id={idPartnersHighlight} />
-        )}
+        {formType == formOptions.news && <NewsForm id={id} />}
+        {formType == formOptions.deathReport && <ReportsForm id={id} />}
+        {formType == formOptions.partners && <PartnersForm id={id} />}
+        {formType == formOptions.partnersHighlight && <PartnersHightlightForm id={id} />}
       </WriterSection>
     </NoSsr>
   );
