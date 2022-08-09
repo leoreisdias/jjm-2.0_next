@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
@@ -82,7 +82,8 @@ interface NewsFormProps {
 
 interface IFileProp {
   key: string;
-  file: File | Blob;
+  isImageURL?: boolean;
+  file: File | Blob | string;
 }
 
 const MAX_IMAGE_SIZE = 5000000; // 5MB
@@ -104,6 +105,8 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
   const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
   const [image, setImage] = useState<IFileProp[]>([]);
+
+  const imageDeleteHash = useRef<string>('');
 
   function onEditorStateChange(editorState: EditorState) {
     setEditorState(editorState);
@@ -136,6 +139,13 @@ export const NewsForm = ({ id }: NewsFormProps) => {
   const preview = useMemo(() => {
     if (image?.length > 0)
       return image.map((item) => {
+        if (typeof item.file === 'string' || item.isImageURL) {
+          return {
+            src: item.file as string,
+            key: item.key,
+          };
+        }
+
         return {
           key: item.key,
           src: URL.createObjectURL(item.file),
@@ -149,7 +159,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
     const data = {
       title,
-      image: isUpdating ? 'Updating' : image.map((item) => item.key),
+      image: image.map((item) => item.key),
       description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
       summary,
       subjects: subjects ? subjects.map((item) => item.value) : [],
@@ -180,12 +190,12 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       await schema.validate(data, {
         abortEarly: false,
       });
+
       handleLoading(true);
 
       if (isUpdating) updateData();
       else storeData();
     } catch (err) {
-      //..
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
         err.inner.forEach((error) => {
@@ -217,6 +227,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
         headers: {
           authorization: 'Bearer ' + token,
         },
+        timeout: 10000,
       });
       handleAlertMessage('Notícia Postada com Sucesso', false);
       callAlert();
@@ -236,9 +247,12 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     const description = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     const subjectsString = subjects.map((item) => item.value).join(', ');
 
+    const hasImageURL = image.some((item) => item.isImageURL);
+
     const data = new FormData();
-    image.forEach((item) => data.append('image', item.file));
+    image.forEach((item) => !item.isImageURL && data.append('image', item.file));
     data.append('title', title);
+    data.append('imageDeleteHash', hasImageURL ? '' : imageDeleteHash.current);
     data.append('description', description);
     data.append('subjects', subjectsString);
     data.append('summary', summary);
@@ -251,6 +265,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
         headers: {
           authorization: 'Bearer ' + token,
         },
+        timeout: 10000,
       });
       handleAlertMessage('Notícia Atualizada com Sucesso', false);
       callAlert();
@@ -296,6 +311,8 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           });
           setSubjects(topics);
 
+          imageDeleteHash.current = data.news.imageDeleteHash;
+
           const files: IFileProp[] = data.news.image.map((item: string) => {
             const file = b64toBlob(item);
             return {
@@ -304,7 +321,14 @@ export const NewsForm = ({ id }: NewsFormProps) => {
             };
           });
 
-          setImage(files);
+          setImage([
+            {
+              key: uuid(),
+              isImageURL: true,
+              file: data.news.imageURL,
+            },
+            ...files,
+          ]);
         }
         handleLoading(false);
       } catch (err) {

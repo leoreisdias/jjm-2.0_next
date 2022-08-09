@@ -387,8 +387,8 @@ export const getStaticProps: GetStaticProps = async ({
       date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
         locale: ptBR,
       }),
-      mainImage: news.imageURL ? news.imageURL : news.image[0],
-      otherImages: news.image.slice(1),
+      mainImage: news.imageURL ?? news.image[0],
+      otherImages: news.image,
       author: news.author ? news.author.toLowerCase() : 'JJM',
       source: news.source ? news.source.toUpperCase() : '',
       summary: news.summary,
@@ -407,7 +407,7 @@ export const getStaticProps: GetStaticProps = async ({
       return {
         id: news._id,
         title: news.title,
-        mainImage: news.imageURL ? news.imageURL : news.image[0],
+        mainImage: news.imageURL ?? news.image[0],
         source: news.source ? news.source.toLowerCase() : '',
         url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
       };

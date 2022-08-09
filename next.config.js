@@ -12,7 +12,7 @@ module.exports = {
 		]
 	},
   images: {
-    domains: ['jjm-upload.s3.amazonaws.com','assets.hgbrasil.com','jornaljm.s3.sa-east-1.amazonaws.com']
+    domains: ['jjm-upload.s3.amazonaws.com','assets.hgbrasil.com','jornaljm.s3.sa-east-1.amazonaws.com', 'i.imgur.com']
   },
   env: {
     BACKEND_API: process.env.APP_BACKEND,
@@ -34,7 +34,7 @@ module.exports = withPWA({
 		]
 	},
   images: {
-    domains: ['jjm-upload.s3.amazonaws.com','assets.hgbrasil.com','jornaljm.s3.sa-east-1.amazonaws.com']
+    domains: ['jjm-upload.s3.amazonaws.com','assets.hgbrasil.com','jornaljm.s3.sa-east-1.amazonaws.com','i.imgur.com']
   },
   env: {
     BACKEND_API: process.env.APP_BACKEND,
