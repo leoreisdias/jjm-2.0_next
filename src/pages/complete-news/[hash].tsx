@@ -387,7 +387,7 @@ export const getStaticProps: GetStaticProps = async ({
       date: format(parseISO(news.createdAt), 'dd/MM/yyyy', {
         locale: ptBR,
       }),
-      mainImage: news.imageURL ?? news.image[0],
+      mainImage: !!news.imageURL ? news.imageURL : news.image[0],
       otherImages: news.image,
       author: news.author ? news.author.toLowerCase() : 'JJM',
       source: news.source ? news.source.toUpperCase() : '',

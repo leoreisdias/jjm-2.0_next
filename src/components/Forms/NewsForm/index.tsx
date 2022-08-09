@@ -274,7 +274,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     } catch (err) {
       handleLoading(false);
       handleAlertMessage(
-        'Erro ao tentar cadastrar! Tente novamente daqui 5 minutos!',
+        'Erro ao tentar cadastrar! Verifique o formato da imagem, tente enviar um print dela ou troque.',
         true
       );
       callAlert();
@@ -409,7 +409,12 @@ export const NewsForm = ({ id }: NewsFormProps) => {
             </PreviewImageFile>
           ))}
           <LabelImageFile>
-            <input type="file" onChange={handleChange} accept="image/*" multiple />
+            <input
+              type="file"
+              onChange={handleChange}
+              accept="image/png, image/jpeg"
+              multiple
+            />
             <img src="/camera.svg" alt="Select" />
           </LabelImageFile>
         </ImagesContainer>
