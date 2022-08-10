@@ -103,16 +103,22 @@ export const SmallDetails = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    /* gap: 0.25rem; */
 
     text-align: right;
 
-    .icon {
-      cursor: pointer;
-      transition: 0.2s;
+    span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
 
-      &:hover {
-        scale: 1.1;
+      .icon {
+        cursor: pointer;
+        transition: 0.2s;
+
+        &:hover {
+          scale: 1.1;
+        }
       }
     }
   }
