@@ -2,11 +2,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
-import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { MdDelete } from 'react-icons/md';
 import Select from 'react-select';
 import { v4 as uuid } from 'uuid';
@@ -15,6 +11,10 @@ import * as Yup from 'yup';
 import { b64toBlob } from '../../../helpers/file';
 import { useAuth } from '../../../hooks/useAuth';
 import { api } from '../../../services/api';
+import CustomEditor from '../../Editor';
+import { options } from './constants/subjects';
+import { MAX_IMAGE_SIZE } from './constants/upload';
+import { uploadImageAWS } from './functions/upload';
 import {
   Form,
   LabelEditor,
@@ -23,70 +23,7 @@ import {
   PreviewImageFile,
   ImagesContainer,
 } from './NewsFormStyle';
-
-const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
-  ssr: false,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}) as any;
-
-interface SubjectsSelect {
-  value: string;
-  label: string;
-}
-
-const options = [
-  { value: 'covid', label: 'covid' },
-  { value: 'governo', label: 'governo' },
-  { value: 'mundo', label: 'mundo' },
-  { value: 'pop', label: 'pop' },
-  { value: 'bts', label: 'bts' },
-  { value: 'muzambinho', label: 'muzambinho' },
-  { value: 'minas gerais', label: 'minas gerais' },
-  { value: 'brasil', label: 'brasil' },
-  { value: 'copa do mundo', label: 'copa do mundo' },
-  { value: 'saude', label: 'saude' },
-  { value: 'esporte', label: 'esporte' },
-  { value: 'lazer', label: 'lazer' },
-  { value: 'jogos', label: 'jogos' },
-  { value: 'animes', label: 'animes' },
-  { value: 'filmes', label: 'filmes' },
-  { value: 'series', label: 'series' },
-  { value: 'livros', label: 'livros' },
-  { value: 'acidente', label: 'acidente' },
-  { value: 'policia', label: 'policia' },
-  { value: 'assalto', label: 'assalto' },
-  { value: 'politica', label: 'politica' },
-  { value: 'eleição', label: 'eleição' },
-  { value: 'economia', label: 'economia' },
-  { value: 'finança', label: 'finança' },
-  { value: 'zona rural', label: 'zona rural' },
-  { value: 'projeto', label: 'projeto' },
-  { value: 'televisão', label: 'televisão' },
-  { value: 'musica', label: 'musica' },
-  { value: 'estrada', label: 'estrada' },
-  { value: 'protesto', label: 'protesto' },
-  { value: 'ATO', label: 'ATO' },
-  { value: 'povo', label: 'povo' },
-  { value: 'LOTERICA SUA CASA', label: 'LOTERICA SUA CASA' },
-  { value: 'LOTERICA', label: 'LOTERICA' },
-  { value: 'APOSTAS', label: 'APOSTAS' },
-  { value: 'MEGA SENA', label: 'MEGA SENA' },
-  { value: 'LOTO FACIL', label: 'LOTO FACIL' },
-  { value: 'DUPLA SENA', label: 'DUPLA SENA' },
-  { value: 'QUINA', label: 'QUINA' },
-];
-
-interface NewsFormProps {
-  id?: string;
-}
-
-interface IFileProp {
-  key: string;
-  isImageURL?: boolean;
-  file: File | Blob | string;
-}
-
-const MAX_IMAGE_SIZE = 5000000; // 5MB
+import { IFileProp, NewsFormProps, SubjectsSelect } from './types/newsForm';
 
 export const NewsForm = ({ id }: NewsFormProps) => {
   const { handleLoading, handleAlertMessage, callAlert, username, token } = useAuth();
@@ -103,17 +40,16 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
   const [author, setAuthor] = useState<string>(username ?? '');
 
-  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState<string>('');
   const [image, setImage] = useState<IFileProp[]>([]);
 
   const imageDeleteHash = useRef<string>('');
 
-  function onEditorStateChange(editorState: EditorState) {
+  function onEditorStateChange(editorState: string) {
     setEditorState(editorState);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (event: { currentTarget: HTMLInputElement }) => {
+  const handleImageChange = (event: { currentTarget: HTMLInputElement }) => {
     const files = Array.from(event.currentTarget.files);
 
     if (files.some((file: File) => file.size >= MAX_IMAGE_SIZE)) {
@@ -160,7 +96,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     const data = {
       title,
       image: image.map((item) => item.key),
-      description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+      description: editorState,
       summary,
       subjects: subjects ? subjects.map((item) => item.value) : [],
       source,
@@ -196,6 +132,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       if (isUpdating) updateData();
       else storeData();
     } catch (err) {
+      handleLoading(false);
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
         err.inner.forEach((error) => {
@@ -207,22 +144,41 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     }
   }
 
-  async function storeData() {
-    const description = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-    const subjectsString = subjects.map((item) => item.value).join(', ');
-
-    const data = new FormData();
-    image.forEach((item) => data.append('image', item.file));
-    data.append('title', title);
-    data.append('description', description);
-    data.append('date', String(new Date()));
-    data.append('subjects', subjectsString);
-    data.append('summary', summary);
-    data.append('video_url', video);
-    data.append('author', author);
-    data.append('source', source ?? 'JJM');
-
+  const tryToUploadImage = async (imageToUploadAWS: File | Blob | string) => {
     try {
+      const uploadedImage = await uploadImageAWS(imageToUploadAWS, token);
+
+      return uploadedImage;
+    } catch (err) {
+      handleAlertMessage(
+        'Erro ao fazer Upload da PRIMEIRA imagem, verifique o tamanho e formato.',
+        true
+      );
+      callAlert();
+      throw err;
+    }
+  };
+
+  async function storeData() {
+    try {
+      const subjectsString = subjects.map((item) => item.value).join(', ');
+
+      const imageToUploadAWS = image[0].file;
+      const uploadedImage = await tryToUploadImage(imageToUploadAWS);
+
+      const data = new FormData();
+      image.forEach((item, index) => index !== 0 && data.append('image', item.file));
+      data.append('title', title);
+      data.append('awsLink', uploadedImage.link);
+      data.append('awsKey', uploadedImage.key);
+      data.append('description', editorState);
+      data.append('date', String(new Date()));
+      data.append('subjects', subjectsString);
+      data.append('summary', summary);
+      data.append('video_url', video);
+      data.append('author', author);
+      data.append('source', source ?? 'JJM');
+
       await api.post('/news', data, {
         headers: {
           authorization: 'Bearer ' + token,
@@ -234,26 +190,30 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       push('/');
       handleLoading(false);
     } catch (err) {
-      handleLoading(false);
-      handleAlertMessage(
-        'Erro ao tentar cadastrar! Verifique o formato da imagem, tente enviar um print dela ou troque.',
-        true
-      );
+      handleAlertMessage('Erro ao tentar cadastrar!', true);
       callAlert();
     }
   }
 
   async function updateData() {
-    const description = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     const subjectsString = subjects.map((item) => item.value).join(', ');
 
     const hasImageURL = image.some((item) => item.isImageURL);
 
     const data = new FormData();
+
+    if (!hasImageURL) {
+      const imageToUploadAWS = image[0].file;
+      const uploadedImage = await tryToUploadImage(imageToUploadAWS);
+
+      data.append('awsLink', uploadedImage.link);
+      data.append('awsKey', uploadedImage.key);
+      data.append('imageDeleteHash', imageDeleteHash.current);
+    }
+
     image.forEach((item) => !item.isImageURL && data.append('image', item.file));
     data.append('title', title);
-    data.append('imageDeleteHash', hasImageURL ? '' : imageDeleteHash.current);
-    data.append('description', description);
+    data.append('description', editorState);
     data.append('subjects', subjectsString);
     data.append('summary', summary);
     data.append('video_url', video);
@@ -272,11 +232,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       back();
       handleLoading(false);
     } catch (err) {
-      handleLoading(false);
-      handleAlertMessage(
-        'Erro ao tentar atualizar! Verifique o formato da imagem, tente enviar um print dela ou troque.',
-        true
-      );
+      handleAlertMessage('Erro ao tentar atualizar!', true);
       callAlert();
     }
   }
@@ -297,12 +253,9 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           setSource(data.news.source);
           setVideo(data.news.video_url ?? '');
           setAuthor(data.news.author ?? username ?? '');
-          const blocksFromHTML = convertFromHTML(data.news.description);
-          const stateEditor = ContentState.createFromBlockArray(
-            blocksFromHTML.contentBlocks,
-            blocksFromHTML.entityMap
-          );
-          setEditorState(EditorState.createWithContent(stateEditor));
+
+          setEditorState(data.news.description);
+
           const topics = data.news.subjects.map((item: string) => {
             return {
               value: item,
@@ -377,13 +330,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
         <LabelEditor htmlFor="Editor">
           <strong>Descrição da Matéria</strong>
-          <Editor
-            editorState={editorState}
-            toolbarClassName="toolbarClassName"
-            wrapperClassName="wrapperClassName"
-            editorClassName="editorClassName"
-            onEditorStateChange={onEditorStateChange}
-          />
+          <CustomEditor onChange={onEditorStateChange} text={editorState} />
         </LabelEditor>
 
         <TextField
@@ -411,8 +358,8 @@ export const NewsForm = ({ id }: NewsFormProps) => {
           <LabelImageFile>
             <input
               type="file"
-              onChange={handleChange}
-              accept="image/png, image/jpeg"
+              onChange={handleImageChange}
+              accept="image/png, image/jpeg, image/jpg, image/webp"
               multiple
             />
             <img src="/camera.svg" alt="Select" />
