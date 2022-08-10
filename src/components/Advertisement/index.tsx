@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, memo } from 'react';
 import getDate from 'date-fns/getDate';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useTheme } from 'styled-components';
 
 import { useAuth } from '../../hooks/useAuth';
@@ -26,10 +27,11 @@ interface AdvertisementProps {
 const Advertisement = ({ reverse, showSmallPartners }: AdvertisementProps) => {
   const { isAuthenticated, username } = useAuth();
   const { title } = useTheme();
+  const routes = useRouter();
 
   const [partners, setPartners] = useState<PartnersProps[]>();
 
-  const [dueDatePartners, setDueDatePartners] = useState<PartnersProps[]>();
+  const [dueDatePartners, setDueDatePartners] = useState<PartnersProps[]>([]);
 
   const [hasPartnersExpired, setHasPartnersExpired] = useState(false);
 
@@ -44,17 +46,17 @@ const Advertisement = ({ reverse, showSmallPartners }: AdvertisementProps) => {
       const { data } = await api.get('/partners');
       setPartners(data);
 
-      if (isAuthenticated) {
+      if (isAuthenticated && routes.asPath === '/') {
         const dueDate = data.filter(
           (item: PartnersProps) => item.paymentDay == getDate(new Date())
         );
         setDueDatePartners(dueDate);
-        if (dueDate.length) setHasPartnersExpired(true);
+        if (dueDate.length > 0) setHasPartnersExpired(true);
       }
     } catch (err) {
       //..
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, routes.asPath]);
 
   const loadLastTwoHighlights = useCallback(async () => {
     try {
