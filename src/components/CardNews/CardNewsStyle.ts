@@ -56,7 +56,6 @@ export const Card = styled.div`
     margin-top: 1rem;
     text-align: center;
 
-    text-transform: lowercase;
     transition: 0.5s;
 
     color: ${(props) => shade(0.5, props.theme.colors.jjmPallete_1)};
