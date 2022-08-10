@@ -70,7 +70,7 @@ interface NewsPropsFromServer {
 
 interface CompleteNewsProps {
   news: NewsPropsFromServer;
-  formatedRelatedNews: RelatedNewsProps[];
+  formattedRelatedNews: RelatedNewsProps[];
   currentUrl: string;
 }
 
@@ -88,7 +88,7 @@ interface RandomPartners {
 export default function CompleteNews({
   news,
   currentUrl,
-  formatedRelatedNews,
+  formattedRelatedNews: formatedRelatedNews,
 }: CompleteNewsProps) {
   const { replace } = useRouter();
 
@@ -193,11 +193,11 @@ export default function CompleteNews({
                       as={'writer-area'}
                     >
                       <span>
-                        <FaEdit size={17} color={colors.jjmPallete_1} className="icon" />
+                        <FaEdit size={20} color={colors.jjmPallete_1} className="icon" />
                       </span>
                     </Link>
                     <MdDelete
-                      size={17}
+                      size={20}
                       color={'red'}
                       className="icon"
                       onClick={handleDeleteModal}
