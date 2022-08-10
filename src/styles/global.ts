@@ -60,4 +60,7 @@ a {
   background: ${(props) => props.theme.colors.blue};
 }
 
+.public-DraftEditor-content {
+  min-height: 500px;
+}
 `;
