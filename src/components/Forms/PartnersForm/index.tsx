@@ -2,15 +2,12 @@ import { FormEvent, useEffect, useMemo, useState, useCallback } from 'react';
 
 import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
-import { EditorState, convertToRaw, convertFromHTML, ContentState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import * as Yup from 'yup';
 
 import { useAuth } from '../../../hooks/useAuth';
 import { api } from '../../../services/api';
+import CustomEditor from '../../Editor';
 import {
   Form,
   LabelImageFile,
@@ -18,11 +15,6 @@ import {
   SubmitButton,
   WarningBorders,
 } from './PartnersFormStyle';
-
-const Editor = dynamic(() => import('react-draft-wysiwyg').then((mod) => mod.Editor), {
-  ssr: false,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-}) as any;
 
 interface PartnersFormPros {
   id?: string;
@@ -43,9 +35,9 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
   const [image, setImage] = useState<File>();
   const [paymentDay, setPaymentDay] = useState(0);
 
-  const [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState<string>();
 
-  function onEditorStateChange(editorState: EditorState) {
+  function onEditorStateChange(editorState: string) {
     setEditorState(editorState);
   }
 
@@ -69,7 +61,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
     event.preventDefault();
 
     const data = {
-      text: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+      text: editorState,
       name,
       image: isUpdating ? 'Updating' : image,
       facebook_url,
@@ -110,11 +102,9 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
   }
 
   async function storeData() {
-    const text = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-
     const data = new FormData();
     data.append('image', image);
-    data.append('text', text);
+    data.append('text', editorState);
     data.append('name', name);
     data.append('facebook_url', facebook_url);
     data.append(
@@ -145,10 +135,8 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
   }
 
   async function updateData() {
-    const text = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-
     const data = {
-      text,
+      text: editorState,
       name,
       facebook_url,
       whatsapp_url: whatsapp_url.replaceAll(/[^\d]/g, '').replaceAll(' ', ''),
@@ -191,12 +179,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           setWhatsappUrl(data.partner.whatsapp_url);
           setTelefone(data.partner.telefone);
           setEndereco(data.partner.endereco);
-          const blocksFromHTML = convertFromHTML(data.partner.text);
-          const stateEditor = ContentState.createFromBlockArray(
-            blocksFromHTML.contentBlocks,
-            blocksFromHTML.entityMap
-          );
-          setEditorState(EditorState.createWithContent(stateEditor));
+          setEditorState(data.partner.text);
         }
         handleLoading(false);
       } catch (err) {
@@ -283,13 +266,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
 
         <LabelEditor htmlFor="Editor">
           <strong>Texto do Parceiro</strong>
-          <Editor
-            editorState={editorState}
-            toolbarClassName="toolbarClassName"
-            wrapperClassName="wrapperClassName"
-            editorClassName="editorClassName"
-            onEditorStateChange={onEditorStateChange}
-          />
+          <CustomEditor onChange={onEditorStateChange} text={editorState} />
         </LabelEditor>
         <WarningBorders>
           Certifique-se do texto estar dentro das bordas pretas abaixo!
@@ -298,7 +275,7 @@ export const PartnersForm = ({ id }: PartnersFormPros) => {
           <summary>Veja como será exibido o seu texto:</summary>
           <p
             dangerouslySetInnerHTML={{
-              __html: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+              __html: editorState,
             }}
           />
         </details>

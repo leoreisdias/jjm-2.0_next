@@ -30,7 +30,6 @@ export const Form = styled.form`
 `;
 
 export const LabelEditor = styled.label`
-  border: 1px solid ${(props) => props.theme.colors.gray200};
   border-radius: 5px;
 
   min-height: 500px;

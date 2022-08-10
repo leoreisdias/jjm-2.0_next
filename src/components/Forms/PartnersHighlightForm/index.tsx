@@ -44,7 +44,7 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
 
   const [currentImageUrl, setCurrentImageUrl] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (event: any) => {
+  const handleImageChange = (event: any) => {
     if (event.currentTarget.files[0].size >= 5000000) {
       handleAlertMessage(
         'Imagem grande demais! Escolha uma de até no máximo 5 MB!',
@@ -88,7 +88,6 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       if (isUpdating) updateData();
       else storeData();
     } catch (err) {
-      //..
       const validationErrors = {};
       if (err instanceof Yup.ValidationError) {
         err.inner.forEach((error) => {
@@ -98,7 +97,6 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
       }
       callAlert();
     }
-    //..
   }
 
   async function storeData() {
@@ -284,16 +282,14 @@ export const PartnersHightlightForm = ({ id }: PartnersHighlightFormPros) => {
         />
 
         <LabelImageFile
-          // id={styles.image}
           style={{
             backgroundImage: `url(${preview})`,
             backgroundSize: '100% 100%',
             backgroundRepeat: 'no-repeat',
           }}
-          // className={image ? styles.hasImage : styles.noImage}
           hasImage={!!image}
         >
-          <input type="file" onChange={handleChange} />
+          <input type="file" onChange={handleImageChange} />
           <img src="/camera.svg" alt="Select" />
         </LabelImageFile>
 

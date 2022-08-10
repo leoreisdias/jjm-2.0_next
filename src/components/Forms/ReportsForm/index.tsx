@@ -4,7 +4,6 @@ import NoSsr from '@material-ui/core/NoSsr';
 import TextField from '@material-ui/core/TextField';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import * as Yup from 'yup';
 
 import { useAuth } from '../../../hooks/useAuth';
