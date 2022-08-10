@@ -407,7 +407,7 @@ export const getStaticProps: GetStaticProps = async ({
       return {
         id: news._id,
         title: news.title,
-        mainImage: news.imageURL ?? news.image[0],
+        mainImage: !!news.imageURL ? news.imageURL : news.image[0],
         source: news.source ? news.source.toLowerCase() : '',
         url: `https://www.jornaljm.com.br/complete-news/${news._id}`,
       };
