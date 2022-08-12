@@ -403,7 +403,7 @@ export const getStaticProps: GetStaticProps = async ({
     });
     const lastRelatedNews = relatedNews.data.news.reverse().slice(1, 4);
 
-    const formatedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
+    const formattedRelatedNews = lastRelatedNews.map((news: NewsProps) => {
       return {
         id: news._id,
         title: news.title,
@@ -416,7 +416,7 @@ export const getStaticProps: GetStaticProps = async ({
     return {
       props: {
         news: formatNews,
-        formatedRelatedNews,
+        formattedRelatedNews: formattedRelatedNews,
         currentUrl: `https://www.jornaljm.com.br/complete-news/${hash}`,
       },
       revalidate: 60 * 5, // 5 minutes
