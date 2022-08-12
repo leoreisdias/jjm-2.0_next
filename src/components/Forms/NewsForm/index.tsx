@@ -95,7 +95,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
 
     const data = {
       title,
-      image: image.map((item) => item.key),
+      image: image.length === 0 ? null : image.map((item) => item.key),
       description: editorState,
       summary,
       subjects: subjects ? subjects.map((item) => item.value) : [],
@@ -107,7 +107,9 @@ export const NewsForm = ({ id }: NewsFormProps) => {
     try {
       const schema = Yup.object().shape({
         title: Yup.string().required('Faltando Título da Matéria'),
-        image: Yup.array().required('Faltando Imagem'),
+        image: Yup.array()
+          .required('Faltando Imagem')
+          .typeError('Imagem inválida ou inexistente.'),
         description: Yup.string().required('Faltando a descrição da notícia!'),
         subjects: Yup.array(Yup.string())
           .required('Palavras Chaves da notícia são obrigatórios!')
@@ -121,7 +123,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
         summary: Yup.string().required('Um resumo da notícia é necessário!'),
         source: Yup.string(),
         video: Yup.string(),
-        author: Yup.string().required('Confirme seu nome como Autor!'),
+        author: Yup.string().min(3).required('Confirme seu nome como Autor!'),
       });
       await schema.validate(data, {
         abortEarly: false,
@@ -190,6 +192,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       push('/');
       handleLoading(false);
     } catch (err) {
+      handleLoading(false);
       handleAlertMessage('Erro ao tentar cadastrar!', true);
       callAlert();
     }
@@ -232,6 +235,7 @@ export const NewsForm = ({ id }: NewsFormProps) => {
       back();
       handleLoading(false);
     } catch (err) {
+      handleLoading(false);
       handleAlertMessage('Erro ao tentar atualizar!', true);
       callAlert();
     }

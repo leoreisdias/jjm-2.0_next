@@ -32,7 +32,7 @@ export default function Topics() {
           exit="exit"
           variants={SlowFadeInOut}
         >
-          <Link href="/">
+          <Link href="/" passHref>
             <ButtonTopic
               whileHover={{
                 scale: 1.1,
@@ -52,7 +52,7 @@ export default function Topics() {
           >
             Previsão do Tempo
           </ButtonTopic>
-          <Link href="/reports">
+          <Link href="/reports" passHref>
             <ButtonTopic
               whileHover={{ scale: 1.05, rotate: 1.1, transition: { duration: 0.05 } }}
               active={pathname == '/reports'}
@@ -61,7 +61,7 @@ export default function Topics() {
             </ButtonTopic>
           </Link>
 
-          <Link href="/ourpartners">
+          <Link href="/ourpartners" passHref>
             <ButtonTopic
               whileHover={{ scale: 1.05, rotate: 1.1, transition: { duration: 0.05 } }}
               active={pathname == '/ourpartners'}

@@ -34,7 +34,7 @@ export const TopicsContainer = styled(motion.main)`
   }
 `;
 
-export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
+export const ButtonTopic = styled(motion.a)<{ active: boolean }>`
   padding: 10px 12px;
 
   border-radius: 10px;
@@ -56,6 +56,7 @@ export const ButtonTopic = styled(motion.button)<{ active: boolean }>`
       : lighten(0.8, props.theme.colors.background)};
 
   transition: 0.2s;
+  cursor: pointer;
 
   &:hover {
     color: ${(props) => props.theme.colors.white};

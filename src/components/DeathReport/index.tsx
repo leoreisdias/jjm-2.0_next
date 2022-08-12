@@ -40,6 +40,9 @@ interface DeathReportsProps {
   docs: Reports[];
 }
 
+const POMBINHA_BRANCA =
+  'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp';
+
 const DeathReportCard = () => {
   const { colors } = useTheme();
   const { isAuthenticated } = useAuth();
@@ -48,13 +51,9 @@ const DeathReportCard = () => {
   const [openNoteDetail, setOpenNoteDetail] = useState(false);
   const matches = useMediaQuery('(max-width:720px)');
 
-  // const;
   if (!data) {
-    return <div></div>;
+    return null;
   }
-
-  const pombinhaBrancaUrl =
-    'https://jornaljm.s3.sa-east-1.amazonaws.com/BannerMetaTagsNotasFalecimento.webp';
 
   return (
     <CardAd>
@@ -66,12 +65,10 @@ const DeathReportCard = () => {
               height={150}
               objectFit="contain"
               blurDataURL={
-                data.docs[0].imageURL !== '' ? data.docs[0].imageURL : pombinhaBrancaUrl
+                data.docs[0].imageURL !== '' ? data.docs[0].imageURL : POMBINHA_BRANCA
               }
               placeholder="blur"
-              src={
-                data.docs[0].imageURL !== '' ? data.docs[0].imageURL : pombinhaBrancaUrl
-              }
+              src={data.docs[0].imageURL !== '' ? data.docs[0].imageURL : POMBINHA_BRANCA}
               alt="Advertise"
             />
           </AdImage>
@@ -100,9 +97,7 @@ const DeathReportCard = () => {
           <DetailReportModal>
             <h3>Funerária São Dimas Informa</h3>
             <Image
-              src={
-                data.docs[0].imageURL !== '' ? data.docs[0].imageURL : pombinhaBrancaUrl
-              }
+              src={data.docs[0].imageURL !== '' ? data.docs[0].imageURL : POMBINHA_BRANCA}
               width={200}
               height={200}
               objectFit="contain"

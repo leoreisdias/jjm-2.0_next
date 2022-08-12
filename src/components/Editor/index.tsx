@@ -29,6 +29,7 @@ export default class CustomEditor extends Component<{
 }> {
   state = {
     editorState: createEditorStateWithText(this.props.text ?? ''),
+    updated: false,
   };
 
   onChange = (editorState: EditorState) => {
@@ -39,15 +40,17 @@ export default class CustomEditor extends Component<{
     const contentStateText = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     this.props.onChange(contentStateText);
   };
+
   editor: Editor;
 
   componentDidUpdate(prevProps: { text?: string }) {
-    if (prevProps.text !== this.props.text) {
+    if (prevProps.text !== this.props.text && !this.state.updated) {
       this.setState({
         editorState: EditorState.createWithContent(
           convertToHtmlEditorState(this.props.text)
         ),
       });
+      this.setState({ updated: true });
     }
   }
 
@@ -70,6 +73,7 @@ export default class CustomEditor extends Component<{
             border: '1px solid #ddd',
             cursor: 'text',
             padding: '16px',
+            paddingInline: '2rem',
             borderRadius: '2px',
             marginBottom: '2em',
             boxShadow: 'inset 0px 1px 8px -3px #ABABAB',
