@@ -6,7 +6,7 @@ export default function Error404() {
       <h1>
         Oops... Essa página não existe{' '}
         <span role="img" aria-label="emojiFace">
-          🤨
+          🤨 ❌
         </span>
       </h1>
       <h3>Volte para a tela inicial</h3>
