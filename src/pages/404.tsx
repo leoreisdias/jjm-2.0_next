@@ -5,7 +5,7 @@ export default function Error404() {
     <div style={{ textAlign: 'center' }}>
       <h1>
         Oops... Essa página não existe{' '}
-        <span role="img" aria-label="emojiFace">
+        <span role="img" aria-label="emojiFaceError">
           🤨 ❌
         </span>
       </h1>
