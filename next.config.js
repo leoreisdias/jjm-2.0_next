@@ -2,6 +2,9 @@ const withPWA = require('next-pwa');
 
 process.env.ENVIROMENT == 'dev' ?
   module.exports = {
+    experimental: {
+      esmExternals: false
+    },
     async redirects() {
       return [
         {
